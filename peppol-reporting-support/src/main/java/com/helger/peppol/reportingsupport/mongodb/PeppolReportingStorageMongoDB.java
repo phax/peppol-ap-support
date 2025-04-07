@@ -55,7 +55,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
 
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportingStorageMongoDB.class);
 
-  private final MongoClientWrapper m_aMongoDBClient;
+  private MongoClientWrapper m_aMongoDBClient;
   private String m_sCollectionPeppolReports;
   private String m_sCollectionPeppolSendingReports;
 
@@ -71,6 +71,21 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   {
     if (m_aMongoDBClient != null)
       m_aMongoDBClient.close ();
+  }
+
+  /**
+   * Set the MongoDB client to be used.
+   *
+   * @param aClient
+   *        The new client to be used. May not be <code>null</code>.
+   * @return this for chaining
+   */
+  @Nonnull
+  public PeppolReportingStorageMongoDB setMongoDBClient (@Nonnull final MongoClientWrapper aClient)
+  {
+    ValueEnforcer.notNull (aClient, "Client");
+    m_aMongoDBClient = aClient;
+    return this;
   }
 
   @Nonnull
