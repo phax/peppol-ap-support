@@ -74,24 +74,56 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   }
 
   @Nonnull
+  @Nonempty
+  public String getCollectionPeppolReports ()
+  {
+    return m_sCollectionPeppolReports;
+  }
+
+  /**
+   * Change the collection name for Peppol Reports
+   *
+   * @param s
+   *        Collection name to use. May neither be <code>null</code> nor empty.
+   * @return this for chaining
+   */
+  @Nonnull
   public PeppolReportingStorageMongoDB setCollectionPeppolReports (@Nonnull @Nonempty final String s)
   {
     ValueEnforcer.notEmpty (s, "CollectionPeppolReports");
 
     if (!m_sCollectionPeppolReports.equals (s))
+    {
       LOGGER.info ("Using MongoDB collection name '" + s + "' to store Peppol Reports");
-    m_sCollectionPeppolReports = s;
+      m_sCollectionPeppolReports = s;
+    }
     return this;
   }
 
+  @Nonnull
+  @Nonempty
+  public String getCollectionPeppolSendingReports ()
+  {
+    return m_sCollectionPeppolSendingReports;
+  }
+
+  /**
+   * Change the collection name for Peppol Sending Reports
+   *
+   * @param s
+   *        Collection name to use. May neither be <code>null</code> nor empty.
+   * @return this for chaining
+   */
   @Nonnull
   public PeppolReportingStorageMongoDB setCollectionPeppolSendingReports (@Nonnull @Nonempty final String s)
   {
     ValueEnforcer.notEmpty (s, "CollectionPeppolSendingReports");
 
     if (!m_sCollectionPeppolSendingReports.equals (s))
+    {
       LOGGER.info ("Using MongoDB collection name '" + s + "' to store Peppol Sending Reports");
-    m_sCollectionPeppolSendingReports = s;
+      m_sCollectionPeppolSendingReports = s;
+    }
     return this;
   }
 
