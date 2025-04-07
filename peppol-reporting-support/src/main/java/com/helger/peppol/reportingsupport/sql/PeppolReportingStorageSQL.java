@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
@@ -44,6 +45,21 @@ public final class PeppolReportingStorageSQL implements IPeppolReportingStorage
     ValueEnforcer.notNull (aReportCreationDT, "ReportCreationDT");
     ValueEnforcer.notEmpty (aReportXMLBytes, "ReportXMLBytes");
     ValueEnforcer.notNull (eReportValid, "ReportValid");
+
+    // TODO
+
+    return ESuccess.SUCCESS;
+  }
+
+  @Nonnull
+  public ESuccess storePeppolSendingReport (@Nonnull final EPeppolReportType eReportType,
+                                            @Nonnull final YearMonth aReportPeriod,
+                                            @Nonnull final LocalDateTime aReportCreationDT,
+                                            @Nullable final byte [] aReportXMLBytes)
+  {
+    ValueEnforcer.notNull (eReportType, "ReportType");
+    ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");
+    ValueEnforcer.notNull (aReportCreationDT, "ReportCreationDT");
 
     // TODO
 

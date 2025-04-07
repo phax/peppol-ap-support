@@ -30,8 +30,8 @@ import com.helger.commons.lang.EnumHelper;
  */
 public enum EPeppolReportType implements IHasID <String>
 {
-  TSR_V1 ("tsr1"),
-  EUSR_V1 ("eusr1");
+  TSR_V10 ("tsr10"),
+  EUSR_V11 ("eusr11");
 
   private final String m_sID;
 

@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.state.ESuccess;
@@ -53,4 +54,24 @@ public interface IPeppolReportingStorage
                               @Nonnull LocalDateTime aReportCreationDT,
                               @Nonnull @Nonempty byte [] aReportXMLBytes,
                               @Nonnull ESuccess eReportValid);
+
+  /**
+   * Store a new Peppol report in the persistent storage.
+   *
+   * @param eReportType
+   *        The report type. May not be <code>null</code>.
+   * @param aReportPeriod
+   *        The year and month for which the report was created. May not be <code>null</code>.
+   * @param aReportCreationDT
+   *        The date and time, when the report was created. May not be <code>null</code>.
+   * @param aSendingReportBytes
+   *        The effective bytes of the sending report. Usually UTF-8 encoded. May be
+   *        <code>null</code> if the sending callback returned no content.
+   * @return Never <code>null</code>.
+   */
+  @Nonnull
+  ESuccess storePeppolSendingReport (@Nonnull EPeppolReportType eReportType,
+                                     @Nonnull YearMonth aReportPeriod,
+                                     @Nonnull LocalDateTime aReportCreationDT,
+                                     @Nullable byte [] aSendingReportBytes);
 }
