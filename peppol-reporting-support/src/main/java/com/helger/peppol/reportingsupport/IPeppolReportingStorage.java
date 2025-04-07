@@ -64,14 +64,14 @@ public interface IPeppolReportingStorage
    *        The year and month for which the report was created. May not be <code>null</code>.
    * @param aReportCreationDT
    *        The date and time, when the report was created. May not be <code>null</code>.
-   * @param aSendingReportBytes
-   *        The effective bytes of the sending report. Usually UTF-8 encoded. May be
-   *        <code>null</code> if the sending callback returned no content.
+   * @param sSendingReportBytes
+   *        The effective bytes of the sending report. May be <code>null</code> if the sending
+   *        callback returned no content.
    * @return Never <code>null</code>.
    */
   @Nonnull
   ESuccess storePeppolSendingReport (@Nonnull EPeppolReportType eReportType,
                                      @Nonnull YearMonth aReportPeriod,
                                      @Nonnull LocalDateTime aReportCreationDT,
-                                     @Nullable byte [] aSendingReportBytes);
+                                     @Nullable String sSendingReportBytes);
 }

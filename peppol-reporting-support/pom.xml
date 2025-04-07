@@ -44,6 +44,16 @@
       <groupId>com.helger.peppol</groupId>
       <artifactId>peppol-reporting</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.helger.peppol</groupId>
+      <artifactId>peppol-reporting-backend-mongodb</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.helger.peppol</groupId>
+      <artifactId>peppol-reporting-backend-sql</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

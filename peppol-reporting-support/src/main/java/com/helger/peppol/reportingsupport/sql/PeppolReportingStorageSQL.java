@@ -55,7 +55,7 @@ public final class PeppolReportingStorageSQL implements IPeppolReportingStorage
   public ESuccess storePeppolSendingReport (@Nonnull final EPeppolReportType eReportType,
                                             @Nonnull final YearMonth aReportPeriod,
                                             @Nonnull final LocalDateTime aReportCreationDT,
-                                            @Nullable final byte [] aReportXMLBytes)
+                                            @Nullable final String sSendingReportBytes)
   {
     ValueEnforcer.notNull (eReportType, "ReportType");
     ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");

@@ -328,11 +328,11 @@ public final class PeppolReportingSupport
     }
 
     final LocalDateTime aSendingDT = PDTFactory.getCurrentLocalDateTime ();
-    final byte [] aSendingReport;
+    final String sSendingReport;
     try
     {
       LOGGER.info ("Now sending Peppol Report " + eReportType + " for " + aYearMonth + " via Peppol Network");
-      aSendingReport = aMainPeppolSender.sendPeppolMessage (aDocTypeID, aProcessID, aReportPayload);
+      sSendingReport = aMainPeppolSender.sendPeppolMessage (aDocTypeID, aProcessID, aReportPayload);
     }
     catch (final Exception ex)
     {
@@ -343,7 +343,7 @@ public final class PeppolReportingSupport
 
     // Finally store in storage
     LOGGER.info ("Now storing sending report of " + eReportType + " for " + aYearMonth);
-    if (m_aStorage.storePeppolSendingReport (eReportType, aYearMonth, aSendingDT, aSendingReport).isFailure ())
+    if (m_aStorage.storePeppolSendingReport (eReportType, aYearMonth, aSendingDT, sSendingReport).isFailure ())
     {
       m_aErrorHdl.accept ("Error storing sending report of " + eReportType + " for " + aYearMonth, null);
       return ESuccess.FAILURE;

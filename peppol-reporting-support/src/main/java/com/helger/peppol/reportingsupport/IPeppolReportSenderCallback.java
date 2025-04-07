@@ -42,7 +42,7 @@ interface IPeppolReportSenderCallback
    * @return The sending report. If an error occurred, it must be part of the sending report.
    */
   @Nonnull
-  byte [] sendPeppolMessage (@Nonnull IDocumentTypeIdentifier aDocTypeID,
-                             @Nonnull IProcessIdentifier aProcessID,
-                             @Nonnull @Nonempty byte [] aMessagePayload);
+  String sendPeppolMessage (@Nonnull IDocumentTypeIdentifier aDocTypeID,
+                            @Nonnull IProcessIdentifier aProcessID,
+                            @Nonnull @Nonempty byte [] aMessagePayload);
 }
