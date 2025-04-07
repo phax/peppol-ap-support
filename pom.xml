@@ -85,10 +85,22 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      
+      <dependency>
+        <groupId>com.helger.peppol</groupId>
+        <artifactId>peppol-ap-support</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.helger.peppol</groupId>
+        <artifactId>peppol-reporting-support</artifactId>
+        <version>${project.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   
   <modules>
     <module>peppol-ap-support</module>
+    <module>peppol-reporting-support</module>
   </modules>
 </project>
