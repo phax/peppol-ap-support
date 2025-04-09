@@ -174,7 +174,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
 
     // Write to collection
     if (!m_aMongoDBClient.getCollection (m_sCollectionPeppolReports).insertOne (aBson).wasAcknowledged ())
-      throw new IllegalStateException ("Failed to insert into Peppol Reporting MongoDB Collection");
+      throw new IllegalStateException ("Failed to insert into Peppol Reports MongoDB Collection");
 
     return ESuccess.SUCCESS;
   }
@@ -217,7 +217,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
 
     // Write to collection
     if (!m_aMongoDBClient.getCollection (m_sCollectionPeppolSendingReports).insertOne (aBson).wasAcknowledged ())
-      throw new IllegalStateException ("Failed to insert into Peppol Reporting MongoDB Collection");
+      throw new IllegalStateException ("Failed to insert into Peppol Sending Reports MongoDB Collection");
 
     return ESuccess.SUCCESS;
   }
