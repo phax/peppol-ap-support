@@ -17,12 +17,9 @@
 package com.helger.peppol.reportingsupport.mongodb;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.util.Date;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -35,9 +32,9 @@ import com.helger.commons.typeconvert.TypeConverter;
 import com.helger.config.IConfig;
 import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
-import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportingStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 
 /**
  * Implementation of {@link IPeppolReportingStorage} for MongoDB backend.
@@ -183,14 +180,26 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   }
 
   @Nonnull
-  public ESuccess storePeppolReportSendingReport (@Nonnull final EPeppolReportType eReportType,
-                                                  @Nonnull final YearMonth aReportPeriod,
-                                                  @Nonnull final LocalDateTime aReportCreationDT,
-                                                  @Nullable final String sSendingReportBytes)
+  static Document toBson (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {
-    ValueEnforcer.notNull (eReportType, "ReportType");
-    ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");
-    ValueEnforcer.notNull (aReportCreationDT, "ReportCreationDT");
+    final Document ret = new Document ().append (BSON_REPORT_TYPE, aSendingReportData.getReportType ().getID ())
+                                        .append (BSON_YEAR,
+                                                 Integer.valueOf (aSendingReportData.getReportPeriod ().getYear ()))
+                                        .append (BSON_MONTH,
+                                                 Integer.valueOf (aSendingReportData.getReportPeriod ()
+                                                                                    .getMonthValue ()))
+                                        .append (BSON_CREATION_DT,
+                                                 TypeConverter.convert (aSendingReportData.getReportCreationDT (),
+                                                                        Date.class));
+    if (aSendingReportData.hasSendingReportContent ())
+      ret.append (BSON_PAYLOAD, aSendingReportData.getSendingReportContent ());
+    return ret;
+  }
+
+  @Nonnull
+  public ESuccess storePeppolReportSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  {
+    ValueEnforcer.notNull (aSendingReportData, "aSendingReportData");
 
     if (m_aMongoDBClient == null)
     {
@@ -204,13 +213,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
     }
 
     // Create MongoDB document
-    final Document aBson = new Document ().append (BSON_REPORT_TYPE, eReportType.getID ())
-                                          .append (BSON_YEAR, Integer.valueOf (aReportPeriod.getYear ()))
-                                          .append (BSON_MONTH, Integer.valueOf (aReportPeriod.getMonthValue ()))
-                                          .append (BSON_CREATION_DT,
-                                                   TypeConverter.convert (aReportCreationDT, Date.class));
-    if (sSendingReportBytes != null)
-      aBson.append (BSON_PAYLOAD, sSendingReportBytes);
+    final Document aBson = toBson (aSendingReportData);
 
     // Write to collection
     if (!m_aMongoDBClient.getCollection (m_sCollectionPeppolSendingReports).insertOne (aBson).wasAcknowledged ())

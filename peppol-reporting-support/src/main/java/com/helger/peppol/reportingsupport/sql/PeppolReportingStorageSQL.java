@@ -16,17 +16,13 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.state.ESuccess;
-import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportingStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 
 /**
  * Implementation of {@link IPeppolReportingStorage} for SQL backend.
@@ -44,14 +40,9 @@ public final class PeppolReportingStorageSQL implements IPeppolReportingStorage
   }
 
   @Nonnull
-  public ESuccess storePeppolReportSendingReport (@Nonnull final EPeppolReportType eReportType,
-                                                  @Nonnull final YearMonth aReportPeriod,
-                                                  @Nonnull final LocalDateTime aReportCreationDT,
-                                                  @Nullable final String sSendingReportBytes)
+  public ESuccess storePeppolReportSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {
-    ValueEnforcer.notNull (eReportType, "ReportType");
-    ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");
-    ValueEnforcer.notNull (aReportCreationDT, "ReportCreationDT");
+    ValueEnforcer.notNull (aSendingReportData, "aSendingReportData");
 
     // TODO
 

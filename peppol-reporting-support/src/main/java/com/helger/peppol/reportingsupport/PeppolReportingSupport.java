@@ -42,6 +42,7 @@ import com.helger.peppol.reporting.jaxb.tsr.TransactionStatisticsReport101Marsha
 import com.helger.peppol.reporting.jaxb.tsr.v101.TransactionStatisticsReportType;
 import com.helger.peppol.reporting.tsr.TransactionStatisticsReportValidator;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
@@ -335,19 +336,28 @@ public final class PeppolReportingSupport
     final String sSendingReport;
     try
     {
+      // This is the callback that triggers the external sending and requests back a sending report
       LOGGER.info ("Now sending Peppol Report " + eReportType + " for " + aYearMonth + " via Peppol Network");
       sSendingReport = aMainPeppolSender.sendPeppolMessage (aDocTypeID, aProcessID, aReportPayload);
     }
     catch (final Exception ex)
     {
-      final String sMsg = "Failed to send Peppol Report " + eReportType + " for " + aYearMonth + " via Peppol Network";
+      final String sMsg = "Failed to send Peppol Report " +
+                          eReportType +
+                          " for " +
+                          aYearMonth +
+                          " via the Peppol Network";
       m_aErrorHdl.accept (sMsg, ex);
       return ESuccess.FAILURE;
     }
 
     // Finally store in storage
     LOGGER.info ("Now storing sending report of " + eReportType + " for " + aYearMonth);
-    if (m_aStorage.storePeppolReportSendingReport (eReportType, aYearMonth, aSendingDT, sSendingReport).isFailure ())
+    final PeppolReportSendingReportData aSendingReportData = new PeppolReportSendingReportData (eReportType,
+                                                                                                aYearMonth,
+                                                                                                aSendingDT,
+                                                                                                sSendingReport);
+    if (m_aStorage.storePeppolReportSendingReport (aSendingReportData).isFailure ())
     {
       m_aErrorHdl.accept ("Error storing sending report of " + eReportType + " for " + aYearMonth, null);
       return ESuccess.FAILURE;

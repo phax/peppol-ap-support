@@ -16,14 +16,11 @@
  */
 package com.helger.peppol.reportingsupport;
 
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import com.helger.commons.state.ESuccess;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 
 /**
  * Interface for storing Peppol Reports and their sending reports
@@ -45,20 +42,10 @@ public interface IPeppolReportingStorage
   /**
    * Store a new Peppol Report Sending Report in the persistent storage.
    *
-   * @param eReportType
-   *        The report type. May not be <code>null</code>.
-   * @param aReportPeriod
-   *        The year and month for which the report was created. May not be <code>null</code>.
-   * @param aReportCreationDT
-   *        The date and time, when the report was created. May not be <code>null</code>.
-   * @param sSendingReportContent
-   *        The effective content of the sending report. The exact syntax is undefined. May be
-   *        <code>null</code> if the sending callback returned no content.
+   * @param aSendingReportData
+   *        The sending report data. May not be <code>null</code>.
    * @return Never <code>null</code>.
    */
   @Nonnull
-  ESuccess storePeppolReportSendingReport (@Nonnull EPeppolReportType eReportType,
-                                           @Nonnull YearMonth aReportPeriod,
-                                           @Nonnull LocalDateTime aReportCreationDT,
-                                           @Nullable String sSendingReportContent);
+  ESuccess storePeppolReportSendingReport (@Nonnull PeppolReportSendingReportData aSendingReportData);
 }
