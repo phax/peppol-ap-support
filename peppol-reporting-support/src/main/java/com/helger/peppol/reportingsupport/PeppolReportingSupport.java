@@ -33,6 +33,7 @@ import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.error.IError;
 import com.helger.commons.error.list.ErrorList;
+import com.helger.commons.io.ByteArrayWrapper;
 import com.helger.commons.state.ESuccess;
 import com.helger.peppol.reporting.eusr.EndUserStatisticsReportValidator;
 import com.helger.peppol.reporting.jaxb.eusr.EndUserStatisticsReport110Marshaller;
@@ -40,6 +41,7 @@ import com.helger.peppol.reporting.jaxb.eusr.v110.EndUserStatisticsReportType;
 import com.helger.peppol.reporting.jaxb.tsr.TransactionStatisticsReport101Marshaller;
 import com.helger.peppol.reporting.jaxb.tsr.v101.TransactionStatisticsReportType;
 import com.helger.peppol.reporting.tsr.TransactionStatisticsReportValidator;
+import com.helger.peppol.reportingsupport.model.PeppolReportData;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
@@ -178,11 +180,12 @@ public final class PeppolReportingSupport
 
     // Finally store in storage
     LOGGER.info ("Now storing TSR " + aYearMonth + " in state " + eReportSuccessState);
-    if (m_aStorage.storePeppolReport (EPeppolReportType.TSR_V10,
-                                      aYearMonth,
-                                      aReportCreationDT,
-                                      aTSRBytes,
-                                      eReportSuccessState).isFailure ())
+    final PeppolReportData aReportData = new PeppolReportData (EPeppolReportType.TSR_V10,
+                                                               aYearMonth,
+                                                               aReportCreationDT,
+                                                               new ByteArrayWrapper (aTSRBytes, false),
+                                                               eReportSuccessState.isSuccess ());
+    if (m_aStorage.storePeppolReport (aReportData).isFailure ())
     {
       m_aErrorHdl.accept ("Error storing TSR " + aYearMonth, null);
       return ESuccess.FAILURE;
@@ -270,11 +273,12 @@ public final class PeppolReportingSupport
 
     // Finally store in storage
     LOGGER.info ("Now storing EUSR " + aYearMonth + " in state " + eReportSuccessState);
-    if (m_aStorage.storePeppolReport (EPeppolReportType.EUSR_V11,
-                                      aYearMonth,
-                                      aReportCreationDT,
-                                      aEUSRBytes,
-                                      eReportSuccessState).isFailure ())
+    final PeppolReportData aReportData = new PeppolReportData (EPeppolReportType.EUSR_V11,
+                                                               aYearMonth,
+                                                               aReportCreationDT,
+                                                               new ByteArrayWrapper (aEUSRBytes, false),
+                                                               eReportSuccessState.isSuccess ());
+    if (m_aStorage.storePeppolReport (aReportData).isFailure ())
     {
       m_aErrorHdl.accept ("Error storing EUSR " + aYearMonth, null);
       return ESuccess.FAILURE;
@@ -343,7 +347,7 @@ public final class PeppolReportingSupport
 
     // Finally store in storage
     LOGGER.info ("Now storing sending report of " + eReportType + " for " + aYearMonth);
-    if (m_aStorage.storePeppolSendingReport (eReportType, aYearMonth, aSendingDT, sSendingReport).isFailure ())
+    if (m_aStorage.storePeppolReportSendingReport (eReportType, aYearMonth, aSendingDT, sSendingReport).isFailure ())
     {
       m_aErrorHdl.accept ("Error storing sending report of " + eReportType + " for " + aYearMonth, null);
       return ESuccess.FAILURE;

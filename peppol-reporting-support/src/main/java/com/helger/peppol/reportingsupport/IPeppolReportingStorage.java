@@ -22,8 +22,8 @@ import java.time.YearMonth;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.state.ESuccess;
+import com.helger.peppol.reportingsupport.model.PeppolReportData;
 
 /**
  * Interface for storing Peppol Reports and their sending reports
@@ -33,30 +33,17 @@ import com.helger.commons.state.ESuccess;
 public interface IPeppolReportingStorage
 {
   /**
-   * Store a new Peppol report in the persistent storage.
+   * Store a new Peppol Report in the persistent storage.
    *
-   * @param eReportType
-   *        The report type. May not be <code>null</code>.
-   * @param aReportPeriod
-   *        The year and month for which the report was created. May not be <code>null</code>.
-   * @param aReportCreationDT
-   *        The date and time, when the report was created. May not be <code>null</code>.
-   * @param aReportXMLBytes
-   *        The effective bytes of the report XML. Usually UTF-8 encoded. May neither be
-   *        <code>null</code> nor empty.
-   * @param eReportValid
-   *        The indicator, if the report was valid or not. May not be <code>null</code>.
+   * @param aReportData
+   *        The report data. May not be <code>null</code>.
    * @return Never <code>null</code>.
    */
   @Nonnull
-  ESuccess storePeppolReport (@Nonnull EPeppolReportType eReportType,
-                              @Nonnull YearMonth aReportPeriod,
-                              @Nonnull LocalDateTime aReportCreationDT,
-                              @Nonnull @Nonempty byte [] aReportXMLBytes,
-                              @Nonnull ESuccess eReportValid);
+  ESuccess storePeppolReport (@Nonnull PeppolReportData aReportData);
 
   /**
-   * Store a new Peppol report in the persistent storage.
+   * Store a new Peppol Report Sending Report in the persistent storage.
    *
    * @param eReportType
    *        The report type. May not be <code>null</code>.
@@ -64,14 +51,14 @@ public interface IPeppolReportingStorage
    *        The year and month for which the report was created. May not be <code>null</code>.
    * @param aReportCreationDT
    *        The date and time, when the report was created. May not be <code>null</code>.
-   * @param sSendingReportBytes
-   *        The effective bytes of the sending report. May be <code>null</code> if the sending
-   *        callback returned no content.
+   * @param sSendingReportContent
+   *        The effective content of the sending report. The exact syntax is undefined. May be
+   *        <code>null</code> if the sending callback returned no content.
    * @return Never <code>null</code>.
    */
   @Nonnull
-  ESuccess storePeppolSendingReport (@Nonnull EPeppolReportType eReportType,
-                                     @Nonnull YearMonth aReportPeriod,
-                                     @Nonnull LocalDateTime aReportCreationDT,
-                                     @Nullable String sSendingReportBytes);
+  ESuccess storePeppolReportSendingReport (@Nonnull EPeppolReportType eReportType,
+                                           @Nonnull YearMonth aReportPeriod,
+                                           @Nonnull LocalDateTime aReportCreationDT,
+                                           @Nullable String sSendingReportContent);
 }

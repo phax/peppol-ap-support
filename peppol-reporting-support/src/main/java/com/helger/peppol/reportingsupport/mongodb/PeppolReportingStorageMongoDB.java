@@ -37,6 +37,7 @@ import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportingStorage;
+import com.helger.peppol.reportingsupport.model.PeppolReportData;
 
 /**
  * Implementation of {@link IPeppolReportingStorage} for MongoDB backend.
@@ -143,17 +144,22 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   }
 
   @Nonnull
-  public ESuccess storePeppolReport (@Nonnull final EPeppolReportType eReportType,
-                                     @Nonnull final YearMonth aReportPeriod,
-                                     @Nonnull final LocalDateTime aReportCreationDT,
-                                     @Nonnull @Nonempty final byte [] aReportXMLBytes,
-                                     @Nonnull final ESuccess eReportValid)
+  static Document toBson (@Nonnull final PeppolReportData aReportData)
   {
-    ValueEnforcer.notNull (eReportType, "ReportType");
-    ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");
-    ValueEnforcer.notNull (aReportCreationDT, "ReportCreationDT");
-    ValueEnforcer.notEmpty (aReportXMLBytes, "ReportXMLBytes");
-    ValueEnforcer.notNull (eReportValid, "ReportValid");
+    return new Document ().append (BSON_REPORT_TYPE, aReportData.getReportType ().getID ())
+                          .append (BSON_YEAR, Integer.valueOf (aReportData.getReportPeriod ().getYear ()))
+                          .append (BSON_MONTH, Integer.valueOf (aReportData.getReportPeriod ().getMonthValue ()))
+                          .append (BSON_CREATION_DT,
+                                   TypeConverter.convert (aReportData.getReportCreationDT (), Date.class))
+                          .append (BSON_PAYLOAD,
+                                   aReportData.getReportXMLBytes ().getBytesAsString (StandardCharsets.UTF_8))
+                          .append (BSON_PAYLOAD_VALID, Boolean.valueOf (aReportData.isReportValid ()));
+  }
+
+  @Nonnull
+  public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)
+  {
+    ValueEnforcer.notNull (aReportData, "ReportData");
 
     if (m_aMongoDBClient == null)
     {
@@ -167,13 +173,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
     }
 
     // Create MongoDB document
-    final Document aBson = new Document ().append (BSON_REPORT_TYPE, eReportType.getID ())
-                                          .append (BSON_YEAR, Integer.valueOf (aReportPeriod.getYear ()))
-                                          .append (BSON_MONTH, Integer.valueOf (aReportPeriod.getMonthValue ()))
-                                          .append (BSON_CREATION_DT,
-                                                   TypeConverter.convert (aReportCreationDT, Date.class))
-                                          .append (BSON_PAYLOAD, new String (aReportXMLBytes, StandardCharsets.UTF_8))
-                                          .append (BSON_PAYLOAD_VALID, Boolean.valueOf (eReportValid.isSuccess ()));
+    final Document aBson = toBson (aReportData);
 
     // Write to collection
     if (!m_aMongoDBClient.getCollection (m_sCollectionPeppolReports).insertOne (aBson).wasAcknowledged ())
@@ -183,10 +183,10 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   }
 
   @Nonnull
-  public ESuccess storePeppolSendingReport (@Nonnull final EPeppolReportType eReportType,
-                                            @Nonnull final YearMonth aReportPeriod,
-                                            @Nonnull final LocalDateTime aReportCreationDT,
-                                            @Nullable final String sSendingReportBytes)
+  public ESuccess storePeppolReportSendingReport (@Nonnull final EPeppolReportType eReportType,
+                                                  @Nonnull final YearMonth aReportPeriod,
+                                                  @Nonnull final LocalDateTime aReportCreationDT,
+                                                  @Nullable final String sSendingReportBytes)
   {
     ValueEnforcer.notNull (eReportType, "ReportType");
     ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");
