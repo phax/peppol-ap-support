@@ -26,7 +26,7 @@ import com.helger.commons.ValueEnforcer;
 import com.helger.commons.state.ESuccess;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportingStorage;
-import com.helger.peppol.reportingsupport.model.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 
 /**
  * Implementation of {@link IPeppolReportingStorage} for SQL backend.

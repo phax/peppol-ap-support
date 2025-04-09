@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.peppol.reportingsupport.model;
+package com.helger.peppol.reportingsupport.domain;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;

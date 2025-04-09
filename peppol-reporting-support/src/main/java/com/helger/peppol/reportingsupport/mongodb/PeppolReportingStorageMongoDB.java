@@ -37,7 +37,7 @@ import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportingStorage;
-import com.helger.peppol.reportingsupport.model.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 
 /**
  * Implementation of {@link IPeppolReportingStorage} for MongoDB backend.

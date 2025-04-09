@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.commons.state.ESuccess;
-import com.helger.peppol.reportingsupport.model.PeppolReportData;
+import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 
 /**
  * Interface for storing Peppol Reports and their sending reports
