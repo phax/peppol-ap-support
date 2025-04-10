@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Philip Helger
+ * Copyright (C) 2022-2025 Philip Helger
  * philip[at]helger[dot]com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,30 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.peppol.reportingsupport;
+package com.helger.peppol.reportingsupport.sql;
 
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
-import org.junit.Test;
-
-import com.helger.commons.string.StringHelper;
+import com.helger.config.IConfig;
+import com.helger.db.api.config.JdbcConfigurationConfig;
 
 /**
- * Test class for class {@link EPeppolReportType}
+ * Peppol Report Storage JDBC configuration with lazy initialization.
  *
  * @author Philip Helger
  */
-public final class EPeppolReportTypeTest
+@Immutable
+public class PeppolReportJdbcConfiguration extends JdbcConfigurationConfig
 {
-  @Test
-  public void testBasic ()
+  public static final String CONFIG_PREFIX = "peppol.report.jdbc.";
+
+  public PeppolReportJdbcConfiguration (@Nonnull final IConfig aConfig)
   {
-    for (final EPeppolReportType e : EPeppolReportType.values ())
-    {
-      assertTrue (StringHelper.hasText (e.getID ()));
-      assertTrue (e.getID ().length () <= EPeppolReportType.MAX_LEN_ID);
-      assertSame (e, EPeppolReportType.getFromIDOrNull (e.getID ()));
-    }
+    super (aConfig, CONFIG_PREFIX);
   }
 }

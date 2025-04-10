@@ -31,14 +31,14 @@ import com.helger.commons.typeconvert.TypeConverter;
 import com.helger.config.IConfig;
 import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
-import com.helger.peppol.reportingsupport.IPeppolReportingStorage;
+import com.helger.peppol.reportingsupport.IPeppolReportStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 
 /**
- * Implementation of {@link IPeppolReportingStorage} for MongoDB backend.
+ * Implementation of {@link IPeppolReportStorage} for MongoDB backend.
  */
-public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, AutoCloseable
+public class PeppolReportStorageMongoDB implements IPeppolReportStorage, AutoCloseable
 {
   public static final String DEFAULT_COLLECTION_PEPPOL_REPORTS = "peppol-reports";
   public static final String DEFAULT_COLLECTION_PEPPOL_SENDING_REPORTS = "peppol-sending-reports";
@@ -50,13 +50,13 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   public static final String BSON_PAYLOAD = "payload";
   public static final String BSON_PAYLOAD_VALID = "payloadvalid";
 
-  private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportingStorageMongoDB.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportStorageMongoDB.class);
 
   private MongoClientWrapper m_aMongoDBClient;
   private String m_sCollectionPeppolReports;
   private String m_sCollectionPeppolSendingReports;
 
-  public PeppolReportingStorageMongoDB (@Nonnull final IConfig aConfig)
+  public PeppolReportStorageMongoDB (@Nonnull final IConfig aConfig)
   {
     ValueEnforcer.notNull (aConfig, "Config");
     m_aMongoDBClient = PeppolReportingBackendMongoDBSPI.createDefaultClientWrapper (aConfig);
@@ -81,7 +81,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
    * @return this for chaining
    */
   @Nonnull
-  public PeppolReportingStorageMongoDB setMongoDBClient (@Nonnull final MongoClientWrapper aClient)
+  public PeppolReportStorageMongoDB setMongoDBClient (@Nonnull final MongoClientWrapper aClient)
   {
     ValueEnforcer.notNull (aClient, "Client");
     m_aMongoDBClient = aClient;
@@ -103,7 +103,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
    * @return this for chaining
    */
   @Nonnull
-  public PeppolReportingStorageMongoDB setCollectionPeppolReports (@Nonnull @Nonempty final String s)
+  public PeppolReportStorageMongoDB setCollectionPeppolReports (@Nonnull @Nonempty final String s)
   {
     ValueEnforcer.notEmpty (s, "CollectionPeppolReports");
 
@@ -130,7 +130,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
    * @return this for chaining
    */
   @Nonnull
-  public PeppolReportingStorageMongoDB setCollectionPeppolSendingReports (@Nonnull @Nonempty final String s)
+  public PeppolReportStorageMongoDB setCollectionPeppolSendingReports (@Nonnull @Nonempty final String s)
   {
     ValueEnforcer.notEmpty (s, "CollectionPeppolSendingReports");
 

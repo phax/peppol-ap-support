@@ -24,7 +24,8 @@ import com.helger.commons.id.IHasID;
 import com.helger.commons.lang.EnumHelper;
 
 /**
- * Contains the list of possible Peppol Reporting report types.
+ * Contains the list of possible Peppol Reporting report types.<br>
+ * Each ID must not be longer than 12 characters, due to database column length constraint.
  *
  * @author Philip Helger
  */
@@ -32,6 +33,8 @@ public enum EPeppolReportType implements IHasID <String>
 {
   TSR_V10 ("tsr10"),
   EUSR_V11 ("eusr11");
+
+  public static final int MAX_LEN_ID = 12;
 
   private final String m_sID;
 

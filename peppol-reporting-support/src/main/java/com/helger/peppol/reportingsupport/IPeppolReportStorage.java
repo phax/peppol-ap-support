@@ -27,7 +27,7 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
  *
  * @author Philip Helger
  */
-public interface IPeppolReportingStorage
+public interface IPeppolReportStorage
 {
   /**
    * Store a new Peppol Report in the persistent storage.

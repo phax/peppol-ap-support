@@ -56,7 +56,7 @@ public final class PeppolReportingSupport
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportingSupport.class);
 
-  private final IPeppolReportingStorage m_aStorage;
+  private final IPeppolReportStorage m_aStorage;
   private Locale m_aDisplayLocale = Locale.ROOT;
   private Consumer <? super String> m_aWarnHdl = LOGGER::warn;
   private BiConsumer <? super String, ? super Exception> m_aErrorHdl = LOGGER::error;
@@ -67,7 +67,7 @@ public final class PeppolReportingSupport
    * @param aStorage
    *        The storage backend handler. May not be <code>null</code>.
    */
-  public PeppolReportingSupport (@Nonnull final IPeppolReportingStorage aStorage)
+  public PeppolReportingSupport (@Nonnull final IPeppolReportStorage aStorage)
   {
     ValueEnforcer.notNull (aStorage, "Storage");
     m_aStorage = aStorage;
