@@ -33,8 +33,8 @@ import com.helger.commons.collection.impl.ICommonsList;
 import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.error.IError;
 import com.helger.commons.error.list.ErrorList;
-import com.helger.commons.io.ByteArrayWrapper;
 import com.helger.commons.state.ESuccess;
+import com.helger.commons.string.StringHelper;
 import com.helger.peppol.reporting.eusr.EndUserStatisticsReportValidator;
 import com.helger.peppol.reporting.jaxb.eusr.EndUserStatisticsReport110Marshaller;
 import com.helger.peppol.reporting.jaxb.eusr.v110.EndUserStatisticsReportType;
@@ -108,17 +108,17 @@ public final class PeppolReportingSupport
    *
    * @param aTSR
    *        The TSR to be stored. May not be <code>null</code>.
-   * @param aTSRByteConsumer
+   * @param aTSRStringConsumer
    *        The consumer to be invoked on the serialized report. May not be <code>null</code>.
    * @return {@link ESuccess#SUCCESS} only if the XML serialization, the Schematron validation and
    *         the storage of it where successful.
    */
   @Nonnull
   public ESuccess validateAndStorePeppolTSR (@Nonnull final TransactionStatisticsReportType aTSR,
-                                             @Nonnull final Consumer <byte []> aTSRByteConsumer)
+                                             @Nonnull final Consumer <String> aTSRStringConsumer)
   {
     ValueEnforcer.notNull (aTSR, "TSR");
-    ValueEnforcer.notNull (aTSRByteConsumer, "TSRByteConsumer");
+    ValueEnforcer.notNull (aTSRStringConsumer, "TSRStringConsumer");
 
     final YearMonth aYearMonth = YearMonth.of (aTSR.getHeader ().getReportPeriod ().getStartDate ().getYear (),
                                                aTSR.getHeader ().getReportPeriod ().getStartDate ().getMonth ());
@@ -127,27 +127,27 @@ public final class PeppolReportingSupport
 
     // Convert to XML
     final ErrorList aErrorList = new ErrorList ();
-    final byte [] aTSRBytes = new TransactionStatisticsReport101Marshaller ().setCollectErrors (aErrorList)
-                                                                             .setFormattedOutput (true)
-                                                                             .getAsBytes (aTSR);
+    final String sTSR = new TransactionStatisticsReport101Marshaller ().setCollectErrors (aErrorList)
+                                                                       .setFormattedOutput (true)
+                                                                       .getAsString (aTSR);
     for (final IError aError : aErrorList)
       if (aError.isError ())
         m_aErrorHdl.accept ("TSR XSD error: " + aError.getAsString (m_aDisplayLocale), null);
       else
         m_aWarnHdl.accept ("TSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
 
-    if (aTSRBytes == null)
+    if (StringHelper.hasNoText (sTSR))
       return ESuccess.FAILURE;
 
     // Call callback to avoid double serialization
-    aTSRByteConsumer.accept (aTSRBytes);
+    aTSRStringConsumer.accept (sTSR);
 
     // Validate if TSR is correct or not
     LOGGER.info ("Starting TSR " + aYearMonth + " Schematron validation");
     try
     {
       final SchematronOutputType aSVRL = TransactionStatisticsReportValidator.getSchematronTSR_1 ()
-                                                                             .applySchematronValidationToSVRL (TransformSourceFactory.create (aTSRBytes));
+                                                                             .applySchematronValidationToSVRL (TransformSourceFactory.create (sTSR));
       final ICommonsList <SVRLFailedAssert> aFailedAsserts = SVRLHelper.getAllFailedAssertions (aSVRL);
       int nErrors = 0;
       for (final SVRLFailedAssert aFailedAssert : aFailedAsserts)
@@ -184,7 +184,7 @@ public final class PeppolReportingSupport
     final PeppolReportData aReportData = new PeppolReportData (EPeppolReportType.TSR_V10,
                                                                aYearMonth,
                                                                aReportCreationDT,
-                                                               new ByteArrayWrapper (aTSRBytes, false),
+                                                               sTSR,
                                                                eReportSuccessState.isSuccess ());
     if (m_aStorage.storePeppolReport (aReportData).isFailure ())
     {
@@ -201,17 +201,17 @@ public final class PeppolReportingSupport
    *
    * @param aEUSR
    *        The EUSR to be stored. May not be <code>null</code>.
-   * @param aEUSRByteConsumer
+   * @param aEUSRStringConsumer
    *        The consumer to be invoked on the serialized report. May not be <code>null</code>.
    * @return {@link ESuccess#SUCCESS} only if the XML serialization, the Schematron validation and
    *         the storage of it where successful.
    */
   @Nonnull
   public ESuccess validateAndStorePeppolEUSR (@Nonnull final EndUserStatisticsReportType aEUSR,
-                                              @Nonnull final Consumer <byte []> aEUSRByteConsumer)
+                                              @Nonnull final Consumer <String> aEUSRStringConsumer)
   {
     ValueEnforcer.notNull (aEUSR, "EUSR");
-    ValueEnforcer.notNull (aEUSRByteConsumer, "EUSRByteConsumer");
+    ValueEnforcer.notNull (aEUSRStringConsumer, "EUSRByteConsumer");
 
     final YearMonth aYearMonth = YearMonth.of (aEUSR.getHeader ().getReportPeriod ().getStartDate ().getYear (),
                                                aEUSR.getHeader ().getReportPeriod ().getStartDate ().getMonth ());
@@ -220,27 +220,27 @@ public final class PeppolReportingSupport
 
     // Convert to XML
     final ErrorList aErrorList = new ErrorList ();
-    final byte [] aEUSRBytes = new EndUserStatisticsReport110Marshaller ().setCollectErrors (aErrorList)
-                                                                          .setFormattedOutput (true)
-                                                                          .getAsBytes (aEUSR);
+    final String sEUSR = new EndUserStatisticsReport110Marshaller ().setCollectErrors (aErrorList)
+                                                                    .setFormattedOutput (true)
+                                                                    .getAsString (aEUSR);
     for (final IError aError : aErrorList)
       if (aError.isError ())
         m_aErrorHdl.accept ("EUSR XSD error: " + aError.getAsString (m_aDisplayLocale), null);
       else
         m_aWarnHdl.accept ("EUSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
 
-    if (aEUSRBytes == null)
+    if (StringHelper.isEmpty (sEUSR))
       return ESuccess.FAILURE;
 
     // Call callback to avoid double serialization
-    aEUSRByteConsumer.accept (aEUSRBytes);
+    aEUSRStringConsumer.accept (sEUSR);
 
     // Validate if EUSR is correct or not
     LOGGER.info ("Starting EUSR " + aYearMonth + " Schematron validation");
     try
     {
       final SchematronOutputType aSVRL = EndUserStatisticsReportValidator.getSchematronEUSR_1 ()
-                                                                         .applySchematronValidationToSVRL (TransformSourceFactory.create (aEUSRBytes));
+                                                                         .applySchematronValidationToSVRL (TransformSourceFactory.create (sEUSR));
       final ICommonsList <SVRLFailedAssert> aFailedAsserts = SVRLHelper.getAllFailedAssertions (aSVRL);
       int nErrors = 0;
       for (final SVRLFailedAssert aFailedAssert : aFailedAsserts)
@@ -277,7 +277,7 @@ public final class PeppolReportingSupport
     final PeppolReportData aReportData = new PeppolReportData (EPeppolReportType.EUSR_V11,
                                                                aYearMonth,
                                                                aReportCreationDT,
-                                                               new ByteArrayWrapper (aEUSRBytes, false),
+                                                               sEUSR,
                                                                eReportSuccessState.isSuccess ());
     if (m_aStorage.storePeppolReport (aReportData).isFailure ())
     {

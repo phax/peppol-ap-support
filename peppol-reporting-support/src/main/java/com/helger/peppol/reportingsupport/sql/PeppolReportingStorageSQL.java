@@ -27,7 +27,7 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 /**
  * Implementation of {@link IPeppolReportingStorage} for SQL backend.
  */
-public final class PeppolReportingStorageSQL implements IPeppolReportingStorage
+public class PeppolReportingStorageSQL implements IPeppolReportingStorage
 {
   @Nonnull
   public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)

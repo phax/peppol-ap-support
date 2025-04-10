@@ -25,7 +25,6 @@ import javax.annotation.concurrent.Immutable;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.hashcode.HashCodeGenerator;
-import com.helger.commons.io.ByteArrayWrapper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
 
@@ -40,7 +39,7 @@ public class PeppolReportData
   private final EPeppolReportType m_eReportType;
   private final YearMonth m_aReportPeriod;
   private final LocalDateTime m_aReportCreationDT;
-  private final ByteArrayWrapper m_aReportXMLBytes;
+  private final String m_sReportXML;
   private final boolean m_bReportValid;
 
   /**
@@ -52,7 +51,7 @@ public class PeppolReportData
    *        The year and month for which the report was created. May not be <code>null</code>.
    * @param aReportCreationDT
    *        The date and time, when the report was created. May not be <code>null</code>.
-   * @param aReportXMLBytes
+   * @param sReportXML
    *        The effective bytes of the report XML. Usually UTF-8 encoded. May neither be
    *        <code>null</code> nor empty.
    * @param bReportValid
@@ -61,18 +60,18 @@ public class PeppolReportData
   public PeppolReportData (@Nonnull final EPeppolReportType eReportType,
                            @Nonnull final YearMonth aReportPeriod,
                            @Nonnull final LocalDateTime aReportCreationDT,
-                           @Nonnull @Nonempty final ByteArrayWrapper aReportXMLBytes,
+                           @Nonnull @Nonempty final String sReportXML,
                            final boolean bReportValid)
   {
     ValueEnforcer.notNull (eReportType, "ReportType");
     ValueEnforcer.notNull (aReportPeriod, "ReportPeriod");
     ValueEnforcer.notNull (aReportCreationDT, "ReportCreationDT");
-    ValueEnforcer.notNull (aReportXMLBytes, "ReportXMLBytes");
+    ValueEnforcer.notEmpty (sReportXML, "ReportXMLBytes");
 
     m_eReportType = eReportType;
     m_aReportPeriod = aReportPeriod;
     m_aReportCreationDT = aReportCreationDT;
-    m_aReportXMLBytes = aReportXMLBytes;
+    m_sReportXML = sReportXML;
     m_bReportValid = bReportValid;
   }
 
@@ -95,9 +94,10 @@ public class PeppolReportData
   }
 
   @Nonnull
-  public ByteArrayWrapper getReportXMLBytes ()
+  @Nonempty
+  public String getReportXMLString ()
   {
-    return m_aReportXMLBytes;
+    return m_sReportXML;
   }
 
   public boolean isReportValid ()
@@ -117,7 +117,7 @@ public class PeppolReportData
     return m_eReportType.equals (rhs.m_eReportType) &&
            m_aReportPeriod.equals (rhs.m_aReportPeriod) &&
            m_aReportCreationDT.equals (rhs.m_aReportCreationDT) &&
-           m_aReportXMLBytes.equals (rhs.m_aReportXMLBytes) &&
+           m_sReportXML.equals (rhs.m_sReportXML) &&
            m_bReportValid == rhs.m_bReportValid;
   }
 
@@ -127,7 +127,7 @@ public class PeppolReportData
     return new HashCodeGenerator (this).append (m_eReportType)
                                        .append (m_aReportPeriod)
                                        .append (m_aReportCreationDT)
-                                       .append (m_aReportXMLBytes)
+                                       .append (m_sReportXML)
                                        .append (m_bReportValid)
                                        .getHashCode ();
   }
@@ -138,7 +138,7 @@ public class PeppolReportData
     return new ToStringGenerator (this).append ("ReportType", m_eReportType)
                                        .append ("ReportPeriod", m_aReportPeriod)
                                        .append ("ReportCreationDT", m_aReportCreationDT)
-                                       .append ("ReportXMLBytes", m_aReportXMLBytes)
+                                       .append ("ReportXML", m_sReportXML)
                                        .append ("ReportValid", m_bReportValid)
                                        .getToString ();
   }

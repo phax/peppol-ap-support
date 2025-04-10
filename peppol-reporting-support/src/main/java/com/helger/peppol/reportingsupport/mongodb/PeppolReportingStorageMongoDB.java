@@ -16,7 +16,6 @@
  */
 package com.helger.peppol.reportingsupport.mongodb;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.annotation.Nonnull;
@@ -68,7 +67,10 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
   public void close ()
   {
     if (m_aMongoDBClient != null)
+    {
       m_aMongoDBClient.close ();
+      m_aMongoDBClient = null;
+    }
   }
 
   /**
@@ -148,8 +150,7 @@ public class PeppolReportingStorageMongoDB implements IPeppolReportingStorage, A
                           .append (BSON_MONTH, Integer.valueOf (aReportData.getReportPeriod ().getMonthValue ()))
                           .append (BSON_CREATION_DT,
                                    TypeConverter.convert (aReportData.getReportCreationDT (), Date.class))
-                          .append (BSON_PAYLOAD,
-                                   aReportData.getReportXMLBytes ().getBytesAsString (StandardCharsets.UTF_8))
+                          .append (BSON_PAYLOAD, aReportData.getReportXMLString ())
                           .append (BSON_PAYLOAD_VALID, Boolean.valueOf (aReportData.isReportValid ()));
   }
 
