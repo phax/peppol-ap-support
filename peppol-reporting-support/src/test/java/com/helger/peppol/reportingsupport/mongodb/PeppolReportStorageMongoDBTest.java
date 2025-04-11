@@ -18,6 +18,7 @@ package com.helger.peppol.reportingsupport.mongodb;
 
 import org.junit.Test;
 
+import com.helger.commons.concurrent.ThreadHelper;
 import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.config.Config;
 import com.helger.config.IConfig;
@@ -39,6 +40,9 @@ public final class PeppolReportStorageMongoDBTest
 
     try (final PeppolReportMongoDBHandler aHdl = PeppolReportMongoDBHandler.createPeppolReportingConfigured (aConfig))
     {
+      // Required in some cases
+      ThreadHelper.sleep (50);
+
       final PeppolReportStorageMongoDB aStorage = new PeppolReportStorageMongoDB (aHdl);
       TestHelper.runCases (aStorage);
     }
