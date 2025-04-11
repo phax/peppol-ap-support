@@ -41,7 +41,6 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportStorageSQL.class);
 
   private final Supplier <? extends PeppolReportDBExecutor> m_aDBExecutorSupplier;
-
   private final String m_sTableNamePrefix;
 
   public PeppolReportStorageSQL (@Nonnull final Supplier <? extends PeppolReportDBExecutor> aDBExecutorSupplier,

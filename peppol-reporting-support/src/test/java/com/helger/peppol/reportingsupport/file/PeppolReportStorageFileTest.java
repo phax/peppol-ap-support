@@ -14,33 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.peppol.reportingsupport.mongodb;
+package com.helger.peppol.reportingsupport.file;
+
+import java.io.File;
 
 import org.junit.Test;
 
-import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.config.Config;
-import com.helger.config.IConfig;
-import com.helger.config.source.res.ConfigurationSourceProperties;
 import com.helger.peppol.reportingsupport.TestHelper;
 
 /**
- * Test class for class {@link PeppolReportStorageMongoDB}.
+ * Test class for class {@link PeppolReportStorageFileXML}.
  *
  * @author Philip Helger
  */
-public final class PeppolReportStorageMongoDBTest
+public final class PeppolReportStorageFileTest
 {
   @Test
   public void testBasic ()
   {
-    // Use Test specific configuration
-    final IConfig aConfig = new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-mongodb.properties")));
-
-    try (final PeppolReportMongoDBHandler aHdl = PeppolReportMongoDBHandler.createPeppolReportingConfigured (aConfig))
-    {
-      final PeppolReportStorageMongoDB aStorage = new PeppolReportStorageMongoDB (aHdl);
-      TestHelper.runCases (aStorage);
-    }
+    final PeppolReportStorageFileXML aStorage = new PeppolReportStorageFileXML (new File ("generated/"),
+                                                                          PeppolReportStorageFilenameProvider.DEFAULT);
+    TestHelper.runCases (aStorage);
   }
 }

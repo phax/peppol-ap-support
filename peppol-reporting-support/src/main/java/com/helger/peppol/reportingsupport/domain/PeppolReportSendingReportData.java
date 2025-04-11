@@ -24,11 +24,14 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.datetime.PDTWebDateHelper;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
 import com.helger.commons.string.StringHelper;
 import com.helger.commons.string.ToStringGenerator;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
+import com.helger.xml.microdom.IMicroElement;
+import com.helger.xml.microdom.MicroElement;
 
 /**
  * Contains the relevant data for a single Peppol Network Report Sending Report.
@@ -97,6 +100,19 @@ public class PeppolReportSendingReportData
   public String getSendingReportContent ()
   {
     return m_sSendingReportContent;
+  }
+
+  @Nonnull
+  public IMicroElement getAsMicroElement (@Nullable final String sNamespaceURI, @Nonnull final String sElementName)
+  {
+    final IMicroElement ret = new MicroElement (sNamespaceURI, sElementName);
+    ret.appendElement (sNamespaceURI, "ReportType").appendText (m_eReportType.getID ());
+    ret.appendElement (sNamespaceURI, "ReportYear").appendText (m_aReportPeriod.getYear ());
+    ret.appendElement (sNamespaceURI, "ReportType").appendText (m_aReportPeriod.getMonthValue ());
+    ret.appendElement (sNamespaceURI, "ReportCreationDT")
+       .appendText (PDTWebDateHelper.getAsStringXSD (m_aReportCreationDT));
+    ret.appendElement (sNamespaceURI, "SendingReport").appendText (m_sSendingReportContent);
+    return ret;
   }
 
   @Override

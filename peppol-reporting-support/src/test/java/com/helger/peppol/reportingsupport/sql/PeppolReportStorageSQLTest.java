@@ -16,24 +16,15 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
-import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-
 import javax.annotation.Nonnull;
 
 import org.junit.Test;
 
-import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.io.resource.ClassPathResource;
-import com.helger.commons.state.ESuccess;
 import com.helger.config.Config;
 import com.helger.config.IConfig;
 import com.helger.config.source.res.ConfigurationSourceProperties;
-import com.helger.peppol.reportingsupport.EPeppolReportType;
-import com.helger.peppol.reportingsupport.domain.PeppolReportData;
-import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
+import com.helger.peppol.reportingsupport.TestHelper;
 
 /**
  * Test class for class {@link PeppolReportStorageSQL}.
@@ -47,32 +38,7 @@ public final class PeppolReportStorageSQLTest
     try (final PeppolReportSQLHandler aHdl = new PeppolReportSQLHandler (aConfig))
     {
       final PeppolReportStorageSQL aStorage = new PeppolReportStorageSQL (aHdl, aHdl.getTableNamePrefix ());
-      for (final EPeppolReportType e : EPeppolReportType.values ())
-      {
-        final LocalDateTime aNow = PDTFactory.getCurrentLocalDateTime ();
-        final YearMonth aPeriod = YearMonth.now ().minusMonths (1);
-
-        ESuccess eSuccess = aStorage.storePeppolReport (new PeppolReportData (e,
-                                                                              aPeriod,
-                                                                              aNow,
-                                                                              "<DummyReport />",
-                                                                              true));
-        assertTrue (eSuccess.isSuccess ());
-
-        // Test with non-null sending report
-        eSuccess = aStorage.storePeppolReportSendingReport (new PeppolReportSendingReportData (e,
-                                                                                               aPeriod,
-                                                                                               aNow,
-                                                                                               "<DummySendingReport />"));
-        assertTrue (eSuccess.isSuccess ());
-
-        // Test with null sending report
-        eSuccess = aStorage.storePeppolReportSendingReport (new PeppolReportSendingReportData (e,
-                                                                                               aPeriod,
-                                                                                               aNow.plusSeconds (1),
-                                                                                               null));
-        assertTrue (eSuccess.isSuccess ());
-      }
+      TestHelper.runCases (aStorage);
     }
   }
 
