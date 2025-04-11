@@ -35,6 +35,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Set up JDK ${{ matrix.Java }}
       uses: actions/setup-java@v4
       with:
@@ -52,6 +53,29 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.10.0
+      with:
+        mongodb-version: '6.0'
+ 
+    - name: Start PostgreSQL
+      uses: ikalnytskyi/action-setup-postgres@v6
+      with:
+        username: peppol
+        password: peppol
+        database: peppol-report
+        port: 5432
+      id: postgres
+       
+    - name: Start MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql version: '8.0'
+        mysql database: 'peppol-report'
+        mysql user: 'peppol'
+        mysql password: 'peppol'
+            
     - name: Publish to the Maven Central Repository
       run: mvn --batch-mode --update-snapshots deploy
       if: matrix.Java == 11
