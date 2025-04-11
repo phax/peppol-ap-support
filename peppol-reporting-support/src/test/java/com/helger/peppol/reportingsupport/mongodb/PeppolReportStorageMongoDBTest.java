@@ -14,14 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.helger.peppol.reportingsupport.sql;
+package com.helger.peppol.reportingsupport.mongodb;
 
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-
-import javax.annotation.Nonnull;
 
 import org.junit.Test;
 
@@ -36,17 +34,22 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 
 /**
- * Test class for class {@link PeppolReportStorageSQL}.
+ * Test class for class {@link PeppolReportStorageMongoDB}.
  *
  * @author Philip Helger
  */
-public final class PeppolReportStorageSQLTest
+public final class PeppolReportStorageMongoDBTest
 {
-  private void _runTests (@Nonnull final IConfig aConfig)
+  @Test
+  public void testBasic ()
   {
-    try (final PeppolReportSQLHandler aHdl = new PeppolReportSQLHandler (aConfig))
+    // Use Test specific configuration
+    final IConfig aConfig = new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-mongodb.properties")));
+
+    try (final PeppolReportMongoDBHandler aHdl = PeppolReportMongoDBHandler.createPeppolReportingConfigured (aConfig))
     {
-      final PeppolReportStorageSQL aStorage = new PeppolReportStorageSQL (aHdl, aHdl.getTableNamePrefix ());
+      final PeppolReportStorageMongoDB aStorage = new PeppolReportStorageMongoDB (aHdl);
+
       for (final EPeppolReportType e : EPeppolReportType.values ())
       {
         final LocalDateTime aNow = PDTFactory.getCurrentLocalDateTime ();
@@ -74,17 +77,5 @@ public final class PeppolReportStorageSQLTest
         assertTrue (eSuccess.isSuccess ());
       }
     }
-  }
-
-  @Test
-  public void testMySQL ()
-  {
-    _runTests (new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-mysql.properties"))));
-  }
-
-  @Test
-  public void testPostgreSQL ()
-  {
-    _runTests (new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-postgresql.properties"))));
   }
 }
