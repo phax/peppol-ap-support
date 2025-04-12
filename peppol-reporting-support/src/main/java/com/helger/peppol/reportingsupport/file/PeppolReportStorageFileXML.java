@@ -37,10 +37,10 @@ import com.helger.xml.microdom.serialize.MicroWriter;
 public class PeppolReportStorageFileXML implements IPeppolReportStorage
 {
   private final File m_aBaseDir;
-  private final PeppolReportStorageFilenameProvider m_aFilenameProvider;
+  private final IPeppolReportStorageFilenameProvider m_aFilenameProvider;
 
   public PeppolReportStorageFileXML (@Nonnull final File aBaseDir,
-                                     @Nonnull final PeppolReportStorageFilenameProvider aFilenameProvider)
+                                     @Nonnull final IPeppolReportStorageFilenameProvider aFilenameProvider)
   {
     ValueEnforcer.notNull (aBaseDir, "BaseDir");
     ValueEnforcer.notNull (aFilenameProvider, "FilenameProvider");

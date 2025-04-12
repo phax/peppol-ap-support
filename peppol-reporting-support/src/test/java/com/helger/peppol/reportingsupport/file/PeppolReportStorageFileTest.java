@@ -33,7 +33,7 @@ public final class PeppolReportStorageFileTest
   public void testBasic ()
   {
     final PeppolReportStorageFileXML aStorage = new PeppolReportStorageFileXML (new File ("generated/"),
-                                                                          PeppolReportStorageFilenameProvider.DEFAULT);
+                                                                          IPeppolReportStorageFilenameProvider.DEFAULT);
     TestHelper.runCases (aStorage);
   }
 }
