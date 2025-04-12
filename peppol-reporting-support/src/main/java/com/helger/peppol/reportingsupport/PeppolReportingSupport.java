@@ -114,8 +114,8 @@ public final class PeppolReportingSupport
    *         the storage of it where successful.
    */
   @Nonnull
-  public ESuccess validateAndStorePeppolTSR (@Nonnull final TransactionStatisticsReportType aTSR,
-                                             @Nonnull final Consumer <String> aTSRStringConsumer)
+  public ESuccess validateAndStorePeppolTSR10 (@Nonnull final TransactionStatisticsReportType aTSR,
+                                               @Nonnull final Consumer <String> aTSRStringConsumer)
   {
     ValueEnforcer.notNull (aTSR, "TSR");
     ValueEnforcer.notNull (aTSRStringConsumer, "TSRStringConsumer");
@@ -207,8 +207,8 @@ public final class PeppolReportingSupport
    *         the storage of it where successful.
    */
   @Nonnull
-  public ESuccess validateAndStorePeppolEUSR (@Nonnull final EndUserStatisticsReportType aEUSR,
-                                              @Nonnull final Consumer <String> aEUSRStringConsumer)
+  public ESuccess validateAndStorePeppolEUSR11 (@Nonnull final EndUserStatisticsReportType aEUSR,
+                                                @Nonnull final Consumer <String> aEUSRStringConsumer)
   {
     ValueEnforcer.notNull (aEUSR, "EUSR");
     ValueEnforcer.notNull (aEUSRStringConsumer, "EUSRByteConsumer");
