@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.datetime.PDTFactory;
 import com.helger.commons.state.ESuccess;
 import com.helger.db.api.helper.DBValueHelper;
 import com.helger.db.jdbc.callback.ConstantPreparedStatementDataProvider;
@@ -83,7 +84,7 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
                                                                                                                                      .getYear ()),
                                                                                                          Integer.valueOf (aReportData.getReportPeriod ()
                                                                                                                                      .getMonthValue ()),
-                                                                                                         DBValueHelper.toTimestamp (aReportData.getReportCreationDT ()),
+                                                                                                         DBValueHelper.toTimestamp (PDTFactory.getWithMillisOnly (aReportData.getReportCreationDT ())),
                                                                                                          aReportData.getReportXMLString (),
                                                                                                          Boolean.valueOf (aReportData.isReportValid ())));
       if (nCreated != 1)
@@ -120,7 +121,7 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
                                                                                                                                             .getYear ()),
                                                                                                          Integer.valueOf (aSendingReportData.getReportPeriod ()
                                                                                                                                             .getMonthValue ()),
-                                                                                                         DBValueHelper.toTimestamp (aSendingReportData.getReportCreationDT ()),
+                                                                                                         DBValueHelper.toTimestamp (PDTFactory.getWithMillisOnly (aSendingReportData.getReportCreationDT ())),
                                                                                                          aSendingReportData.getSendingReportContent ()));
       if (nCreated != 1)
         throw new IllegalStateException ("Failed to create new SQL DB entry (" + nCreated + ")");

@@ -155,7 +155,7 @@ public final class PeppolReportingSupport
     final YearMonth aYearMonth = YearMonth.of (aTSR.getHeader ().getReportPeriod ().getStartDate ().getYear (),
                                                aTSR.getHeader ().getReportPeriod ().getStartDate ().getMonth ());
     ESuccess eReportSuccessState = ESuccess.SUCCESS;
-    final LocalDateTime aReportCreationDT = PDTFactory.getCurrentLocalDateTime ();
+    final LocalDateTime aReportCreationDT = PDTFactory.getCurrentLocalDateTimeMillisOnly ();
 
     // Convert to XML
     final ErrorList aErrorList = new ErrorList ();
@@ -248,7 +248,7 @@ public final class PeppolReportingSupport
     final YearMonth aYearMonth = YearMonth.of (aEUSR.getHeader ().getReportPeriod ().getStartDate ().getYear (),
                                                aEUSR.getHeader ().getReportPeriod ().getStartDate ().getMonth ());
     ESuccess eReportSuccessState = ESuccess.SUCCESS;
-    final LocalDateTime aReportCreationDT = PDTFactory.getCurrentLocalDateTime ();
+    final LocalDateTime aReportCreationDT = PDTFactory.getCurrentLocalDateTimeMillisOnly ();
 
     // Convert to XML
     final ErrorList aErrorList = new ErrorList ();
@@ -366,7 +366,7 @@ public final class PeppolReportingSupport
         throw new IllegalStateException ("Unsupported Peppol report type " + eReportType);
     }
 
-    final LocalDateTime aSendingDT = PDTFactory.getCurrentLocalDateTime ();
+    final LocalDateTime aSendingDT = PDTFactory.getCurrentLocalDateTimeMillisOnly ();
     final String sSendingReport;
     try
     {

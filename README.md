@@ -59,6 +59,8 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v1.0.1 - 2025-04-12
+* Make sure, the created timestamps only use millisecond precision
 v1.0.0 - 2025-04-12
 * Initial version extracted from peppol-commons module as submodule peppol-ap-support
 * The initial package is now `com.helper.peppol.apsupport` to clearly differentiate from the old one

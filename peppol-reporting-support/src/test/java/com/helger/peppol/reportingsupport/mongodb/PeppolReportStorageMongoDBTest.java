@@ -41,7 +41,7 @@ public final class PeppolReportStorageMongoDBTest
     try (final PeppolReportMongoDBHandler aHdl = PeppolReportMongoDBHandler.createPeppolReportingConfigured (aConfig))
     {
       // Required in some cases
-      ThreadHelper.sleep (50);
+      ThreadHelper.sleep (100);
 
       final PeppolReportStorageMongoDB aStorage = new PeppolReportStorageMongoDB (aHdl);
       TestHelper.runCases (aStorage);
