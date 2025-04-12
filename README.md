@@ -19,6 +19,7 @@ Contains a Business Card cache, that makes sure Business Card of a Peppol Partic
 
 The Peppol Reporting support library offers simple ways to validate, store and send Peppol TSR and EUSR reports.
 It support different backends based on the `IPeppolReportStorage` interface.
+Custom forms of this interface may be created and used.
 
 ## MongoDB backend
 
@@ -27,7 +28,7 @@ You may either use the same database as you use for Peppol Reporting (see the [p
 
 ## SQL backend
 
-For Peppol Reporting storage SQL backend supports the following configuration properties:
+For Peppol Report storage SQL backend supports the following configuration properties:
 * **`peppol.report.jdbc.database-type`**: the SQL database type to operate on. Currently supported are `postgresql` and `mysql`. The value is case-insensitive.
 * **`peppol.report.jdbc.driver`**: contains the fully qualified class name of the JDBC driver to be used. E.g. `org.postgresql.Driver` for PostgreSQL or `com.mysql.cj.jdbc.Driver` for MySQL
 * **`peppol.report.jdbc.url`**: contains the full JDBC connection URL to connect to the database
