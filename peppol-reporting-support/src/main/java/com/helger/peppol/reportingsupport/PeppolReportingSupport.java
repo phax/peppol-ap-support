@@ -289,7 +289,7 @@ public final class PeppolReportingSupport
   }
 
   /**
-   * Send a Peppol Report to OpenPeppol.
+   * Send a Peppol Report to OpenPeppol and store the Sending Report.
    *
    * @param aYearMonth
    *        The year and month for which the report was created. May not be <code>null</code>.
