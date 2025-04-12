@@ -28,7 +28,7 @@ import com.helger.peppolid.IProcessIdentifier;
  *
  * @author Philip Helger
  */
-interface IPeppolReportSenderCallback
+public interface IPeppolReportSenderCallback
 {
   /**
    * Send a Peppol message via AS4
