@@ -37,7 +37,7 @@ public interface IPeppolReportSenderCallback
    *        The document type identifier to be used. Never <code>null</code>.
    * @param aProcessID
    *        The process identifier to be used. Never <code>null</code>.
-   * @param aMessagePayload
+   * @param sMessagePayload
    *        The message payload to be send. Neither <code>null</code> nor empty.
    * @return The sending report. If an error occurred, it must be part of the sending report.
    */
