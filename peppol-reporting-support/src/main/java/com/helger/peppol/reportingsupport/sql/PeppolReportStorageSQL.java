@@ -91,7 +91,7 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
   }
 
   @Nonnull
-  public ESuccess storePeppolReportSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {
     ValueEnforcer.notNull (aSendingReportData, "aSendingReportData");
 

@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import com.helger.commons.ValueEnforcer;
 import com.helger.commons.string.StringHelper;
 import com.helger.db.api.EDatabaseSystemType;
+import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfiguration;
 
 /**
@@ -62,7 +63,7 @@ final class PeppolReportFlywayMigrator
   {}
 
   void runFlyway (@Nonnull final EDatabaseSystemType eDBType,
-                  @Nonnull final PeppolReportJdbcConfiguration aJdbcConfig,
+                  @Nonnull final IJdbcConfiguration aJdbcConfig,
                   @Nonnull final FlywayConfiguration aFlywayConfig)
   {
     ValueEnforcer.notNull (eDBType, "DBType");

@@ -357,7 +357,7 @@ public final class PeppolReportingSupport
                                                                                                 aYearMonth,
                                                                                                 aSendingDT,
                                                                                                 sSendingReport);
-    if (m_aStorage.storePeppolReportSendingReport (aSendingReportData).isFailure ())
+    if (m_aStorage.storePeppolReportingSendingReport (aSendingReportData).isFailure ())
     {
       m_aErrorHdl.accept ("Error storing sending report of " + eReportType + " for " + aYearMonth, null);
       return ESuccess.FAILURE;

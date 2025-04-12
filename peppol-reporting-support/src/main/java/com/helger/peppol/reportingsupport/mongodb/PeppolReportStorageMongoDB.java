@@ -40,7 +40,7 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 public class PeppolReportStorageMongoDB implements IPeppolReportStorage
 {
   public static final String DEFAULT_COLLECTION_NAME_PEPPOL_REPORTS = "peppol-reports";
-  public static final String DEFAULT_COLLECTION_NAME_PEPPOL_SENDING_REPORTS = "peppol-sending-reports";
+  public static final String DEFAULT_COLLECTION_NAME_PEPPOL_REPORTING_SENDING_REPORTS = "peppol-reporting-sending-reports";
 
   public static final String BSON_REPORT_TYPE = "reporttype";
   public static final String BSON_YEAR = "year";
@@ -53,14 +53,14 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
 
   private final Supplier <? extends MongoClientWrapper> m_aMongoClientSupplier;
   private String m_sCollectionNamePeppolReports;
-  private String m_sCollectionNamePeppolSendingReports;
+  private String m_sCollectionNamePeppolReportingSendingReports;
 
   public PeppolReportStorageMongoDB (@Nonnull final Supplier <? extends MongoClientWrapper> aMongoClientSupplier)
   {
     ValueEnforcer.notNull (aMongoClientSupplier, "MongoClientSupplier");
     m_aMongoClientSupplier = aMongoClientSupplier;
     m_sCollectionNamePeppolReports = DEFAULT_COLLECTION_NAME_PEPPOL_REPORTS;
-    m_sCollectionNamePeppolSendingReports = DEFAULT_COLLECTION_NAME_PEPPOL_SENDING_REPORTS;
+    m_sCollectionNamePeppolReportingSendingReports = DEFAULT_COLLECTION_NAME_PEPPOL_REPORTING_SENDING_REPORTS;
   }
 
   @Nonnull
@@ -92,9 +92,9 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
 
   @Nonnull
   @Nonempty
-  public String getCollectionNamePeppolSendingReports ()
+  public String getCollectionNamePeppolReportingSendingReports ()
   {
-    return m_sCollectionNamePeppolSendingReports;
+    return m_sCollectionNamePeppolReportingSendingReports;
   }
 
   /**
@@ -105,14 +105,14 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    * @return this for chaining
    */
   @Nonnull
-  public PeppolReportStorageMongoDB setCollectionNamePeppolSendingReports (@Nonnull @Nonempty final String s)
+  public PeppolReportStorageMongoDB setCollectionNamePeppolReportingSendingReports (@Nonnull @Nonempty final String s)
   {
-    ValueEnforcer.notEmpty (s, "CollectionPeppolSendingReports");
+    ValueEnforcer.notEmpty (s, "CollectionPeppolReportingSendingReports");
 
-    if (!m_sCollectionNamePeppolSendingReports.equals (s))
+    if (!m_sCollectionNamePeppolReportingSendingReports.equals (s))
     {
-      LOGGER.info ("Using MongoDB collection name '" + s + "' to store Peppol Sending Reports");
-      m_sCollectionNamePeppolSendingReports = s;
+      LOGGER.info ("Using MongoDB collection name '" + s + "' to store Peppol Reporting Sending Reports");
+      m_sCollectionNamePeppolReportingSendingReports = s;
     }
     return this;
   }
@@ -174,19 +174,19 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
   }
 
   @Nonnull
-  public ESuccess storePeppolReportSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {
     ValueEnforcer.notNull (aSendingReportData, "aSendingReportData");
 
     final MongoClientWrapper aMongoDBClient = m_aMongoClientSupplier.get ();
     if (aMongoDBClient == null)
     {
-      LOGGER.error ("Failed to init MongoDB client - not storing Peppol Report Sending Report");
+      LOGGER.error ("Failed to init MongoDB client - not storing Peppol Reporting Sending Report");
       return ESuccess.FAILURE;
     }
     if (!aMongoDBClient.isDBWritable ())
     {
-      LOGGER.error ("MongoDB is not writable - not storing Peppol Report Sending Report");
+      LOGGER.error ("MongoDB is not writable - not storing Peppol Reporting Sending Report");
       return ESuccess.FAILURE;
     }
 
@@ -194,8 +194,10 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
     final Document aBson = toBson (aSendingReportData);
 
     // Write to collection
-    if (!aMongoDBClient.getCollection (m_sCollectionNamePeppolSendingReports).insertOne (aBson).wasAcknowledged ())
-      throw new IllegalStateException ("Failed to insert into Peppol Report Sending Reports MongoDB Collection");
+    if (!aMongoDBClient.getCollection (m_sCollectionNamePeppolReportingSendingReports)
+                       .insertOne (aBson)
+                       .wasAcknowledged ())
+      throw new IllegalStateException ("Failed to insert into Peppol Reporting Sending Reports MongoDB Collection");
 
     return ESuccess.SUCCESS;
   }

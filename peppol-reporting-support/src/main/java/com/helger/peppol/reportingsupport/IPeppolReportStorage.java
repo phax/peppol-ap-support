@@ -47,5 +47,5 @@ public interface IPeppolReportStorage
    * @return Never <code>null</code>.
    */
   @Nonnull
-  ESuccess storePeppolReportSendingReport (@Nonnull PeppolReportSendingReportData aSendingReportData);
+  ESuccess storePeppolReportingSendingReport (@Nonnull PeppolReportSendingReportData aSendingReportData);
 }

@@ -62,7 +62,7 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
   }
 
   @Nonnull
-  public ESuccess storePeppolReportSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {
     final IMicroDocument aDoc = new MicroDocument ();
     aDoc.appendChild (aSendingReportData.getAsMicroElement (null, "SendingReportData"));

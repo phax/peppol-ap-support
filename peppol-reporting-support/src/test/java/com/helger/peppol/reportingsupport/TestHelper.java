@@ -44,14 +44,14 @@ public final class TestHelper
       assertTrue (eSuccess.isSuccess ());
 
       // Test with non-null sending report
-      eSuccess = aStorage.storePeppolReportSendingReport (new PeppolReportSendingReportData (e,
+      eSuccess = aStorage.storePeppolReportingSendingReport (new PeppolReportSendingReportData (e,
                                                                                              aPeriod,
                                                                                              aNow,
                                                                                              "<DummySendingReport />"));
       assertTrue (eSuccess.isSuccess ());
 
       // Test with null sending report
-      eSuccess = aStorage.storePeppolReportSendingReport (new PeppolReportSendingReportData (e,
+      eSuccess = aStorage.storePeppolReportingSendingReport (new PeppolReportSendingReportData (e,
                                                                                              aPeriod,
                                                                                              aNow.plusSeconds (1),
                                                                                              null));
