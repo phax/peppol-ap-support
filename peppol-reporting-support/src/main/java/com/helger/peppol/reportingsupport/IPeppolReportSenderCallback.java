@@ -44,5 +44,5 @@ interface IPeppolReportSenderCallback
   @Nonnull
   String sendPeppolMessage (@Nonnull IDocumentTypeIdentifier aDocTypeID,
                             @Nonnull IProcessIdentifier aProcessID,
-                            @Nonnull @Nonempty byte [] aMessagePayload);
+                            @Nonnull @Nonempty String sMessagePayload);
 }

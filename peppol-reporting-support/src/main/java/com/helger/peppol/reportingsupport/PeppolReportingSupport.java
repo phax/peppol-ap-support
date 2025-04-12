@@ -295,7 +295,7 @@ public final class PeppolReportingSupport
    *        The year and month for which the report was created. May not be <code>null</code>.
    * @param eReportType
    *        The Peppol Reporting report type. May not be <code>null</code>.
-   * @param aReportPayload
+   * @param sReportPayload
    *        The Peppol Reporting report in an XML serialized way. May neither be <code>null</code>
    *        nor empty.
    * @param aMainPeppolSender
@@ -307,12 +307,12 @@ public final class PeppolReportingSupport
   @Nonnull
   public ESuccess sendPeppolReport (@Nonnull final YearMonth aYearMonth,
                                     @Nonnull final EPeppolReportType eReportType,
-                                    @Nonnull @Nonempty final byte [] aReportPayload,
+                                    @Nonnull @Nonempty final String sReportPayload,
                                     @Nonnull final IPeppolReportSenderCallback aMainPeppolSender)
   {
     ValueEnforcer.notNull (aYearMonth, "YearMonth");
     ValueEnforcer.notNull (eReportType, "ReportType");
-    ValueEnforcer.notEmpty (aReportPayload, "ReportPayload");
+    ValueEnforcer.notEmpty (sReportPayload, "ReportPayload");
     ValueEnforcer.notNull (aMainPeppolSender, "MainPeppolSender");
 
     // Determine parameters
@@ -338,7 +338,7 @@ public final class PeppolReportingSupport
     {
       // This is the callback that triggers the external sending and requests back a sending report
       LOGGER.info ("Now sending Peppol Report " + eReportType + " for " + aYearMonth + " via Peppol Network");
-      sSendingReport = aMainPeppolSender.sendPeppolMessage (aDocTypeID, aProcessID, aReportPayload);
+      sSendingReport = aMainPeppolSender.sendPeppolMessage (aDocTypeID, aProcessID, sReportPayload);
     }
     catch (final Exception ex)
     {
