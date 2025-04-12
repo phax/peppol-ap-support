@@ -30,8 +30,17 @@ import com.helger.db.api.config.JdbcConfigurationConfig;
 @Immutable
 public class PeppolReportJdbcConfiguration extends JdbcConfigurationConfig
 {
+  /**
+   * The JDBC configuration prefix.
+   */
   public static final String CONFIG_PREFIX = "peppol.report.jdbc.";
 
+  /**
+   * Constructor
+   *
+   * @param aConfig
+   *        The configuration object to use. May not be <code>null</code>.
+   */
   public PeppolReportJdbcConfiguration (@Nonnull final IConfig aConfig)
   {
     super (aConfig, CONFIG_PREFIX);

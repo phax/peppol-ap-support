@@ -141,13 +141,12 @@ public class BusinessCardCache
   }
 
   /**
-   * Get the country code contained in the Business Card of the provided
-   * participant ID.
+   * Get the country code contained in the Business Card of the provided participant ID.
    *
    * @param aParticipantID
    *        The participant ID to query. May not be <code>null</code>.
-   * @return <code>null</code> if no Business Card or no Business Card Entity
-   *         with a country code is present.
+   * @return <code>null</code> if no Business Card or no Business Card Entity with a country code is
+   *         present.
    */
   @Nullable
   public String getCountryCode (@Nonnull final IParticipantIdentifier aParticipantID)
@@ -160,6 +159,12 @@ public class BusinessCardCache
     return aBC.businessEntities ().getFirstOrNull ().getCountryCode ();
   }
 
+  /**
+   * Clear the cache
+   *
+   * @return {@link EChange#CHANGED} if something was contained in the cache,
+   *         {@link EChange#UNCHANGED} otherwise.
+   */
   @Nonnull
   public EChange clearCache ()
   {

@@ -39,6 +39,14 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
   private final File m_aBaseDir;
   private final IPeppolReportStorageFilenameProvider m_aFilenameProvider;
 
+  /**
+   * Constructor
+   *
+   * @param aBaseDir
+   *        The base directory to store all files. May not be <code>null</code>.
+   * @param aFilenameProvider
+   *        The dynamic filename provider. May not be <code>null</code>.
+   */
   public PeppolReportStorageFileXML (@Nonnull final File aBaseDir,
                                      @Nonnull final IPeppolReportStorageFilenameProvider aFilenameProvider)
   {

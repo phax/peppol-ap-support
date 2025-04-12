@@ -21,6 +21,7 @@ import java.time.YearMonth;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.string.StringHelper;
 import com.helger.datetime.util.PDTIOHelper;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
@@ -32,13 +33,28 @@ import com.helger.peppol.reportingsupport.EPeppolReportType;
  */
 public interface IPeppolReportStorageFilenameProvider
 {
+  /**
+   * Get the relative filename for storage. Each call with unique parameters should result in a
+   * unique filename.
+   *
+   * @param aReportPeriod
+   *        The report period. Never <code>null</code>.
+   * @param eReportType
+   *        The report type. Never <code>null</code>.
+   * @param aReportCreationDT
+   *        The report creation date and time (in millisecond precision). Never <code>null</code>.
+   * @param sFilenameSuffix
+   *        The filename suffix to be used. May neither be <code>null</code> nor empty.
+   * @return The assembled filename. May neither be <code>null</code> nor empty.
+   */
   @Nonnull
+  @Nonempty
   String getFilename (@Nonnull YearMonth aReportPeriod,
                       @Nonnull EPeppolReportType eReportType,
                       @Nonnull LocalDateTime aReportCreationDT,
-                      @Nonnull String sFilenameSuffix);
+                      @Nonnull @Nonempty String sFilenameSuffix);
 
-  /** The default filename provider */
+  /** The default filename provider. */
   IPeppolReportStorageFilenameProvider DEFAULT = (period, type, creationDT, suffix) -> StringHelper.getLeadingZero (
                                                                                                                     period.getYear (),
                                                                                                                     4) +

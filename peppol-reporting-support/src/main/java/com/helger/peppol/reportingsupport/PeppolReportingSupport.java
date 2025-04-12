@@ -52,6 +52,12 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.TransformSourceFactory;
 
+/**
+ * The main Peppol Reporting support class. This class offers to validate and store all kind of
+ * Peppol reports as well as it allows you to send reports to OpenPeppol.
+ *
+ * @author Philip Helger
+ */
 public final class PeppolReportingSupport
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportingSupport.class);
@@ -73,12 +79,24 @@ public final class PeppolReportingSupport
     m_aStorage = aStorage;
   }
 
+  /**
+   * Get the configured display locale.
+   *
+   * @return The configured display locale for error message retrieval. Never <code>null</code>.
+   */
   @Nonnull
   public Locale getDisplayLocale ()
   {
     return m_aDisplayLocale;
   }
 
+  /**
+   * Set the display locale to be used for error message retrieval.
+   *
+   * @param aDisplayLocale
+   *        The display locale to be used. May not be <code>null</code>.
+   * @return this for chaining
+   */
   @Nonnull
   public PeppolReportingSupport setDisplayLocale (@Nonnull final Locale aDisplayLocale)
   {
@@ -87,6 +105,13 @@ public final class PeppolReportingSupport
     return this;
   }
 
+  /**
+   * Set the warning handler to be used. By default warnings are logged to the console.
+   *
+   * @param aWarnHdl
+   *        The warning handler to be used. May not be <code>null</code>.
+   * @return this for chaining
+   */
   @Nonnull
   public PeppolReportingSupport setWarningHandler (@Nonnull final Consumer <? super String> aWarnHdl)
   {
@@ -95,6 +120,13 @@ public final class PeppolReportingSupport
     return this;
   }
 
+  /**
+   * Set the error handler to be used. By default warnings are logged to the console.
+   *
+   * @param aErrorHdl
+   *        The error handler to be used. May not be <code>null</code>.
+   * @return this for chaining
+   */
   @Nonnull
   public PeppolReportingSupport setErrorHandler (@Nonnull final BiConsumer <? super String, ? super Exception> aErrorHdl)
   {
@@ -289,7 +321,9 @@ public final class PeppolReportingSupport
   }
 
   /**
-   * Send a Peppol Report to OpenPeppol and store the Sending Report.
+   * Send a Peppol Report to OpenPeppol and store the Sending Report in storage.<br>
+   * Attention: this method does NOT implement the actual AS4 sending. This needs to be done via the
+   * sending callback parameter.
    *
    * @param aYearMonth
    *        The year and month for which the report was created. May not be <code>null</code>.

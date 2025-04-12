@@ -39,14 +39,22 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
  */
 public class PeppolReportStorageMongoDB implements IPeppolReportStorage
 {
+  /** Default collection name */
   public static final String DEFAULT_COLLECTION_NAME_PEPPOL_REPORTS = "peppol-reports";
+  /** Default collection name */
   public static final String DEFAULT_COLLECTION_NAME_PEPPOL_REPORTING_SENDING_REPORTS = "peppol-reporting-sending-reports";
 
+  /** BSON field report type */
   public static final String BSON_REPORT_TYPE = "reporttype";
+  /** BSON field report year */
   public static final String BSON_YEAR = "year";
+  /** BSON field report month */
   public static final String BSON_MONTH = "month";
+  /** BSON field report creation date and time */
   public static final String BSON_CREATION_DT = "creationdt";
+  /** BSON field report payload */
   public static final String BSON_PAYLOAD = "payload";
+  /** BSON field report validity */
   public static final String BSON_PAYLOAD_VALID = "payloadvalid";
 
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportStorageMongoDB.class);
@@ -55,6 +63,12 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
   private String m_sCollectionNamePeppolReports;
   private String m_sCollectionNamePeppolReportingSendingReports;
 
+  /**
+   * Constructor
+   *
+   * @param aMongoClientSupplier
+   *        The support for the MongoDB client wrapper. May not be <code>null</code>.
+   */
   public PeppolReportStorageMongoDB (@Nonnull final Supplier <? extends MongoClientWrapper> aMongoClientSupplier)
   {
     ValueEnforcer.notNull (aMongoClientSupplier, "MongoClientSupplier");
@@ -63,6 +77,11 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
     m_sCollectionNamePeppolReportingSendingReports = DEFAULT_COLLECTION_NAME_PEPPOL_REPORTING_SENDING_REPORTS;
   }
 
+  /**
+   * Get the collection name for Peppol Reports
+   *
+   * @return The collection name for Peppol Reports. Neither <code>null</code> nor empty.
+   */
   @Nonnull
   @Nonempty
   public String getCollectionNamePeppolReports ()
@@ -90,6 +109,12 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
     return this;
   }
 
+  /**
+   * Get the collection name for Peppol Reporting Sending Reports
+   *
+   * @return The collection name for Peppol Reporting Sending Reports. Neither <code>null</code> nor
+   *         empty.
+   */
   @Nonnull
   @Nonempty
   public String getCollectionNamePeppolReportingSendingReports ()
@@ -98,7 +123,7 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
   }
 
   /**
-   * Change the collection name for Peppol Sending Reports
+   * Change the collection name for Peppol Reporting Sending Reports
    *
    * @param s
    *        Collection name to use. May neither be <code>null</code> nor empty.
@@ -117,6 +142,13 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
     return this;
   }
 
+  /**
+   * Convert the object to BSON
+   *
+   * @param aReportData
+   *        Object to convert. May not be <code>null</code>.
+   * @return The MongoDB document and never <code>null</code>.
+   */
   @Nonnull
   static Document toBson (@Nonnull final PeppolReportData aReportData)
   {
@@ -156,6 +188,13 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
     return ESuccess.SUCCESS;
   }
 
+  /**
+   * Convert the object to BSON
+   *
+   * @param aSendingReportData
+   *        Object to convert. May not be <code>null</code>.
+   * @return The MongoDB document and never <code>null</code>.
+   */
   @Nonnull
   static Document toBson (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {

@@ -43,6 +43,14 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
   private final Supplier <? extends PeppolReportDBExecutor> m_aDBExecutorSupplier;
   private final String m_sTableNamePrefix;
 
+  /**
+   * Constructor
+   *
+   * @param aDBExecutorSupplier
+   *        The supplier for specific DB executors. May not be <code>null</code>.
+   * @param sTableNamePrefix
+   *        The table name prefix to use. May not be <code>null</code> but maybe empty.
+   */
   public PeppolReportStorageSQL (@Nonnull final Supplier <? extends PeppolReportDBExecutor> aDBExecutorSupplier,
                                  @Nonnull final String sTableNamePrefix)
   {

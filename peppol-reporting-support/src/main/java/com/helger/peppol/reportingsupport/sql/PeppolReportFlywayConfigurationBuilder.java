@@ -18,6 +18,7 @@ package com.helger.peppol.reportingsupport.sql;
 
 import javax.annotation.Nonnull;
 
+import com.helger.commons.ValueEnforcer;
 import com.helger.config.IConfig;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfigurationBuilderConfig;
@@ -29,12 +30,25 @@ import com.helger.db.api.flyway.FlywayConfigurationBuilderConfig;
  */
 public class PeppolReportFlywayConfigurationBuilder extends FlywayConfigurationBuilderConfig
 {
+  /**
+   * The Flyway configuration prefix.
+   */
   public static final String FLYWAY_CONFIG_PREFIX = "peppol.report.flyway.";
 
+  /**
+   * Constructor
+   *
+   * @param aConfig
+   *        The configuration object. May not be <code>null</code>.
+   * @param aJdbcConfig
+   *        The JDBC configuration to act as a potential fallback for JDBC connection data. May not
+   *        be <code>null</code>.
+   */
   public PeppolReportFlywayConfigurationBuilder (@Nonnull final IConfig aConfig,
                                                  @Nonnull final IJdbcConfiguration aJdbcConfig)
   {
     super (aConfig, FLYWAY_CONFIG_PREFIX);
+    ValueEnforcer.notNull (aJdbcConfig, "JdbcConfig");
 
     // Fallback to other configuration values
     if (jdbcUrl () == null)

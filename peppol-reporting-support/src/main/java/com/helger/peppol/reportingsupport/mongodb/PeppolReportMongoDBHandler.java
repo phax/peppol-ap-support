@@ -36,6 +36,12 @@ public class PeppolReportMongoDBHandler implements Supplier <MongoClientWrapper>
 {
   private MongoClientWrapper m_aMongoDBClient;
 
+  /**
+   * Constructor
+   *
+   * @param aMongoDBClient
+   *        The MongoDB client wrapper. May be <code>null</code>.
+   */
   protected PeppolReportMongoDBHandler (@Nullable final MongoClientWrapper aMongoDBClient)
   {
     m_aMongoDBClient = aMongoDBClient;

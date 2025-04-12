@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.helger.commons.ValueEnforcer;
+import com.helger.commons.annotation.Nonempty;
 import com.helger.commons.datetime.PDTWebDateHelper;
 import com.helger.commons.equals.EqualsHelper;
 import com.helger.commons.hashcode.HashCodeGenerator;
@@ -73,38 +74,76 @@ public class PeppolReportSendingReportData
     m_sSendingReportContent = sSendingReportContent;
   }
 
+  /**
+   * Get the report type
+   *
+   * @return The report type. Never <code>null</code>.
+   */
   @Nonnull
-  public EPeppolReportType getReportType ()
+  public final EPeppolReportType getReportType ()
   {
     return m_eReportType;
   }
 
+  /**
+   * Get the report period
+   *
+   * @return The report period. Never <code>null</code>.
+   */
   @Nonnull
-  public YearMonth getReportPeriod ()
+  public final YearMonth getReportPeriod ()
   {
     return m_aReportPeriod;
   }
 
+  /**
+   * Get the report creation date and time (with millisecond precision)
+   *
+   * @return The report creation date and time. Never <code>null</code>.
+   */
   @Nonnull
-  public LocalDateTime getReportCreationDT ()
+  public final LocalDateTime getReportCreationDT ()
   {
     return m_aReportCreationDT;
   }
 
-  public boolean hasSendingReportContent ()
+  /**
+   * CHeck if a sending report is present
+   *
+   * @return <code>true</code> if a sending report is present, <code>false</code> if not.
+   */
+  public final boolean hasSendingReportContent ()
   {
     return StringHelper.hasText (m_sSendingReportContent);
   }
 
+  /**
+   * Get the sending report content
+   *
+   * @return The sending report content. May be <code>null</code>.
+   */
   @Nullable
-  public String getSendingReportContent ()
+  public final String getSendingReportContent ()
   {
     return m_sSendingReportContent;
   }
 
+  /**
+   * Get an XML element representation
+   *
+   * @param sNamespaceURI
+   *        The XML namespace URI to use. May be <code>null</code>.
+   * @param sElementName
+   *        The XML element name to use for response root element. May neither be <code>null</code>
+   *        nor empty.
+   * @return The XML element and never <code>null</code>.
+   */
   @Nonnull
-  public IMicroElement getAsMicroElement (@Nullable final String sNamespaceURI, @Nonnull final String sElementName)
+  public IMicroElement getAsMicroElement (@Nullable final String sNamespaceURI,
+                                          @Nonnull @Nonempty final String sElementName)
   {
+    ValueEnforcer.notEmpty (sElementName, "ElementName");
+
     final IMicroElement ret = new MicroElement (sNamespaceURI, sElementName);
     ret.appendElement (sNamespaceURI, "ReportType").appendText (m_eReportType.getID ());
     ret.appendElement (sNamespaceURI, "ReportYear").appendText (m_aReportPeriod.getYear ());

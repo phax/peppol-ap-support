@@ -31,9 +31,16 @@ import com.helger.commons.lang.EnumHelper;
  */
 public enum EPeppolReportType implements IHasID <String>
 {
+  /**
+   * Peppol Transaction Statistics Report v1.0
+   */
   TSR_V10 ("tsr10"),
+  /**
+   * Peppol End User Statistics Report v1.1
+   */
   EUSR_V11 ("eusr11");
 
+  /** The maximum length a report ID may used. This is required for DB column length */
   public static final int MAX_LEN_ID = 12;
 
   private final String m_sID;
@@ -50,6 +57,13 @@ public enum EPeppolReportType implements IHasID <String>
     return m_sID;
   }
 
+  /**
+   * Get the {@link EPeppolReportType} matching the provided ID.
+   *
+   * @param sID
+   *        The ID to search. May be <code>null</code>.
+   * @return <code>null</code> if no hit was found
+   */
   @Nullable
   public static EPeppolReportType getFromIDOrNull (@Nullable final String sID)
   {

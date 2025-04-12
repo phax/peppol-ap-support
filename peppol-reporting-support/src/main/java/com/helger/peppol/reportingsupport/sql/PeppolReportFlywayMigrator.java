@@ -62,11 +62,23 @@ final class PeppolReportFlywayMigrator
   private PeppolReportFlywayMigrator ()
   {}
 
+  /**
+   * Run Flyway
+   *
+   * @param eDBType
+   *        Actual database type. May not be <code>null</code>.
+   * @param aJdbcConfig
+   *        The general JDBC configuration. May not be <code>null</code>.
+   * @param aFlywayConfig
+   *        The Flyway configuration. May not be <code>null</code>.
+   */
   void runFlyway (@Nonnull final EDatabaseSystemType eDBType,
                   @Nonnull final IJdbcConfiguration aJdbcConfig,
                   @Nonnull final FlywayConfiguration aFlywayConfig)
   {
     ValueEnforcer.notNull (eDBType, "DBType");
+    ValueEnforcer.notNull (aJdbcConfig, "JdbcConfig");
+    ValueEnforcer.notNull (aFlywayConfig, "FlywayConfig");
 
     LOGGER.info ("Starting to run Flyway for DB type " + eDBType);
 

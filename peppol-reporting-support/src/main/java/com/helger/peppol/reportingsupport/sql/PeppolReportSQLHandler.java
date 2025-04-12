@@ -29,10 +29,18 @@ import com.helger.commons.concurrent.SimpleReadWriteLock;
 import com.helger.commons.string.StringHelper;
 import com.helger.config.IConfig;
 import com.helger.db.api.EDatabaseSystemType;
+import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfiguration;
 import com.helger.db.jdbc.DataSourceProviderFromJdbcConfiguration;
 import com.helger.peppol.reporting.backend.sql.PeppolReportingBackendSqlSPI;
 
+/**
+ * The handler that acts as a provider for SQL Data Sources. It reads everything from configuration
+ * and executes Flyway if necessary. So don't instantiate over and over again if performance is an
+ * issue for you.
+ *
+ * @author Philip Helger
+ */
 public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>, AutoCloseable
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportSQLHandler.class);
@@ -40,14 +48,20 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
                                                                                     EDatabaseSystemType.POSTGRESQL);
 
   private final SimpleReadWriteLock m_aRWLock = new SimpleReadWriteLock ();
-  private final PeppolReportJdbcConfiguration m_aJdbcConfig;
+  private final IJdbcConfiguration m_aJdbcConfig;
   private final DataSourceProviderFromJdbcConfiguration m_aDSP;
   private final String m_sTableNamePrefix;
 
+  /**
+   * Constructor
+   *
+   * @param aConfig
+   *        The configuration object to use. May not be <code>null</code>.
+   */
   public PeppolReportSQLHandler (@Nonnull final IConfig aConfig)
   {
     // Init JDBC configuration
-    final PeppolReportJdbcConfiguration aJdbcConfig = new PeppolReportJdbcConfiguration (aConfig);
+    final IJdbcConfiguration aJdbcConfig = new PeppolReportJdbcConfiguration (aConfig);
 
     // Resolve database type
     final EDatabaseSystemType eDBType = aJdbcConfig.getJdbcDatabaseSystemType ();
@@ -82,6 +96,11 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
     m_sTableNamePrefix = PeppolReportingBackendSqlSPI.getTableNamePrefix (eDBType, aJdbcConfig.getJdbcSchema ());
   }
 
+  /**
+   * Check if the handler is correctly initialized
+   *
+   * @return <code>true</code> if it is initialized, <code>false</code> if not.
+   */
   public boolean isInitialized ()
   {
     return m_aRWLock.readLockedBoolean ( () -> m_aDSP != null && m_sTableNamePrefix != null);
@@ -114,6 +133,11 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
     return new PeppolReportDBExecutor (m_aDSP, m_aJdbcConfig);
   }
 
+  /**
+   * Get an eventually existing table name prefix
+   *
+   * @return A non-<code>null</code> but maybe empty table name prefix (like <code>schema.</code>).
+   */
   @Nonnull
   public String getTableNamePrefix ()
   {

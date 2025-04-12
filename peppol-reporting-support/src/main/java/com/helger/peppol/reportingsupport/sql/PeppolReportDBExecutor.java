@@ -21,7 +21,8 @@ import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.db.api.config.JdbcConfigurationConfig;
+import com.helger.commons.ValueEnforcer;
+import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.jdbc.IHasDataSource;
 import com.helger.db.jdbc.executor.DBExecutor;
 
@@ -34,10 +35,19 @@ public final class PeppolReportDBExecutor extends DBExecutor
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportDBExecutor.class);
 
+  /**
+   * Specific DB executor that uses configuration properties for JDBC data.
+   *
+   * @param aDataSourceProvider
+   *        The SQL DataSource provider. May not be <code>null</code>.
+   * @param aJdbcConfig
+   *        The JDBC configuration. May not be <code>null</code>.
+   */
   public PeppolReportDBExecutor (@Nonnull final IHasDataSource aDataSourceProvider,
-                                 @Nonnull final JdbcConfigurationConfig aJdbcConfig)
+                                 @Nonnull final IJdbcConfiguration aJdbcConfig)
   {
     super (aDataSourceProvider);
+    ValueEnforcer.notNull (aJdbcConfig, "JDBCConfig");
 
     // This is ONLY for debugging
     setDebugConnections (aJdbcConfig.isJdbcDebugConnections ());
@@ -51,9 +61,7 @@ public final class PeppolReportDBExecutor extends DBExecutor
         setExecutionDurationWarnMS (nMillis);
       else
         if (LOGGER.isDebugEnabled ())
-          LOGGER.debug ("Ignoring configuration key '" +
-                        aJdbcConfig.getConfigKeyJdbcExecutionTimeWarningMilliseconds () +
-                        "' because it is invalid.");
+          LOGGER.debug ("Ignoring JDBC Execution Time Warning Milliseconds because it is invalid.");
     }
     else
     {
