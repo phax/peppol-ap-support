@@ -60,6 +60,7 @@ All information are stored in a custom XML format.
 # News and noteworthy
 
 v1.0.2 - work in progress
+* Updated to peppol-commons 10.3.2
 * Added new class `MLRSupportCache` to check if business document senders support MLR document type or not
 v1.0.1 - 2025-04-12
 * Make sure, the created timestamps only use millisecond precision

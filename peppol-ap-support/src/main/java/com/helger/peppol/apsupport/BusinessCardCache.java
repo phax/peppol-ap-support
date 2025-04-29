@@ -37,7 +37,7 @@ import com.helger.peppol.businesscard.generic.PDBusinessCard;
 import com.helger.peppol.businesscard.helper.PDBusinessCardHelper;
 import com.helger.peppol.sml.ISMLInfo;
 import com.helger.peppolid.IParticipantIdentifier;
-import com.helger.smpclient.url.PeppolURLProvider;
+import com.helger.smpclient.url.PeppolConfigurableURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
 
 /**
@@ -58,11 +58,12 @@ public class BusinessCardCache
   {
     try
     {
-      final String sBCURL = "http://" +
-                            PeppolURLProvider.INSTANCE.getDNSNameOfParticipant (aPI, aSMLInfo) +
-                            "/businesscard/" +
-                            aPI.getURIPercentEncoded ();
+      String sBCURL = PeppolConfigurableURLProvider.INSTANCE.getSMPURIOfParticipant (aPI, aSMLInfo).toString ();
+      if (!sBCURL.endsWith ("/"))
+        sBCURL += '/';
+      sBCURL += "businesscard/" + aPI.getURIPercentEncoded ();
       LOGGER.info ("Fetching Business Card from '" + sBCURL + "'");
+
       byte [] aData = null;
       try (final HttpClientManager aHttpClientMgr = HttpClientManager.create (aHCS))
       {

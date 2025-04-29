@@ -19,13 +19,13 @@ import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
 import com.helger.peppolid.peppol.process.EPredefinedProcessIdentifier;
 import com.helger.smpclient.exception.SMPClientException;
 import com.helger.smpclient.peppol.SMPClientReadOnly;
-import com.helger.smpclient.url.PeppolURLProvider;
+import com.helger.smpclient.url.PeppolConfigurableURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
 import com.helger.xsds.peppol.smp1.EndpointType;
 
 /**
- * This class contains a local cache that checks, if a sender is capable of
- * receiving Peppol MLR messages or not.
+ * This class contains a local cache that checks, if a sender is capable of receiving Peppol MLR
+ * messages or not.
  *
  * @author Philip Helger
  * @since 1.0.2
@@ -44,8 +44,8 @@ public final class MLRSupportCache
    * Constructor
    *
    * @param ePeppolNetwork
-   *        Defines whether to use the Peppol production or test Network. May
-   *        not be <code>null</code>.
+   *        Defines whether to use the Peppol production or test Network. May not be
+   *        <code>null</code>.
    */
   public MLRSupportCache (@Nonnull final EPeppolNetwork ePeppolNetwork)
   {
@@ -54,8 +54,7 @@ public final class MLRSupportCache
   }
 
   /**
-   * @return The Peppol Network as defined in the constructor. Never
-   *         <code>null</code>.
+   * @return The Peppol Network as defined in the constructor. Never <code>null</code>.
    */
   @Nonnull
   public EPeppolNetwork getPeppolNetwork ()
@@ -112,7 +111,7 @@ public final class MLRSupportCache
     try
     {
       LOGGER.info ("Performing SMP query to check if '" + sKey + "' supports MLR or not");
-      final SMPClientReadOnly aSMPClient = new SMPClientReadOnly (PeppolURLProvider.INSTANCE,
+      final SMPClientReadOnly aSMPClient = new SMPClientReadOnly (PeppolConfigurableURLProvider.INSTANCE,
                                                                   aC1ID,
                                                                   m_ePeppolNetwork.getSMLInfo ());
       aEndpoint = aSMPClient.getEndpoint (aC1ID,
