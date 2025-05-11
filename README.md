@@ -59,7 +59,7 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
-v1.0.2 - work in progress
+v1.0.2 - 2025-05-11
 * Updated to peppol-commons 10.3.2
 * Added new class `MLRSupportCache` to check if business document senders support MLR document type or not
 * Added new class `MLSSupportCache` to check if business document senders support MLS document type or not
