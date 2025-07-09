@@ -20,11 +20,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.helger.peppol.servicedomain.EPeppolNetwork;
-import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IParticipantIdentifier;
-import com.helger.peppolid.IProcessIdentifier;
-import com.helger.peppolid.factory.PeppolIdentifierFactory;
-import com.helger.peppolid.peppol.PeppolIdentifierHelper;
+import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
+import com.helger.peppolid.peppol.process.EPredefinedProcessIdentifier;
 import com.helger.xsds.peppol.smp1.EndpointType;
 
 /**
@@ -36,12 +34,6 @@ import com.helger.xsds.peppol.smp1.EndpointType;
  */
 public final class MLSSupportCache extends AbstractDocTypeSupportCache <MLSSupportCache>
 {
-  // TODO replace with official code list entries, once they are approved
-  private static final IDocumentTypeIdentifier DOC_TYPE_ID = PeppolIdentifierFactory.INSTANCE.createDocumentTypeIdentifier (PeppolIdentifierHelper.DOCUMENT_TYPE_SCHEME_BUSDOX_DOCID_QNS,
-                                                                                                                            "urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2::ApplicationResponse##urn:peppol:edec:mls:1.0::2.1");
-  private static final IProcessIdentifier PROCESS_ID = PeppolIdentifierFactory.INSTANCE.createProcessIdentifier (PeppolIdentifierHelper.PROCESS_SCHEME_CENBII_PROCID_UBL,
-                                                                                                                 "urn:peppol:edec:mls");
-
   /**
    * Constructor
    *
@@ -51,7 +43,10 @@ public final class MLSSupportCache extends AbstractDocTypeSupportCache <MLSSuppo
    */
   public MLSSupportCache (@Nonnull final EPeppolNetwork ePeppolNetwork)
   {
-    super (ePeppolNetwork, DOC_TYPE_ID, PROCESS_ID, "MLS");
+    super (ePeppolNetwork,
+           EPredefinedDocumentTypeIdentifier.PEPPOL_MLS_1_0,
+           EPredefinedProcessIdentifier.urn_peppol_edec_mls,
+           "MLS");
   }
 
   /**
