@@ -59,10 +59,9 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
-v4.0.0 - 2025-08-27
+v2.0.0 - 2025-08-27
 * Requires Java 17 as the minimum version
 * Updated to ph-commons 12.0.0
-* Removed all code marked as deprecated for removal
 * [SQL] Updated to Flyway 11.x
 
 v1.0.2 - 2025-05-11
