@@ -97,9 +97,13 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Automatic-Module-Name>com.helger.peppol.apsupport</Automatic-Module-Name>
+            <Automatic-Module-Name>com.helger.peppol.reporting.support</Automatic-Module-Name>
             <Export-Package>
-              com.helger.peppol.apsupport
+              com.helger.peppol.reportingsupport,
+              com.helger.peppol.reportingsupport.domain,
+              com.helger.peppol.reportingsupport.file,
+              com.helger.peppol.reportingsupport.mongodb,
+              com.helger.peppol.reportingsupport.sql
             </Export-Package>
             <Import-Package>!jakarta.annotation.*,*</Import-Package>
           </instructions>
