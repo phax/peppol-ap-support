@@ -20,13 +20,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.OffsetDateTime;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Test;
 
-import com.helger.commons.collection.impl.CommonsArrayList;
-import com.helger.commons.datetime.PDTFactory;
-import com.helger.commons.state.ESuccess;
+import com.helger.base.state.ESuccess;
+import com.helger.collection.commons.CommonsArrayList;
+import com.helger.datetime.helper.PDTFactory;
 import com.helger.peppol.reporting.api.PeppolReportingItem;
 import com.helger.peppol.reporting.eusr.EndUserStatisticsReport;
 import com.helger.peppol.reporting.jaxb.eusr.v110.EndUserStatisticsReportType;
@@ -36,6 +34,8 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
 import com.helger.peppolid.peppol.process.EPredefinedProcessIdentifier;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Test class for class {@link PeppolReportingSupport}.

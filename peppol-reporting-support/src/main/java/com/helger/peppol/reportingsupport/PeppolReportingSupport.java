@@ -22,19 +22,17 @@ import java.util.Locale;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.collection.impl.ICommonsList;
-import com.helger.commons.datetime.PDTFactory;
-import com.helger.commons.error.IError;
-import com.helger.commons.error.list.ErrorList;
-import com.helger.commons.state.ESuccess;
-import com.helger.commons.string.StringHelper;
+import com.helger.annotation.Nonempty;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.state.ESuccess;
+import com.helger.base.string.StringHelper;
+import com.helger.collection.commons.ICommonsList;
+import com.helger.datetime.helper.PDTFactory;
+import com.helger.diagnostics.error.IError;
+import com.helger.diagnostics.error.list.ErrorList;
 import com.helger.peppol.reporting.eusr.EndUserStatisticsReportValidator;
 import com.helger.peppol.reporting.jaxb.eusr.EndUserStatisticsReport110Marshaller;
 import com.helger.peppol.reporting.jaxb.eusr.v110.EndUserStatisticsReportType;
@@ -51,6 +49,8 @@ import com.helger.schematron.svrl.SVRLFailedAssert;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.TransformSourceFactory;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * The main Peppol Reporting support class. This class offers to validate and store all kind of
@@ -168,7 +168,7 @@ public final class PeppolReportingSupport
       else
         m_aWarnHdl.accept ("TSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
 
-    if (StringHelper.hasNoText (sTSR))
+    if (StringHelper.isEmpty (sTSR))
       return ESuccess.FAILURE;
 
     // Call callback to avoid double serialization

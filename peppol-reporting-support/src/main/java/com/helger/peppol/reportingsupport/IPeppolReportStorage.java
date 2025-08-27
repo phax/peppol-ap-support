@@ -16,11 +16,11 @@
  */
 package com.helger.peppol.reportingsupport;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.state.ESuccess;
+import com.helger.base.state.ESuccess;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Interface for storing Peppol Reports and their sending reports

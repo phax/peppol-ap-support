@@ -16,15 +16,15 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Test;
 
-import com.helger.commons.io.resource.ClassPathResource;
 import com.helger.config.Config;
 import com.helger.config.IConfig;
-import com.helger.config.source.res.ConfigurationSourceProperties;
+import com.helger.config.source.resource.properties.ConfigurationSourceProperties;
+import com.helger.io.resource.ClassPathResource;
 import com.helger.peppol.reportingsupport.TestHelper;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Test class for class {@link PeppolReportStorageSQL}.

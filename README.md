@@ -3,7 +3,7 @@
 Contains some general supporting functionality for Access Points.
 This is a utility component for phase4 common Access Point implementation components. It will grow over time.
 
-This library uses Java 11 as the baseline.
+This library uses Java 17 as the baseline.
 
 It is licensed under the Apache 2.0 license.
 
@@ -59,12 +59,25 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
-* v1.0.2 - 2025-05-11
-    * Updated to peppol-commons 10.3.2
-    * Added new class `MLRSupportCache` to check if business document senders support MLR document type or not
-    * Added new class `MLSSupportCache` to check if business document senders support MLS document type or not
-* v1.0.1 - 2025-04-12
-    * Make sure, the created timestamps only use millisecond precision
-* v1.0.0 - 2025-04-12
-    * Initial version extracted from peppol-commons module as submodule peppol-ap-support
-    * The initial package is now `com.helper.peppol.apsupport` to clearly differentiate from the old one
+v4.0.0 - 2025-08-27
+* Requires Java 17 as the minimum version
+* Updated to ph-commons 12.0.0
+* Removed all code marked as deprecated for removal
+* [SQL] Updated to Flyway 11.x
+
+v1.0.2 - 2025-05-11
+* Updated to peppol-commons 10.3.2
+* Added new class `MLRSupportCache` to check if business document senders support MLR document type or not
+* Added new class `MLSSupportCache` to check if business document senders support MLS document type or not
+
+v1.0.1 - 2025-04-12
+* Make sure, the created timestamps only use millisecond precision
+
+v1.0.0 - 2025-04-12
+* Initial version extracted from peppol-commons module as submodule peppol-ap-support
+* The initial package is now `com.helper.peppol.apsupport` to clearly differentiate from the old one
+
+---
+
+My personal [Coding Styleguide](https://github.com/phax/meta/blob/master/CodingStyleguide.md) |
+It is appreciated if you star the GitHub project if you like it.

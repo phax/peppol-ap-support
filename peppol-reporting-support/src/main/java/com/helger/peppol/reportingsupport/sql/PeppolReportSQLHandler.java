@@ -20,19 +20,19 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.concurrent.SimpleReadWriteLock;
-import com.helger.commons.string.StringHelper;
+import com.helger.base.concurrent.SimpleReadWriteLock;
+import com.helger.base.string.StringImplode;
 import com.helger.config.IConfig;
 import com.helger.db.api.EDatabaseSystemType;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfiguration;
 import com.helger.db.jdbc.DataSourceProviderFromJdbcConfiguration;
 import com.helger.peppol.reporting.backend.sql.PeppolReportingBackendSqlSPI;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * The handler that acts as a provider for SQL Data Sources. It reads everything from configuration
@@ -67,10 +67,10 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
     final EDatabaseSystemType eDBType = aJdbcConfig.getJdbcDatabaseSystemType ();
     if (eDBType == null || !ALLOWED_DB_TYPES.contains (eDBType))
       throw new IllegalStateException ("The database type MUST be provided and MUST be one of " +
-                                       StringHelper.imploder ()
-                                                   .source (ALLOWED_DB_TYPES, EDatabaseSystemType::getID)
-                                                   .separator (", ")
-                                                   .build () +
+                                       StringImplode.imploder ()
+                                                    .source (ALLOWED_DB_TYPES, EDatabaseSystemType::getID)
+                                                    .separator (", ")
+                                                    .build () +
                                        " - provided value is '" +
                                        aJdbcConfig.getJdbcDatabaseType () +
                                        "'");

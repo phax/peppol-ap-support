@@ -16,14 +16,14 @@
  */
 package com.helger.peppol.apsupport;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.helger.peppol.servicedomain.EPeppolNetwork;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
 import com.helger.peppolid.peppol.process.EPredefinedProcessIdentifier;
 import com.helger.xsds.peppol.smp1.EndpointType;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * This class contains a local cache that checks, if a sender is capable of receiving Peppol MLS

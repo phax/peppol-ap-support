@@ -18,14 +18,12 @@ package com.helger.peppol.reportingsupport.sql;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.datetime.PDTFactory;
-import com.helger.commons.state.ESuccess;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.state.ESuccess;
+import com.helger.datetime.helper.PDTFactory;
 import com.helger.db.api.helper.DBValueHelper;
 import com.helger.db.jdbc.callback.ConstantPreparedStatementDataProvider;
 import com.helger.db.jdbc.executor.DBExecutor;
@@ -33,6 +31,8 @@ import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Implementation of {@link IPeppolReportStorage} for SQL backend.

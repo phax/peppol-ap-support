@@ -19,16 +19,13 @@ package com.helger.peppol.apsupport;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.cache.MappedCache;
-import com.helger.commons.state.EChange;
-import com.helger.commons.string.ToStringGenerator;
+import com.helger.base.state.EChange;
+import com.helger.base.tostring.ToStringGenerator;
+import com.helger.cache.impl.MappedCache;
 import com.helger.datetime.expiration.ExpiringObject;
 import com.helger.httpclient.HttpClientManager;
 import com.helger.httpclient.HttpClientSettings;
@@ -39,6 +36,9 @@ import com.helger.peppol.sml.ISMLInfo;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.smpclient.url.PeppolConfigurableURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Cache for BusinessCards of participants queried from an SMP.

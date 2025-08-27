@@ -19,18 +19,18 @@ package com.helger.peppol.reportingsupport.domain;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.datetime.PDTWebDateHelper;
-import com.helger.commons.hashcode.HashCodeGenerator;
-import com.helger.commons.string.ToStringGenerator;
+import com.helger.annotation.Nonempty;
+import com.helger.annotation.concurrent.Immutable;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.hashcode.HashCodeGenerator;
+import com.helger.base.tostring.ToStringGenerator;
+import com.helger.datetime.web.PDTWebDateHelper;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.MicroElement;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Contains the relevant data for a single Peppol Network Report.
@@ -151,14 +151,14 @@ public class PeppolReportData
     ValueEnforcer.notEmpty (sElementName, "ElementName");
 
     final IMicroElement ret = new MicroElement (sNamespaceURI, sElementName);
-    ret.appendElement (sNamespaceURI, "ReportType").appendText (m_eReportType.getID ());
-    ret.appendElement (sNamespaceURI, "ReportYear").appendText (m_aReportPeriod.getYear ());
-    ret.appendElement (sNamespaceURI, "ReportType").appendText (m_aReportPeriod.getMonthValue ());
-    ret.appendElement (sNamespaceURI, "ReportCreationDT")
-       .appendText (PDTWebDateHelper.getAsStringXSD (m_aReportCreationDT));
+    ret.addElementNS (sNamespaceURI, "ReportType").addText (m_eReportType.getID ());
+    ret.addElementNS (sNamespaceURI, "ReportYear").addText (m_aReportPeriod.getYear ());
+    ret.addElementNS (sNamespaceURI, "ReportType").addText (m_aReportPeriod.getMonthValue ());
+    ret.addElementNS (sNamespaceURI, "ReportCreationDT")
+       .addText (PDTWebDateHelper.getAsStringXSD (m_aReportCreationDT));
 
-    final IMicroElement eReport = ret.appendElement (sNamespaceURI, "ReportXML");
-    eReport.appendText (m_sReportXML);
+    final IMicroElement eReport = ret.addElementNS (sNamespaceURI, "ReportXML");
+    eReport.addText (m_sReportXML);
     eReport.setAttribute ("valid", m_bReportValid);
     return ret;
   }

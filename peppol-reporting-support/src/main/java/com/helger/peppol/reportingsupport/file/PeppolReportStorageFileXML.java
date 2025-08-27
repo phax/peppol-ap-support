@@ -18,16 +18,16 @@ package com.helger.peppol.reportingsupport.file;
 
 import java.io.File;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.state.ESuccess;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.state.ESuccess;
 import com.helger.peppol.reportingsupport.IPeppolReportStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.MicroDocument;
 import com.helger.xml.microdom.serialize.MicroWriter;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Implementation of {@link IPeppolReportStorage} to write the data as XML on disk
@@ -60,7 +60,7 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
   public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)
   {
     final IMicroDocument aDoc = new MicroDocument ();
-    aDoc.appendChild (aReportData.getAsMicroElement (null, "PeppolReportData"));
+    aDoc.addChild (aReportData.getAsMicroElement (null, "PeppolReportData"));
     final File aTarget = new File (m_aBaseDir,
                                    m_aFilenameProvider.getFilename (aReportData.getReportPeriod (),
                                                                     aReportData.getReportType (),
@@ -73,7 +73,7 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
   public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
   {
     final IMicroDocument aDoc = new MicroDocument ();
-    aDoc.appendChild (aSendingReportData.getAsMicroElement (null, "SendingReportData"));
+    aDoc.addChild (aSendingReportData.getAsMicroElement (null, "SendingReportData"));
     final File aTarget = new File (m_aBaseDir,
                                    m_aFilenameProvider.getFilename (aSendingReportData.getReportPeriod (),
                                                                     aSendingReportData.getReportType (),

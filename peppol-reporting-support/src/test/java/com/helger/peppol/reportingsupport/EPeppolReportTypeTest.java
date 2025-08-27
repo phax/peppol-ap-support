@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.helger.commons.string.StringHelper;
+import com.helger.base.string.StringHelper;
 
 /**
  * Test class for class {@link EPeppolReportType}
@@ -35,7 +35,7 @@ public final class EPeppolReportTypeTest
   {
     for (final EPeppolReportType e : EPeppolReportType.values ())
     {
-      assertTrue (StringHelper.hasText (e.getID ()));
+      assertTrue (StringHelper.isNotEmpty (e.getID ()));
       assertTrue (e.getID ().length () <= EPeppolReportType.MAX_LEN_ID);
       assertSame (e, EPeppolReportType.getFromIDOrNull (e.getID ()));
     }

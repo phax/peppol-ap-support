@@ -21,12 +21,12 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.datetime.PDTFactory;
-import com.helger.commons.state.ESuccess;
+import com.helger.base.state.ESuccess;
+import com.helger.datetime.helper.PDTFactory;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
+
+import jakarta.annotation.Nonnull;
 
 public final class TestHelper
 {

@@ -18,17 +18,14 @@ package com.helger.peppol.apsupport;
 
 import java.time.Duration;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.collection.impl.CommonsHashMap;
-import com.helger.commons.collection.impl.ICommonsMap;
-import com.helger.commons.traits.IGenericImplTrait;
+import com.helger.annotation.Nonempty;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.trait.IGenericImplTrait;
+import com.helger.collection.commons.CommonsHashMap;
+import com.helger.collection.commons.ICommonsMap;
 import com.helger.datetime.expiration.ExpiringObject;
 import com.helger.peppol.servicedomain.EPeppolNetwork;
 import com.helger.peppol.smp.ESMPTransportProfile;
@@ -40,6 +37,9 @@ import com.helger.smpclient.peppol.SMPClientReadOnly;
 import com.helger.smpclient.url.PeppolConfigurableURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
 import com.helger.xsds.peppol.smp1.EndpointType;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * This class contains a local cache that checks, if a sender is capable of receiving a specific

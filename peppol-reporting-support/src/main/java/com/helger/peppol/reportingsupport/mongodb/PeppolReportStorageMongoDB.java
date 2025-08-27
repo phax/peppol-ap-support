@@ -19,20 +19,20 @@ package com.helger.peppol.reportingsupport.mongodb;
 import java.util.Date;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.state.ESuccess;
-import com.helger.commons.typeconvert.TypeConverter;
+import com.helger.annotation.Nonempty;
+import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.state.ESuccess;
 import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reportingsupport.IPeppolReportStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
+import com.helger.typeconvert.impl.TypeConverter;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Implementation of {@link IPeppolReportStorage} for MongoDB backend.

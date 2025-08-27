@@ -18,14 +18,14 @@ package com.helger.peppol.reportingsupport.mongodb;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.helger.commons.ValueEnforcer;
-import com.helger.commons.annotation.Nonempty;
+import com.helger.annotation.Nonempty;
+import com.helger.base.enforce.ValueEnforcer;
 import com.helger.config.IConfig;
 import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * A wrapper for {@link MongoClientWrapper} that must be closed when it goes out of scope.

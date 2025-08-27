@@ -16,11 +16,11 @@
  */
 package com.helger.peppol.reportingsupport;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.annotation.Nonempty;
+import com.helger.annotation.Nonempty;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Callback to actually send Peppol messages. This is meant to be an abstraction layer to either

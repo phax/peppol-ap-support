@@ -16,12 +16,12 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.ValueEnforcer;
+import com.helger.base.enforce.ValueEnforcer;
 import com.helger.config.IConfig;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfigurationBuilderConfig;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * The specific Flyway Configuration builder for Peppol Report Storage.

@@ -16,15 +16,15 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
-import javax.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.ValueEnforcer;
+import com.helger.base.enforce.ValueEnforcer;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.jdbc.IHasDataSource;
 import com.helger.db.jdbc.executor.DBExecutor;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * The Peppol Report Storage specific DB Executor

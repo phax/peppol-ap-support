@@ -23,7 +23,7 @@ import java.time.Duration;
 
 import org.junit.Test;
 
-import com.helger.commons.timing.StopWatch;
+import com.helger.base.timing.StopWatch;
 import com.helger.peppol.sml.ESML;
 import com.helger.peppolid.factory.PeppolIdentifierFactory;
 import com.helger.peppolid.peppol.participant.PeppolParticipantIdentifier;

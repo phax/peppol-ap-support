@@ -19,12 +19,12 @@ package com.helger.peppol.reportingsupport.file;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
-import javax.annotation.Nonnull;
-
-import com.helger.commons.annotation.Nonempty;
-import com.helger.commons.string.StringHelper;
+import com.helger.annotation.Nonempty;
+import com.helger.base.string.StringHelper;
 import com.helger.datetime.util.PDTIOHelper;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * Callback interface to create a filename for storage
