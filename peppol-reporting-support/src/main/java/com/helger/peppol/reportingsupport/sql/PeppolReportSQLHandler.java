@@ -29,8 +29,8 @@ import com.helger.config.IConfig;
 import com.helger.db.api.EDatabaseSystemType;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfiguration;
+import com.helger.db.api.helper.DBSystemHelper;
 import com.helger.db.jdbc.DataSourceProviderFromJdbcConfiguration;
-import com.helger.peppol.reporting.backend.sql.PeppolReportingBackendSqlSPI;
 
 import jakarta.annotation.Nonnull;
 
@@ -93,7 +93,7 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
     m_aDSP = new DataSourceProviderFromJdbcConfiguration (aJdbcConfig);
     if (m_aDSP == null)
       throw new IllegalStateException ("Failed to create Peppol Report SQL DB DataSource provider");
-    m_sTableNamePrefix = PeppolReportingBackendSqlSPI.getTableNamePrefix (eDBType, aJdbcConfig.getJdbcSchema ());
+    m_sTableNamePrefix = DBSystemHelper.getTableNamePrefix (eDBType, aJdbcConfig.getJdbcSchema ());
   }
 
   /**
