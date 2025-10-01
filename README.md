@@ -60,7 +60,7 @@ All information are stored in a custom XML format.
 # News and noteworthy
 
 v2.0.1 - 2025-09-19
-* [SQL] Updated to ph-db 8.0.1 
+* [SQL] Updated to ph-db 8.0.1
 
 v2.0.0 - 2025-08-27
 * Requires Java 17 as the minimum version
