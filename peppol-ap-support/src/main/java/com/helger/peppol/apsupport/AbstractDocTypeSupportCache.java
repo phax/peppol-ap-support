@@ -34,7 +34,7 @@ import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.smpclient.exception.SMPClientException;
 import com.helger.smpclient.peppol.SMPClientReadOnly;
-import com.helger.smpclient.url.PeppolConfigurableURLProvider;
+import com.helger.smpclient.url.PeppolNaptrURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
 import com.helger.xsds.peppol.smp1.EndpointType;
 
@@ -153,7 +153,7 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
     try
     {
       LOGGER.info ("Performing SMP query to check if '" + sKey + "' supports " + m_sDocTypeName + " or not");
-      final SMPClientReadOnly aSMPClient = new SMPClientReadOnly (PeppolConfigurableURLProvider.INSTANCE,
+      final SMPClientReadOnly aSMPClient = new SMPClientReadOnly (PeppolNaptrURLProvider.INSTANCE,
                                                                   aPID,
                                                                   m_ePeppolNetwork.getSMLInfo ());
       aEndpoint = aSMPClient.getEndpoint (aPID,

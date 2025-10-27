@@ -59,6 +59,9 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.0.2 - 2025-10-27
+* Enforcing the usage of DNS NAPTR lookup - no more configuration possible
+
 v2.0.1 - 2025-09-19
 * [SQL] Updated to ph-db 8.0.1
 
