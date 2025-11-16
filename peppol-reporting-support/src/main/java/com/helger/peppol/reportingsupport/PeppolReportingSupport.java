@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,8 +51,6 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.xml.transform.TransformSourceFactory;
 
-import jakarta.annotation.Nonnull;
-
 /**
  * The main Peppol Reporting support class. This class offers to validate and store all kind of
  * Peppol reports as well as it allows you to send reports to OpenPeppol.
@@ -73,7 +72,7 @@ public final class PeppolReportingSupport
    * @param aStorage
    *        The storage backend handler. May not be <code>null</code>.
    */
-  public PeppolReportingSupport (@Nonnull final IPeppolReportStorage aStorage)
+  public PeppolReportingSupport (@NonNull final IPeppolReportStorage aStorage)
   {
     ValueEnforcer.notNull (aStorage, "Storage");
     m_aStorage = aStorage;
@@ -84,7 +83,7 @@ public final class PeppolReportingSupport
    *
    * @return The configured display locale for error message retrieval. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public Locale getDisplayLocale ()
   {
     return m_aDisplayLocale;
@@ -97,8 +96,8 @@ public final class PeppolReportingSupport
    *        The display locale to be used. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolReportingSupport setDisplayLocale (@Nonnull final Locale aDisplayLocale)
+  @NonNull
+  public PeppolReportingSupport setDisplayLocale (@NonNull final Locale aDisplayLocale)
   {
     ValueEnforcer.notNull (aDisplayLocale, "DisplayLocale");
     m_aDisplayLocale = aDisplayLocale;
@@ -112,8 +111,8 @@ public final class PeppolReportingSupport
    *        The warning handler to be used. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolReportingSupport setWarningHandler (@Nonnull final Consumer <? super String> aWarnHdl)
+  @NonNull
+  public PeppolReportingSupport setWarningHandler (@NonNull final Consumer <? super String> aWarnHdl)
   {
     ValueEnforcer.notNull (aWarnHdl, "WarnHdl");
     m_aWarnHdl = aWarnHdl;
@@ -127,8 +126,8 @@ public final class PeppolReportingSupport
    *        The error handler to be used. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolReportingSupport setErrorHandler (@Nonnull final BiConsumer <? super String, ? super Exception> aErrorHdl)
+  @NonNull
+  public PeppolReportingSupport setErrorHandler (@NonNull final BiConsumer <? super String, ? super Exception> aErrorHdl)
   {
     ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
     m_aErrorHdl = aErrorHdl;
@@ -145,9 +144,9 @@ public final class PeppolReportingSupport
    * @return {@link ESuccess#SUCCESS} only if the XML serialization, the Schematron validation and
    *         the storage of it where successful.
    */
-  @Nonnull
-  public ESuccess validateAndStorePeppolTSR10 (@Nonnull final TransactionStatisticsReportType aTSR,
-                                               @Nonnull final Consumer <String> aTSRStringConsumer)
+  @NonNull
+  public ESuccess validateAndStorePeppolTSR10 (@NonNull final TransactionStatisticsReportType aTSR,
+                                               @NonNull final Consumer <String> aTSRStringConsumer)
   {
     ValueEnforcer.notNull (aTSR, "TSR");
     ValueEnforcer.notNull (aTSRStringConsumer, "TSRStringConsumer");
@@ -238,9 +237,9 @@ public final class PeppolReportingSupport
    * @return {@link ESuccess#SUCCESS} only if the XML serialization, the Schematron validation and
    *         the storage of it where successful.
    */
-  @Nonnull
-  public ESuccess validateAndStorePeppolEUSR11 (@Nonnull final EndUserStatisticsReportType aEUSR,
-                                                @Nonnull final Consumer <String> aEUSRStringConsumer)
+  @NonNull
+  public ESuccess validateAndStorePeppolEUSR11 (@NonNull final EndUserStatisticsReportType aEUSR,
+                                                @NonNull final Consumer <String> aEUSRStringConsumer)
   {
     ValueEnforcer.notNull (aEUSR, "EUSR");
     ValueEnforcer.notNull (aEUSRStringConsumer, "EUSRByteConsumer");
@@ -338,11 +337,11 @@ public final class PeppolReportingSupport
    * @return {@link ESuccess#SUCCESS} only if the Peppol AS4 sending and the storage where
    *         successful.
    */
-  @Nonnull
-  public ESuccess sendPeppolReport (@Nonnull final YearMonth aYearMonth,
-                                    @Nonnull final EPeppolReportType eReportType,
-                                    @Nonnull @Nonempty final String sReportPayload,
-                                    @Nonnull final IPeppolReportSenderCallback aMainPeppolSender)
+  @NonNull
+  public ESuccess sendPeppolReport (@NonNull final YearMonth aYearMonth,
+                                    @NonNull final EPeppolReportType eReportType,
+                                    @NonNull @Nonempty final String sReportPayload,
+                                    @NonNull final IPeppolReportSenderCallback aMainPeppolSender)
   {
     ValueEnforcer.notNull (aYearMonth, "YearMonth");
     ValueEnforcer.notNull (eReportType, "ReportType");

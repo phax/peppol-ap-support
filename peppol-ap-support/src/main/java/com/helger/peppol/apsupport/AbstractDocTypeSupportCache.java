@@ -18,6 +18,8 @@ package com.helger.peppol.apsupport;
 
 import java.time.Duration;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +39,6 @@ import com.helger.smpclient.peppol.SMPClientReadOnly;
 import com.helger.smpclient.url.PeppolNaptrURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
 import com.helger.xsds.peppol.smp1.EndpointType;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * This class contains a local cache that checks, if a sender is capable of receiving a specific
@@ -78,10 +77,10 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
    *        The document type display name to lookup. Only used for logging. May neither be
    *        <code>null</code> nor empty.
    */
-  public AbstractDocTypeSupportCache (@Nonnull final EPeppolNetwork ePeppolNetwork,
-                                      @Nonnull final IDocumentTypeIdentifier aDocTypeID,
-                                      @Nonnull final IProcessIdentifier aProcessID,
-                                      @Nonnull @Nonempty final String sDocTypeName)
+  public AbstractDocTypeSupportCache (@NonNull final EPeppolNetwork ePeppolNetwork,
+                                      @NonNull final IDocumentTypeIdentifier aDocTypeID,
+                                      @NonNull final IProcessIdentifier aProcessID,
+                                      @NonNull @Nonempty final String sDocTypeName)
   {
     ValueEnforcer.notNull (ePeppolNetwork, "PeppolNetwork");
     ValueEnforcer.notNull (aDocTypeID, "DocTypeID");
@@ -97,7 +96,7 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
   /**
    * @return The Peppol Network as defined in the constructor. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public final EPeppolNetwork getPeppolNetwork ()
   {
     return m_ePeppolNetwork;
@@ -106,7 +105,7 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
   /**
    * @return The max caching duration to use. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public final Duration getMaxCacheDuration ()
   {
     return m_aMaxCacheDuration;
@@ -119,8 +118,8 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
    *        The maximum cache duration to use. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
-  public final IMPLTYPE setMaxCacheDuration (@Nonnull final Duration aMaxCacheDuration)
+  @NonNull
+  public final IMPLTYPE setMaxCacheDuration (@NonNull final Duration aMaxCacheDuration)
   {
     ValueEnforcer.notNull (aMaxCacheDuration, "MaxCacheDuration");
     m_aMaxCacheDuration = aMaxCacheDuration;
@@ -128,7 +127,7 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
   }
 
   @Nullable
-  protected EndpointType resolveSmpEndpoint (@Nonnull final IParticipantIdentifier aPID)
+  protected EndpointType resolveSmpEndpoint (@NonNull final IParticipantIdentifier aPID)
   {
     ValueEnforcer.notNull (aPID, "PID");
     final String sKey = aPID.getURIEncoded ();

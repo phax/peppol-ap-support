@@ -59,6 +59,10 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.1.0 - 2025-11-16
+* Updated to ph-commons 12.1.0
+* Using JSpecify annotations
+
 v2.0.2 - 2025-10-27
 * Enforcing the usage of DNS NAPTR lookup - no more configuration possible
 

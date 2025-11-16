@@ -19,6 +19,9 @@ package com.helger.peppol.reportingsupport.domain;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
@@ -28,9 +31,6 @@ import com.helger.datetime.web.PDTWebDateHelper;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.xml.microdom.IMicroElement;
 import com.helger.xml.microdom.MicroElement;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Contains the relevant data for a single Peppol Network Report.
@@ -61,10 +61,10 @@ public class PeppolReportData
    * @param bReportValid
    *        The indicator, if the report was valid or not.
    */
-  public PeppolReportData (@Nonnull final EPeppolReportType eReportType,
-                           @Nonnull final YearMonth aReportPeriod,
-                           @Nonnull final LocalDateTime aReportCreationDT,
-                           @Nonnull @Nonempty final String sReportXML,
+  public PeppolReportData (@NonNull final EPeppolReportType eReportType,
+                           @NonNull final YearMonth aReportPeriod,
+                           @NonNull final LocalDateTime aReportCreationDT,
+                           @NonNull @Nonempty final String sReportXML,
                            final boolean bReportValid)
   {
     ValueEnforcer.notNull (eReportType, "ReportType");
@@ -84,7 +84,7 @@ public class PeppolReportData
    *
    * @return The report type. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public final EPeppolReportType getReportType ()
   {
     return m_eReportType;
@@ -95,7 +95,7 @@ public class PeppolReportData
    *
    * @return The report period. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public final YearMonth getReportPeriod ()
   {
     return m_aReportPeriod;
@@ -106,7 +106,7 @@ public class PeppolReportData
    *
    * @return The report creation date and time. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public final LocalDateTime getReportCreationDT ()
   {
     return m_aReportCreationDT;
@@ -117,7 +117,7 @@ public class PeppolReportData
    *
    * @return The created Report XML as string. Never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public final String getReportXMLString ()
   {
@@ -144,9 +144,9 @@ public class PeppolReportData
    *        nor empty.
    * @return The XML element and never <code>null</code>.
    */
-  @Nonnull
+  @NonNull
   public IMicroElement getAsMicroElement (@Nullable final String sNamespaceURI,
-                                          @Nonnull @Nonempty final String sElementName)
+                                          @NonNull @Nonempty final String sElementName)
   {
     ValueEnforcer.notEmpty (sElementName, "ElementName");
 

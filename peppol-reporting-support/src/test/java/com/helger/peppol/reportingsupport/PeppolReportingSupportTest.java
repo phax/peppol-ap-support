@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.OffsetDateTime;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 
 import com.helger.base.state.ESuccess;
@@ -34,8 +35,6 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
 import com.helger.peppolid.peppol.process.EPredefinedProcessIdentifier;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Test class for class {@link PeppolReportingSupport}.
@@ -79,14 +78,14 @@ public final class PeppolReportingSupportTest
     // Handler that doesn't store anything
     final IPeppolReportStorage aStorage = new IPeppolReportStorage ()
     {
-      @Nonnull
-      public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)
+      @NonNull
+      public ESuccess storePeppolReport (@NonNull final PeppolReportData aReportData)
       {
         return ESuccess.SUCCESS;
       }
 
-      @Nonnull
-      public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+      @NonNull
+      public ESuccess storePeppolReportingSendingReport (@NonNull final PeppolReportSendingReportData aSendingReportData)
       {
         return ESuccess.SUCCESS;
       }

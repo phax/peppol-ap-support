@@ -18,14 +18,14 @@ package com.helger.peppol.reportingsupport.mongodb;
 
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.config.IConfig;
 import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * A wrapper for {@link MongoClientWrapper} that must be closed when it goes out of scope.
@@ -69,8 +69,8 @@ public class PeppolReportMongoDBHandler implements Supplier <MongoClientWrapper>
    *        The configuration object to use
    * @return Never <code>null</code>.
    */
-  @Nonnull
-  public static PeppolReportMongoDBHandler createPeppolReportingConfigured (@Nonnull final IConfig aConfig)
+  @NonNull
+  public static PeppolReportMongoDBHandler createPeppolReportingConfigured (@NonNull final IConfig aConfig)
   {
     ValueEnforcer.notNull (aConfig, "Config");
 
@@ -86,9 +86,9 @@ public class PeppolReportMongoDBHandler implements Supplier <MongoClientWrapper>
    *        MongoDB database name. May neither be <code>null</code> nor empty.
    * @return Never null
    */
-  @Nonnull
-  public static PeppolReportMongoDBHandler create (@Nonnull @Nonempty final String sConnectionString,
-                                                   @Nonnull @Nonempty final String sDBName)
+  @NonNull
+  public static PeppolReportMongoDBHandler create (@NonNull @Nonempty final String sConnectionString,
+                                                   @NonNull @Nonempty final String sDBName)
   {
     ValueEnforcer.notEmpty (sConnectionString, "ConnectionString");
     ValueEnforcer.notEmpty (sDBName, "DBName");

@@ -18,6 +18,8 @@ package com.helger.peppol.reportingsupport.file;
 
 import java.io.File;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.state.ESuccess;
 import com.helger.peppol.reportingsupport.IPeppolReportStorage;
@@ -26,8 +28,6 @@ import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 import com.helger.xml.microdom.IMicroDocument;
 import com.helger.xml.microdom.MicroDocument;
 import com.helger.xml.microdom.serialize.MicroWriter;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Implementation of {@link IPeppolReportStorage} to write the data as XML on disk
@@ -47,8 +47,8 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
    * @param aFilenameProvider
    *        The dynamic filename provider. May not be <code>null</code>.
    */
-  public PeppolReportStorageFileXML (@Nonnull final File aBaseDir,
-                                     @Nonnull final IPeppolReportStorageFilenameProvider aFilenameProvider)
+  public PeppolReportStorageFileXML (@NonNull final File aBaseDir,
+                                     @NonNull final IPeppolReportStorageFilenameProvider aFilenameProvider)
   {
     ValueEnforcer.notNull (aBaseDir, "BaseDir");
     ValueEnforcer.notNull (aFilenameProvider, "FilenameProvider");
@@ -56,8 +56,8 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
     m_aFilenameProvider = aFilenameProvider;
   }
 
-  @Nonnull
-  public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)
+  @NonNull
+  public ESuccess storePeppolReport (@NonNull final PeppolReportData aReportData)
   {
     final IMicroDocument aDoc = new MicroDocument ();
     aDoc.addChild (aReportData.getAsMicroElement (null, "PeppolReportData"));
@@ -69,8 +69,8 @@ public class PeppolReportStorageFileXML implements IPeppolReportStorage
     return MicroWriter.writeToFile (aDoc, aTarget);
   }
 
-  @Nonnull
-  public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  @NonNull
+  public ESuccess storePeppolReportingSendingReport (@NonNull final PeppolReportSendingReportData aSendingReportData)
   {
     final IMicroDocument aDoc = new MicroDocument ();
     aDoc.addChild (aSendingReportData.getAsMicroElement (null, "SendingReportData"));

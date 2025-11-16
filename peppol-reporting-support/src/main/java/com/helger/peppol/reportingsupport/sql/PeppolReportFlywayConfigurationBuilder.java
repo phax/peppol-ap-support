@@ -16,12 +16,12 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.config.IConfig;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfigurationBuilderConfig;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * The specific Flyway Configuration builder for Peppol Report Storage.
@@ -44,8 +44,8 @@ public class PeppolReportFlywayConfigurationBuilder extends FlywayConfigurationB
    *        The JDBC configuration to act as a potential fallback for JDBC connection data. May not
    *        be <code>null</code>.
    */
-  public PeppolReportFlywayConfigurationBuilder (@Nonnull final IConfig aConfig,
-                                                 @Nonnull final IJdbcConfiguration aJdbcConfig)
+  public PeppolReportFlywayConfigurationBuilder (@NonNull final IConfig aConfig,
+                                                 @NonNull final IJdbcConfiguration aJdbcConfig)
   {
     super (aConfig, FLYWAY_CONFIG_PREFIX);
     ValueEnforcer.notNull (aJdbcConfig, "JdbcConfig");

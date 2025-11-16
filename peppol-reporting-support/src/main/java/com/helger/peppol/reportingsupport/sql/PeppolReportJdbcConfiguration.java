@@ -16,11 +16,11 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.config.IConfig;
 import com.helger.db.api.config.JdbcConfigurationConfig;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Peppol Report Storage JDBC configuration with lazy initialization.
@@ -41,7 +41,7 @@ public class PeppolReportJdbcConfiguration extends JdbcConfigurationConfig
    * @param aConfig
    *        The configuration object to use. May not be <code>null</code>.
    */
-  public PeppolReportJdbcConfiguration (@Nonnull final IConfig aConfig)
+  public PeppolReportJdbcConfiguration (@NonNull final IConfig aConfig)
   {
     super (aConfig, CONFIG_PREFIX);
   }

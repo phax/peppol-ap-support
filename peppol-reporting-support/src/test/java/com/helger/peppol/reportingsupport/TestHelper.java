@@ -21,19 +21,19 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.base.state.ESuccess;
 import com.helger.datetime.helper.PDTFactory;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
-
-import jakarta.annotation.Nonnull;
 
 public final class TestHelper
 {
   private TestHelper ()
   {}
 
-  public static void runCases (@Nonnull final IPeppolReportStorage aStorage)
+  public static void runCases (@NonNull final IPeppolReportStorage aStorage)
   {
     for (final EPeppolReportType e : EPeppolReportType.values ())
     {

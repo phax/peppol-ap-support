@@ -16,12 +16,12 @@
  */
 package com.helger.peppol.reportingsupport;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.annotation.Nonempty;
 import com.helger.base.id.IHasID;
 import com.helger.base.lang.EnumHelper;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * Contains the list of possible Peppol Reporting report types.<br>
@@ -45,12 +45,12 @@ public enum EPeppolReportType implements IHasID <String>
 
   private final String m_sID;
 
-  EPeppolReportType (@Nonnull @Nonempty final String sID)
+  EPeppolReportType (@NonNull @Nonempty final String sID)
   {
     m_sID = sID;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getID ()
   {

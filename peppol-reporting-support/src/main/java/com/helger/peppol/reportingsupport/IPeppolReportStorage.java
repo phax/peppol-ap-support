@@ -16,11 +16,11 @@
  */
 package com.helger.peppol.reportingsupport;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.base.state.ESuccess;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Interface for storing Peppol Reports and their sending reports
@@ -36,8 +36,8 @@ public interface IPeppolReportStorage
    *        The report data. May not be <code>null</code>.
    * @return Never <code>null</code>.
    */
-  @Nonnull
-  ESuccess storePeppolReport (@Nonnull PeppolReportData aReportData);
+  @NonNull
+  ESuccess storePeppolReport (@NonNull PeppolReportData aReportData);
 
   /**
    * Store a new Peppol Report Sending Report in the persistent storage.
@@ -46,6 +46,6 @@ public interface IPeppolReportStorage
    *        The sending report data. May not be <code>null</code>.
    * @return Never <code>null</code>.
    */
-  @Nonnull
-  ESuccess storePeppolReportingSendingReport (@Nonnull PeppolReportSendingReportData aSendingReportData);
+  @NonNull
+  ESuccess storePeppolReportingSendingReport (@NonNull PeppolReportSendingReportData aSendingReportData);
 }

@@ -16,11 +16,11 @@
  */
 package com.helger.peppol.reportingsupport;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.peppolid.IDocumentTypeIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Callback to actually send Peppol messages. This is meant to be an abstraction layer to either
@@ -41,8 +41,8 @@ public interface IPeppolReportSenderCallback
    *        The message payload to be send. Neither <code>null</code> nor empty.
    * @return The sending report. If an error occurred, it must be part of the sending report.
    */
-  @Nonnull
-  String sendPeppolMessage (@Nonnull IDocumentTypeIdentifier aDocTypeID,
-                            @Nonnull IProcessIdentifier aProcessID,
-                            @Nonnull @Nonempty String sMessagePayload);
+  @NonNull
+  String sendPeppolMessage (@NonNull IDocumentTypeIdentifier aDocTypeID,
+                            @NonNull IProcessIdentifier aProcessID,
+                            @NonNull @Nonempty String sMessagePayload);
 }

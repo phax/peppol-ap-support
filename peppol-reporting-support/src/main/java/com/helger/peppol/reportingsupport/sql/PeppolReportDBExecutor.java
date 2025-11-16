@@ -16,6 +16,7 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +24,6 @@ import com.helger.base.enforce.ValueEnforcer;
 import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.jdbc.IHasDataSource;
 import com.helger.db.jdbc.executor.DBExecutor;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * The Peppol Report Storage specific DB Executor
@@ -43,8 +42,8 @@ public final class PeppolReportDBExecutor extends DBExecutor
    * @param aJdbcConfig
    *        The JDBC configuration. May not be <code>null</code>.
    */
-  public PeppolReportDBExecutor (@Nonnull final IHasDataSource aDataSourceProvider,
-                                 @Nonnull final IJdbcConfiguration aJdbcConfig)
+  public PeppolReportDBExecutor (@NonNull final IHasDataSource aDataSourceProvider,
+                                 @NonNull final IJdbcConfiguration aJdbcConfig)
   {
     super (aDataSourceProvider);
     ValueEnforcer.notNull (aJdbcConfig, "JDBCConfig");

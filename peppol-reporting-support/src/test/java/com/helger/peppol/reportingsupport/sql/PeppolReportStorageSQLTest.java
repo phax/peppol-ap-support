@@ -16,6 +16,7 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 
 import com.helger.config.Config;
@@ -24,8 +25,6 @@ import com.helger.config.source.resource.properties.ConfigurationSourcePropertie
 import com.helger.io.resource.ClassPathResource;
 import com.helger.peppol.reportingsupport.TestHelper;
 
-import jakarta.annotation.Nonnull;
-
 /**
  * Test class for class {@link PeppolReportStorageSQL}.
  *
@@ -33,7 +32,7 @@ import jakarta.annotation.Nonnull;
  */
 public final class PeppolReportStorageSQLTest
 {
-  private void _runTests (@Nonnull final IConfig aConfig)
+  private void _runTests (@NonNull final IConfig aConfig)
   {
     try (final PeppolReportSQLHandler aHdl = new PeppolReportSQLHandler (aConfig))
     {

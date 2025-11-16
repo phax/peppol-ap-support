@@ -16,14 +16,14 @@
  */
 package com.helger.peppol.apsupport;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+
 import com.helger.peppol.servicedomain.EPeppolNetwork;
 import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.peppol.doctype.EPredefinedDocumentTypeIdentifier;
 import com.helger.peppolid.peppol.process.EPredefinedProcessIdentifier;
 import com.helger.xsds.peppol.smp1.EndpointType;
-
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 
 /**
  * This class contains a local cache that checks, if a sender is capable of receiving Peppol MLS
@@ -41,7 +41,7 @@ public final class MLSSupportCache extends AbstractDocTypeSupportCache <MLSSuppo
    *        Defines whether to use the Peppol production or test Network. May not be
    *        <code>null</code>.
    */
-  public MLSSupportCache (@Nonnull final EPeppolNetwork ePeppolNetwork)
+  public MLSSupportCache (@NonNull final EPeppolNetwork ePeppolNetwork)
   {
     super (ePeppolNetwork,
            EPredefinedDocumentTypeIdentifier.PEPPOL_MLS_1_0,
@@ -57,7 +57,7 @@ public final class MLSSupportCache extends AbstractDocTypeSupportCache <MLSSuppo
    * @return <code>null</code> if no such endpoint is registered.
    */
   @Nullable
-  public EndpointType getMLSEndpoint (@Nonnull final IParticipantIdentifier aC2ID)
+  public EndpointType getMLSEndpoint (@NonNull final IParticipantIdentifier aC2ID)
   {
     return resolveSmpEndpoint (aC2ID);
   }

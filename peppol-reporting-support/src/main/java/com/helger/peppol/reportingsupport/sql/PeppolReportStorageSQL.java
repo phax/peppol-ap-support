@@ -18,6 +18,7 @@ package com.helger.peppol.reportingsupport.sql;
 
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +32,6 @@ import com.helger.peppol.reportingsupport.EPeppolReportType;
 import com.helger.peppol.reportingsupport.IPeppolReportStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Implementation of {@link IPeppolReportStorage} for SQL backend.
@@ -52,8 +51,8 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
    * @param sTableNamePrefix
    *        The table name prefix to use. May not be <code>null</code> but maybe empty.
    */
-  public PeppolReportStorageSQL (@Nonnull final Supplier <? extends PeppolReportDBExecutor> aDBExecutorSupplier,
-                                 @Nonnull final String sTableNamePrefix)
+  public PeppolReportStorageSQL (@NonNull final Supplier <? extends PeppolReportDBExecutor> aDBExecutorSupplier,
+                                 @NonNull final String sTableNamePrefix)
   {
     ValueEnforcer.notNull (aDBExecutorSupplier, "DBExecutorSupplier");
     ValueEnforcer.notNull (sTableNamePrefix, "TableNamePrefix");
@@ -62,8 +61,8 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
     m_sTableNamePrefix = sTableNamePrefix;
   }
 
-  @Nonnull
-  public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)
+  @NonNull
+  public ESuccess storePeppolReport (@NonNull final PeppolReportData aReportData)
   {
     ValueEnforcer.notNull (aReportData, "ReportData");
 
@@ -99,8 +98,8 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
     return ESuccess.SUCCESS;
   }
 
-  @Nonnull
-  public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  @NonNull
+  public ESuccess storePeppolReportingSendingReport (@NonNull final PeppolReportSendingReportData aSendingReportData)
   {
     ValueEnforcer.notNull (aSendingReportData, "aSendingReportData");
 

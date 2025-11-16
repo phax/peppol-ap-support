@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +32,6 @@ import com.helger.db.api.config.IJdbcConfiguration;
 import com.helger.db.api.flyway.FlywayConfiguration;
 import com.helger.db.api.helper.DBSystemHelper;
 import com.helger.db.jdbc.DataSourceProviderFromJdbcConfiguration;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * The handler that acts as a provider for SQL Data Sources. It reads everything from configuration
@@ -58,7 +57,7 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
    * @param aConfig
    *        The configuration object to use. May not be <code>null</code>.
    */
-  public PeppolReportSQLHandler (@Nonnull final IConfig aConfig)
+  public PeppolReportSQLHandler (@NonNull final IConfig aConfig)
   {
     // Init JDBC configuration
     final IJdbcConfiguration aJdbcConfig = new PeppolReportJdbcConfiguration (aConfig);
@@ -127,7 +126,7 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
       LOGGER.warn ("The Peppol Report SQL DB backend cannot be shutdown, because it was never properly initialized");
   }
 
-  @Nonnull
+  @NonNull
   public PeppolReportDBExecutor get ()
   {
     return new PeppolReportDBExecutor (m_aDSP, m_aJdbcConfig);
@@ -138,7 +137,7 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
    *
    * @return A non-<code>null</code> but maybe empty table name prefix (like <code>schema.</code>).
    */
-  @Nonnull
+  @NonNull
   public String getTableNamePrefix ()
   {
     return m_sTableNamePrefix;

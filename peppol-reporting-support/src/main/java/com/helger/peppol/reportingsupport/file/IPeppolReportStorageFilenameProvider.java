@@ -19,12 +19,12 @@ package com.helger.peppol.reportingsupport.file;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.base.string.StringHelper;
 import com.helger.datetime.util.PDTIOHelper;
 import com.helger.peppol.reportingsupport.EPeppolReportType;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Callback interface to create a filename for storage
@@ -47,12 +47,12 @@ public interface IPeppolReportStorageFilenameProvider
    *        The filename suffix to be used. May neither be <code>null</code> nor empty.
    * @return The assembled filename. May neither be <code>null</code> nor empty.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
-  String getFilename (@Nonnull YearMonth aReportPeriod,
-                      @Nonnull EPeppolReportType eReportType,
-                      @Nonnull LocalDateTime aReportCreationDT,
-                      @Nonnull @Nonempty String sFilenameSuffix);
+  String getFilename (@NonNull YearMonth aReportPeriod,
+                      @NonNull EPeppolReportType eReportType,
+                      @NonNull LocalDateTime aReportCreationDT,
+                      @NonNull @Nonempty String sFilenameSuffix);
 
   /** The default filename provider. */
   IPeppolReportStorageFilenameProvider DEFAULT = (period, type, creationDT, suffix) -> StringHelper.getLeadingZero (

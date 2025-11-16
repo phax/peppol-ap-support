@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.function.Supplier;
 
 import org.bson.Document;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,8 +32,6 @@ import com.helger.peppol.reportingsupport.IPeppolReportStorage;
 import com.helger.peppol.reportingsupport.domain.PeppolReportData;
 import com.helger.peppol.reportingsupport.domain.PeppolReportSendingReportData;
 import com.helger.typeconvert.impl.TypeConverter;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Implementation of {@link IPeppolReportStorage} for MongoDB backend.
@@ -69,7 +68,7 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    * @param aMongoClientSupplier
    *        The support for the MongoDB client wrapper. May not be <code>null</code>.
    */
-  public PeppolReportStorageMongoDB (@Nonnull final Supplier <? extends MongoClientWrapper> aMongoClientSupplier)
+  public PeppolReportStorageMongoDB (@NonNull final Supplier <? extends MongoClientWrapper> aMongoClientSupplier)
   {
     ValueEnforcer.notNull (aMongoClientSupplier, "MongoClientSupplier");
     m_aMongoClientSupplier = aMongoClientSupplier;
@@ -82,7 +81,7 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    *
    * @return The collection name for Peppol Reports. Neither <code>null</code> nor empty.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getCollectionNamePeppolReports ()
   {
@@ -96,8 +95,8 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    *        Collection name to use. May neither be <code>null</code> nor empty.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolReportStorageMongoDB setCollectionNamePeppolReports (@Nonnull @Nonempty final String s)
+  @NonNull
+  public PeppolReportStorageMongoDB setCollectionNamePeppolReports (@NonNull @Nonempty final String s)
   {
     ValueEnforcer.notEmpty (s, "CollectionNamePeppolReports");
 
@@ -115,7 +114,7 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    * @return The collection name for Peppol Reporting Sending Reports. Neither <code>null</code> nor
    *         empty.
    */
-  @Nonnull
+  @NonNull
   @Nonempty
   public String getCollectionNamePeppolReportingSendingReports ()
   {
@@ -129,8 +128,8 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    *        Collection name to use. May neither be <code>null</code> nor empty.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolReportStorageMongoDB setCollectionNamePeppolReportingSendingReports (@Nonnull @Nonempty final String s)
+  @NonNull
+  public PeppolReportStorageMongoDB setCollectionNamePeppolReportingSendingReports (@NonNull @Nonempty final String s)
   {
     ValueEnforcer.notEmpty (s, "CollectionPeppolReportingSendingReports");
 
@@ -149,8 +148,8 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    *        Object to convert. May not be <code>null</code>.
    * @return The MongoDB document and never <code>null</code>.
    */
-  @Nonnull
-  static Document toBson (@Nonnull final PeppolReportData aReportData)
+  @NonNull
+  static Document toBson (@NonNull final PeppolReportData aReportData)
   {
     return new Document ().append (BSON_REPORT_TYPE, aReportData.getReportType ().getID ())
                           .append (BSON_YEAR, Integer.valueOf (aReportData.getReportPeriod ().getYear ()))
@@ -161,8 +160,8 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
                           .append (BSON_PAYLOAD_VALID, Boolean.valueOf (aReportData.isReportValid ()));
   }
 
-  @Nonnull
-  public ESuccess storePeppolReport (@Nonnull final PeppolReportData aReportData)
+  @NonNull
+  public ESuccess storePeppolReport (@NonNull final PeppolReportData aReportData)
   {
     ValueEnforcer.notNull (aReportData, "ReportData");
 
@@ -195,8 +194,8 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
    *        Object to convert. May not be <code>null</code>.
    * @return The MongoDB document and never <code>null</code>.
    */
-  @Nonnull
-  static Document toBson (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  @NonNull
+  static Document toBson (@NonNull final PeppolReportSendingReportData aSendingReportData)
   {
     final Document ret = new Document ().append (BSON_REPORT_TYPE, aSendingReportData.getReportType ().getID ())
                                         .append (BSON_YEAR,
@@ -212,8 +211,8 @@ public class PeppolReportStorageMongoDB implements IPeppolReportStorage
     return ret;
   }
 
-  @Nonnull
-  public ESuccess storePeppolReportingSendingReport (@Nonnull final PeppolReportSendingReportData aSendingReportData)
+  @NonNull
+  public ESuccess storePeppolReportingSendingReport (@NonNull final PeppolReportSendingReportData aSendingReportData)
   {
     ValueEnforcer.notNull (aSendingReportData, "aSendingReportData");
 

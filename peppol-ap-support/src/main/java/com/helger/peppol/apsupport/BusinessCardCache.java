@@ -20,6 +20,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +39,6 @@ import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.smpclient.url.PeppolNaptrURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-
 /**
  * Cache for BusinessCards of participants queried from an SMP.
  *
@@ -50,11 +49,11 @@ public class BusinessCardCache
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (BusinessCardCache.class);
 
-  @Nonnull
-  private static ExpiringObject <PDBusinessCard> _fetchBC (@Nonnull final ISMLInfo aSMLInfo,
-                                                           @Nonnull final HttpClientSettings aHCS,
-                                                           @Nonnull final Duration aCachingDuration,
-                                                           @Nonnull final IParticipantIdentifier aPI)
+  @NonNull
+  private static ExpiringObject <PDBusinessCard> _fetchBC (@NonNull final ISMLInfo aSMLInfo,
+                                                           @NonNull final HttpClientSettings aHCS,
+                                                           @NonNull final Duration aCachingDuration,
+                                                           @NonNull final IParticipantIdentifier aPI)
   {
     try
     {
@@ -102,7 +101,7 @@ public class BusinessCardCache
    *        The Http client settings to be used. Could be e.g.
    *        {@link com.helger.smpclient.httpclient.SMPHttpClientSettings}
    */
-  public BusinessCardCache (@Nonnull final ISMLInfo aSMLInfo, @Nonnull final HttpClientSettings aHCS)
+  public BusinessCardCache (@NonNull final ISMLInfo aSMLInfo, @NonNull final HttpClientSettings aHCS)
   {
     m_aCache = new MappedCache <> (IParticipantIdentifier::getURIEncoded,
                                    pi -> _fetchBC (aSMLInfo, aHCS, Duration.ofHours (1), pi),
@@ -112,7 +111,7 @@ public class BusinessCardCache
   }
 
   @Nullable
-  private ExpiringObject <PDBusinessCard> _getActive (@Nonnull final IParticipantIdentifier aParticipantID)
+  private ExpiringObject <PDBusinessCard> _getActive (@NonNull final IParticipantIdentifier aParticipantID)
   {
     ExpiringObject <PDBusinessCard> aBC = m_aCache.getFromCache (aParticipantID);
     if (aBC.isExpiredNow ())
@@ -136,7 +135,7 @@ public class BusinessCardCache
    * @return <code>null</code> if no Business Card is present.
    */
   @Nullable
-  public PDBusinessCard getBusinessCard (@Nonnull final IParticipantIdentifier aParticipantID)
+  public PDBusinessCard getBusinessCard (@NonNull final IParticipantIdentifier aParticipantID)
   {
     return _getActive (aParticipantID).getObject ();
   }
@@ -150,7 +149,7 @@ public class BusinessCardCache
    *         present.
    */
   @Nullable
-  public String getCountryCode (@Nonnull final IParticipantIdentifier aParticipantID)
+  public String getCountryCode (@NonNull final IParticipantIdentifier aParticipantID)
   {
     final PDBusinessCard aBC = getBusinessCard (aParticipantID);
     if (aBC == null)
@@ -166,7 +165,7 @@ public class BusinessCardCache
    * @return {@link EChange#CHANGED} if something was contained in the cache,
    *         {@link EChange#UNCHANGED} otherwise.
    */
-  @Nonnull
+  @NonNull
   public EChange clearCache ()
   {
     return m_aCache.clearCache ();
