@@ -1,0 +1,1 @@
+-- No action needed - `text` columns can store 1GB already 
