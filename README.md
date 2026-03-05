@@ -3,6 +3,8 @@
 Contains some general supporting functionality for Access Points.
 This is a utility component for phase4 common Access Point implementation components. It will grow over time.
 
+Peppol AP Support is part of my Peppol solution stack. See https://github.com/phax/peppol for other components and libraries in that area.
+
 This library uses Java 17 as the baseline.
 
 It is licensed under the Apache 2.0 license.
