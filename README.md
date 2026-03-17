@@ -1,5 +1,10 @@
 # Peppol AP Support
 
+<!-- ph-badge-start -->
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger.peppol/peppol-ap-support-parent-pom/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger.peppol/peppol-ap-support-parent-pom/)
+[![javadoc](https://javadoc.io/badge2/com.helger.peppol/peppol-ap-support/javadoc.svg)](https://javadoc.io/doc/com.helger.peppol/peppol-ap-support)
+<!-- ph-badge-end -->
+
 Contains some general supporting functionality for Access Points.
 This is a utility component for phase4 common Access Point implementation components. It will grow over time.
 
