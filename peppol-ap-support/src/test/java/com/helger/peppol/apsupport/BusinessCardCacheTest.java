@@ -39,7 +39,7 @@ public final class BusinessCardCacheTest
   @Test
   public void testBasic () throws Exception
   {
-    final BusinessCardCache aCache = new BusinessCardCache (ESML.DIGIT_TEST, new SMPHttpClientSettings ());
+    final BusinessCardCache aCache = new BusinessCardCache (ESML.PEPPOL_TEST, new SMPHttpClientSettings ());
     final PeppolParticipantIdentifier aPI = PeppolIdentifierFactory.INSTANCE.createParticipantIdentifierWithDefaultScheme ("9915:helger");
     // Fetch initially
     final Duration aDuration1 = StopWatch.runMeasured ( () -> aCache.getBusinessCard (aPI));
