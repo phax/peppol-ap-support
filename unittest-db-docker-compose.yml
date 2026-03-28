@@ -37,7 +37,7 @@ services:
       POSTGRES_USER: peppol
       POSTGRES_PASSWORD: peppol
     volumes:
-      - pgdata:/var/lib/postgresql/data 
+      - pg18data:/var/lib/postgresql
  
 #  pg-adminer:
 #    image: adminer
@@ -77,5 +77,5 @@ services:
     entrypoint: /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P "Peppol_Strong!Pass1" -C -Q "IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'peppol-report') CREATE DATABASE [peppol-report];"
 
 volumes:
-  pgdata:
+  pg18data:
 
