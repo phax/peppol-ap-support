@@ -66,6 +66,10 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.1.2 - 2026-03-28
+* Added SQL Server support as a new SQL backend database type
+* Added SQL Server Flyway migration scripts
+
 v2.1.1 - 2026-02-11
 * Fixed the column type for the reports in MySQL to `MEDIUMTEXT` to be able to store 16MB. See [#1](https://github.com/phax/peppol-ap-support/issues/1)
 
