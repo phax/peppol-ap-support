@@ -59,6 +59,8 @@ It can be configured as followed:
 * **`peppol.report.flyway.jdbc.schema-create`** (optional): `true` if the DB schema as defined in `peppol.report.jdbc.schema` should be automatically created by Flyway. Defaults to `false`.
 * **`peppol.report.flyway.baseline.version`** (optional): the Flyway baseline version to use. Defaults to `0`.
 * **`peppol.report.flyway.history-table`** (optional): the name of the Flyway history table. Defaults to `flyway_schema_history`.
+* **`peppol.report.flyway.debug-mode`** (optional): `true` to enable Flyway debug mode. Defaults to `false`.
+* **`peppol.report.flyway.repair-mode`** (optional): `true` to enable Flyway repair mode. Defaults to `false`.
 
 ## File backend
 
@@ -67,7 +69,8 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
-v2.1.3 - work in progress
+v2.1.3 - 2026-04-12
+* Updated to ph-db 8.2.0, using the new shared `FlywayMigrationRunner` from `ph-db-flyway`
 * `PeppolReportFlywayMigrator` now honours the `FlywayConfiguration` history table setting
 
 v2.1.2 - 2026-03-28
