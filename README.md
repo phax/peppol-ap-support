@@ -71,7 +71,6 @@ All information are stored in a custom XML format.
 
 v2.1.3 - 2026-04-12
 * Updated to ph-db 8.2.0, using the new shared `FlywayMigrationRunner` from `ph-db-flyway`
-* `PeppolReportFlywayMigrator` now honours the `FlywayConfiguration` history table setting
 
 v2.1.2 - 2026-03-28
 * Added SQL Server support as a new SQL backend database type
