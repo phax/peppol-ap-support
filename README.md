@@ -58,6 +58,7 @@ It can be configured as followed:
 * **`peppol.report.flyway.jdbc.password`** (optional): allows a specific JDBC password for usage with Flyway. If none is provided, the value of `peppol.report.jdbc.password` is used instead.
 * **`peppol.report.flyway.jdbc.schema-create`** (optional): `true` if the DB schema as defined in `peppol.report.jdbc.schema` should be automatically created by Flyway. Defaults to `false`.
 * **`peppol.report.flyway.baseline.version`** (optional): the Flyway baseline version to use. Defaults to `0`.
+* **`peppol.report.flyway.history-table`** (optional): the name of the Flyway history table. Defaults to `flyway_schema_history`.
 
 ## File backend
 
@@ -65,6 +66,9 @@ Allows to store Peppol Reports as well as Peppol Reporting Sending reports on di
 All information are stored in a custom XML format. 
 
 # News and noteworthy
+
+v2.1.3 - work in progress
+* `PeppolReportFlywayMigrator` now honours the `FlywayConfiguration` history table setting
 
 v2.1.2 - 2026-03-28
 * Added SQL Server support as a new SQL backend database type

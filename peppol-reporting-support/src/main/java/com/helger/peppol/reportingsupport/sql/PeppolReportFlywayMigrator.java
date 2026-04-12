@@ -164,6 +164,11 @@ final class PeppolReportFlywayMigrator
     // If no schema is specified, schema create should also be disabled
     aActualFlywayConfig.createSchemas (aFlywayConfig.isFlywaySchemaCreate ());
 
+    // Custom history table name?
+    final String sHistoryTable = aFlywayConfig.getFlywayHistoryTable ();
+    if (StringHelper.isNotEmpty (sHistoryTable))
+      aActualFlywayConfig.table (sHistoryTable);
+
     final Flyway aFlyway = aActualFlywayConfig.load ();
     if (false)
       aFlyway.validate ();
