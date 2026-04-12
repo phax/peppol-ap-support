@@ -16,27 +16,16 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.MigrationInfo;
-import org.flywaydb.core.api.callback.BaseCallback;
 import org.flywaydb.core.api.callback.Callback;
-import org.flywaydb.core.api.callback.Context;
-import org.flywaydb.core.api.callback.Event;
-import org.flywaydb.core.api.configuration.FluentConfiguration;
-import org.flywaydb.core.api.resolver.ResolvedMigration;
-import org.flywaydb.core.internal.info.MigrationInfoImpl;
-import org.flywaydb.core.internal.jdbc.DriverDataSource;
+import org.flywaydb.core.api.migration.JavaMigration;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.enforce.ValueEnforcer;
-import com.helger.base.string.StringHelper;
 import com.helger.db.api.EDatabaseSystemType;
 import com.helger.db.api.config.IJdbcConfiguration;
-import com.helger.db.api.flyway.FlywayConfiguration;
+import com.helger.db.flyway.FlywayConfiguration;
+import com.helger.db.flyway.FlywayMigrationRunner;
 
 /**
  * This class has the sole purpose of encapsulating the org.flywaydb classes, so that it's usage can
@@ -46,8 +35,6 @@ import com.helger.db.api.flyway.FlywayConfiguration;
  */
 final class PeppolReportFlywayMigrator
 {
-  private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportFlywayMigrator.Singleton.class);
-
   // Indirection level to not load org.flyway classes by default
   @Immutable
   public static final class Singleton
@@ -79,101 +66,10 @@ final class PeppolReportFlywayMigrator
     ValueEnforcer.notNull (aJdbcConfig, "JdbcConfig");
     ValueEnforcer.notNull (aFlywayConfig, "FlywayConfig");
 
-    LOGGER.info ("Starting to run Flyway for DB type " + eDBType);
-
-    final Callback aCallbackLogging = new BaseCallback ()
-    {
-      public void handle (@NonNull final Event aEvent, @Nullable final Context aContext)
-      {
-        LOGGER.info ("Flyway: Event " + aEvent.getId ());
-        if (aEvent == Event.AFTER_EACH_MIGRATE && aContext != null)
-        {
-          final MigrationInfo aMI = aContext.getMigrationInfo ();
-          if (aMI instanceof MigrationInfoImpl)
-          {
-            final ResolvedMigration aRM = ((MigrationInfoImpl) aMI).getResolvedMigration ();
-            if (aRM != null)
-              LOGGER.info ("  Performed migration: " + aRM);
-          }
-        }
-      }
-    };
-    final Callback aCallbackAudit = new BaseCallback ()
-    {
-      public void handle (@NonNull final Event aEvent, @Nullable final Context aContext)
-      {
-        if (aEvent == Event.AFTER_EACH_MIGRATE && aContext != null)
-        {
-          final MigrationInfo aMI = aContext.getMigrationInfo ();
-          if (aMI instanceof MigrationInfoImpl)
-          {
-            final ResolvedMigration aRM = ((MigrationInfoImpl) aMI).getResolvedMigration ();
-            if (aRM != null && aRM.getVersion ().isAtLeast ("7"))
-              LOGGER.info ("  SQL Migration success: " +
-                           aRM.getVersion ().toString () +
-                           " / " +
-                           aRM.getDescription () +
-                           " / " +
-                           aRM.getScript () +
-                           " / " +
-                           aRM.getType ().name () +
-                           " / " +
-                           aRM.getPhysicalLocation ());
-          }
-        }
-      }
-    };
-
-    // The JDBC driver is the same as for main connection
-    final FluentConfiguration aActualFlywayConfig = Flyway.configure ()
-                                                          .dataSource (new DriverDataSource (PeppolReportFlywayMigrator.class.getClassLoader (),
-                                                                                             aJdbcConfig.getJdbcDriver (),
-                                                                                             aFlywayConfig.getFlywayJdbcUrl (),
-                                                                                             aFlywayConfig.getFlywayJdbcUser (),
-                                                                                             aFlywayConfig.getFlywayJdbcPassword ()));
-
-    // Required for creating DB tables
-    aActualFlywayConfig.baselineOnMigrate (true);
-
-    // Disable validation, because DDL comments are also taken into
-    // consideration
-    aActualFlywayConfig.validateOnMigrate (false);
-
-    // Version 1 is the baseline
-    aActualFlywayConfig.baselineVersion (Integer.toString (aFlywayConfig.getFlywayBaselineVersion ()))
-                       .baselineDescription ("Peppol Report Storage Baseline");
-
-    // Separate directory per DB type
-    aActualFlywayConfig.locations ("db/peppol-report-" + eDBType.getID ());
-
-    // Avoid scanning the ClassPath by enumerating them explicitly
-    if (false)
-      aActualFlywayConfig.javaMigrations ();
-
-    // Callbacks
-    aActualFlywayConfig.callbacks (aCallbackLogging, aCallbackAudit);
-
-    // Flyway to handle the DB schema?
-    final String sSchema = aJdbcConfig.getJdbcSchema ();
-    if (StringHelper.isNotEmpty (sSchema))
-    {
-      // Use the schema only, if it is explicitly configured
-      // The default schema name is ["$user", public] and as such unusable
-      aActualFlywayConfig.schemas (sSchema);
-    }
-    // If no schema is specified, schema create should also be disabled
-    aActualFlywayConfig.createSchemas (aFlywayConfig.isFlywaySchemaCreate ());
-
-    // Custom history table name?
-    final String sHistoryTable = aFlywayConfig.getFlywayHistoryTable ();
-    if (StringHelper.isNotEmpty (sHistoryTable))
-      aActualFlywayConfig.table (sHistoryTable);
-
-    final Flyway aFlyway = aActualFlywayConfig.load ();
-    if (false)
-      aFlyway.validate ();
-    aFlyway.migrate ();
-
-    LOGGER.info ("Finished running Flyway");
+    FlywayMigrationRunner.runFlyway (aJdbcConfig,
+                                     aFlywayConfig,
+                                     "db/peppol-report-" + eDBType.getID (),
+                                     (JavaMigration []) null,
+                                     (Callback []) null);
   }
 }
