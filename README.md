@@ -58,9 +58,9 @@ It can be configured as followed:
 * **`peppol.report.flyway.jdbc.password`** (optional): allows a specific JDBC password for usage with Flyway. If none is provided, the value of `peppol.report.jdbc.password` is used instead.
 * **`peppol.report.flyway.jdbc.schema-create`** (optional): `true` if the DB schema as defined in `peppol.report.jdbc.schema` should be automatically created by Flyway. Defaults to `false`.
 * **`peppol.report.flyway.baseline.version`** (optional): the Flyway baseline version to use. Defaults to `0`.
-* **`peppol.report.flyway.history-table`** (optional): the name of the Flyway history table. Defaults to `flyway_schema_history`.
-* **`peppol.report.flyway.debug-mode`** (optional): `true` to enable Flyway debug mode. Defaults to `false`.
-* **`peppol.report.flyway.repair-mode`** (optional): `true` to enable Flyway repair mode. Defaults to `false`.
+* **`peppol.report.flyway.history-table`** (since v2.1.3; optional): the name of the Flyway history table. Defaults to `flyway_schema_history`.
+* **`peppol.report.flyway.debug-mode`** (since v2.1.3; optional): `true` to enable Flyway debug mode. Defaults to `false`.
+* **`peppol.report.flyway.repair-mode`** (since v2.1.3; optional): `true` to enable Flyway repair mode. Defaults to `false`.
 
 ## File backend
 
