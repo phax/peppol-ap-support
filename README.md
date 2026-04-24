@@ -69,6 +69,9 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.1.4 - work in progress
+* Removed OSGI bundling
+
 v2.1.3 - 2026-04-12
 * Updated to ph-db 8.2.0, using the new shared `FlywayMigrationRunner` from `ph-db-flyway`
 
