@@ -16,6 +16,8 @@
  */
 package com.helger.peppol.reportingsupport.sql;
 
+import java.time.Duration;
+
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,9 +57,9 @@ public final class PeppolReportDBExecutor extends DBExecutor
 
     if (aJdbcConfig.isJdbcExecutionTimeWarningEnabled ())
     {
-      final long nMillis = aJdbcConfig.getJdbcExecutionTimeWarningMilliseconds ();
-      if (nMillis > 0)
-        setExecutionDurationWarnMS (nMillis);
+      final Duration aDurationWarn = aJdbcConfig.getJdbcExecutionTimeWarning ();
+      if (aDurationWarn.compareTo (Duration.ZERO) > 0)
+        setExecutionWarnDuration (aDurationWarn);
       else
         if (LOGGER.isDebugEnabled ())
           LOGGER.debug ("Ignoring JDBC Execution Time Warning Milliseconds because it is invalid.");
@@ -65,7 +67,7 @@ public final class PeppolReportDBExecutor extends DBExecutor
     else
     {
       // Zero means none
-      setExecutionDurationWarnMS (0);
+      setExecutionWarnDuration (Duration.ZERO);
     }
   }
 }

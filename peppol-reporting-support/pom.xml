@@ -42,6 +42,7 @@
       <groupId>com.helger.peppol</groupId>
       <artifactId>peppol-reporting</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>com.helger.peppol</groupId>
       <artifactId>peppol-reporting-backend-mongodb</artifactId>
@@ -52,6 +53,7 @@
       <artifactId>peppol-reporting-backend-sql</artifactId>
       <optional>true</optional>
     </dependency>
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -70,7 +72,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.7.10</version>
+      <version>42.7.11</version>
       <scope>test</scope>
     </dependency>
     <dependency>
