@@ -27,8 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.helger.base.state.EChange;
 import com.helger.base.tostring.ToStringGenerator;
-import com.helger.cache.impl.MappedCache;
-import com.helger.datetime.expiration.ExpiringObject;
+import com.helger.cache.impl.MappedKeyProviderCache;
 import com.helger.httpclient.HttpClientManager;
 import com.helger.httpclient.HttpClientSettings;
 import com.helger.httpclient.response.ResponseHandlerByteArray;
@@ -50,10 +49,9 @@ public class BusinessCardCache
   private static final Logger LOGGER = LoggerFactory.getLogger (BusinessCardCache.class);
 
   @NonNull
-  private static ExpiringObject <PDBusinessCard> _fetchBC (@NonNull final ISMLInfo aSMLInfo,
-                                                           @NonNull final HttpClientSettings aHCS,
-                                                           @NonNull final Duration aCachingDuration,
-                                                           @NonNull final IParticipantIdentifier aPI)
+  private static PDBusinessCard _fetchBC (@NonNull final ISMLInfo aSMLInfo,
+                                          @NonNull final HttpClientSettings aHCS,
+                                          @NonNull final IParticipantIdentifier aPI)
   {
     try
     {
@@ -81,8 +79,8 @@ public class BusinessCardCache
         aBC = PDBusinessCardHelper.parseBusinessCard (aData, StandardCharsets.UTF_8);
       }
 
-      // Create cached entry
-      return ExpiringObject.ofDuration (aBC, aCachingDuration);
+      // Data to cache
+      return aBC;
     }
     catch (final SMPDNSResolutionException ex)
     {
@@ -90,7 +88,7 @@ public class BusinessCardCache
     }
   }
 
-  private final MappedCache <IParticipantIdentifier, String, ExpiringObject <PDBusinessCard>> m_aCache;
+  private final MappedKeyProviderCache <IParticipantIdentifier, String, PDBusinessCard> m_aCache;
 
   /**
    * Constructor. Caches the entries for 1 hour with a maximum of 1000 entries
@@ -103,28 +101,21 @@ public class BusinessCardCache
    */
   public BusinessCardCache (@NonNull final ISMLInfo aSMLInfo, @NonNull final HttpClientSettings aHCS)
   {
-    m_aCache = new MappedCache <> (IParticipantIdentifier::getURIEncoded,
-                                   pi -> _fetchBC (aSMLInfo, aHCS, Duration.ofHours (1), pi),
-                                   1_000,
-                                   "PeppolBusinessCardCache",
-                                   true);
+    m_aCache = MappedKeyProviderCache.<IParticipantIdentifier, String, PDBusinessCard> builder ()
+                                     .name ("PeppolBusinessCardCache")
+                                     .maxSize (1_000)
+                                     .allowNullValues (true)
+                                     .expireAfterWrite (Duration.ofHours (1))
+                                     .evictionInterval (Duration.ofMinutes (1))
+                                     .keyMapper (IParticipantIdentifier::getURIEncoded)
+                                     .valueProvider (pi -> _fetchBC (aSMLInfo, aHCS, pi))
+                                     .build ();
   }
 
   @Nullable
-  private ExpiringObject <PDBusinessCard> _getActive (@NonNull final IParticipantIdentifier aParticipantID)
+  private PDBusinessCard _getActive (@NonNull final IParticipantIdentifier aParticipantID)
   {
-    ExpiringObject <PDBusinessCard> aBC = m_aCache.getFromCache (aParticipantID);
-    if (aBC.isExpiredNow ())
-    {
-      LOGGER.info ("The cached entry for Participant ID '" +
-                   aParticipantID.getURIEncoded () +
-                   "' is expired and needs to be re-fetched.");
-
-      // Read from SMP again
-      m_aCache.removeFromCache (aParticipantID);
-      aBC = m_aCache.getFromCache (aParticipantID);
-    }
-    return aBC;
+    return m_aCache.getFromCache (aParticipantID);
   }
 
   /**
@@ -137,7 +128,7 @@ public class BusinessCardCache
   @Nullable
   public PDBusinessCard getBusinessCard (@NonNull final IParticipantIdentifier aParticipantID)
   {
-    return _getActive (aParticipantID).getObject ();
+    return _getActive (aParticipantID);
   }
 
   /**
@@ -152,9 +143,7 @@ public class BusinessCardCache
   public String getCountryCode (@NonNull final IParticipantIdentifier aParticipantID)
   {
     final PDBusinessCard aBC = getBusinessCard (aParticipantID);
-    if (aBC == null)
-      return null;
-    if (aBC.businessEntities ().isEmpty ())
+    if ((aBC == null) || aBC.businessEntities ().isEmpty ())
       return null;
     return aBC.businessEntities ().getFirstOrNull ().getCountryCode ();
   }
