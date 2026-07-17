@@ -71,7 +71,8 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
-v2.1.4 - work in progress
+v2.2.0 - 2026-07-17
+* Updated to ph-schematron v10.x
 * Removed OSGI bundling
 
 v2.1.3 - 2026-04-12
