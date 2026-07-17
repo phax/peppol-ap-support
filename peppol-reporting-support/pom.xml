@@ -30,6 +30,7 @@
   <description>Peppol Reporting support functions</description>
   <url>https://github.com/phax/peppol-ap-support/peppol-reporting-support</url>
   <inceptionYear>2025</inceptionYear>
+  
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -37,6 +38,10 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  
+  <properties>
+  </properties>
+  
   <dependencies>
     <dependency>
       <groupId>com.helger.peppol</groupId>
@@ -70,6 +75,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.helger.commons</groupId>
+      <artifactId>ph-unittest-support-ext</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>42.7.13</version>
@@ -88,8 +98,28 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.helger.commons</groupId>
-      <artifactId>ph-unittest-support-ext</artifactId>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-mysql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-sqlserver</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-db2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-oracle</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
