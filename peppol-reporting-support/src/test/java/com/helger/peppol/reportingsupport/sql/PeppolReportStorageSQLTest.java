@@ -58,4 +58,10 @@ public final class PeppolReportStorageSQLTest
   {
     _runTests (new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-sqlserver.properties"))));
   }
+
+  @Test
+  public void testDB2 ()
+  {
+    _runTests (new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-db2.properties"))));
+  }
 }
