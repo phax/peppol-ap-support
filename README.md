@@ -81,7 +81,7 @@ All information are stored in a custom XML format.
 
 v2.2.1 - 2026-07-20
 * Added IBM DB2 support as a new SQL backend database type. See [#3](https://github.com/phax/peppol-ap-support/pull/3) - thx @dmaus2018
-* Added Oracle support as a new SQL backend database type
+* Added Oracle support as a new SQL backend database type. See [#4](https://github.com/phax/peppol-ap-support/pull/4)
 
 v2.2.0 - 2026-07-17
 * Updated to ph-schematron v10.x
