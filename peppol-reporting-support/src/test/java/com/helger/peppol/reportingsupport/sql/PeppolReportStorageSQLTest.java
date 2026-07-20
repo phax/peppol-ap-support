@@ -64,4 +64,10 @@ public final class PeppolReportStorageSQLTest
   {
     _runTests (new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-db2.properties"))));
   }
+
+  @Test
+  public void testOracle ()
+  {
+    _runTests (new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-oracle.properties"))));
+  }
 }

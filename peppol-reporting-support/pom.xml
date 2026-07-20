@@ -128,5 +128,11 @@
       <artifactId>flyway-database-oracle</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>ojdbc11</artifactId>
+      <version>23.26.2.0.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

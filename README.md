@@ -38,14 +38,22 @@ You may either use the same database as you use for Peppol Reporting (see the [p
 ## SQL backend
 
 For Peppol Report storage SQL backend supports the following configuration properties:
-* **`peppol.report.jdbc.database-type`**: the SQL database type to operate on. Currently supported are `postgresql` and `mysql`. The value is case-insensitive.
-* **`peppol.report.jdbc.driver`**: contains the fully qualified class name of the JDBC driver to be used. E.g. `org.postgresql.Driver` for PostgreSQL or `com.mysql.cj.jdbc.Driver` for MySQL
+* **`peppol.report.jdbc.database-type`**: the SQL database type to operate on. Currently supported are `postgresql`, `mysql`, `sqlserver`, `db2` and `oracle`.
+  The value is case-insensitive.
+* **`peppol.report.jdbc.driver`**: contains the fully qualified class name of the JDBC driver to be used.
+  E.g. `org.postgresql.Driver` for PostgreSQL, 
+  `com.mysql.cj.jdbc.Driver` for MySQL, 
+  `com.microsoft.sqlserver.jdbc.SQLServerDriver` for SQL Server, 
+  `com.ibm.db2.jcc.DB2Driver` for DB2 or 
+  `oracle.jdbc.OracleDriver` for Oracle
 * **`peppol.report.jdbc.url`**: contains the full JDBC connection URL to connect to the database
 * **`peppol.report.jdbc.user`** (optional): the database username to use
 * **`peppol.report.jdbc.password`** (optional): the database password to use
 * **`peppol.report.jdbc.schema`** (optional): the database schema to use
-* **`peppol.report.jdbc.execution-time-warning.enabled`** (optional):  if `true` enables warning logging if an SQL command takes too long to execute. Defaults to `true`.
-* **`peppol.report.jdbc.execution-time-warning.ms`** (optional): the number of milliseconds after the which an SQL execution will trigger an execution time warning. Defaults to `1000` which is one second.
+* **`peppol.report.jdbc.execution-time-warning.enabled`** (optional):  if `true` enables warning logging if an SQL command takes too long to execute.
+  Defaults to `true`.
+* **`peppol.report.jdbc.execution-time-warning.ms`** (optional): the number of milliseconds after the which an SQL execution will trigger an execution time warning.
+  Defaults to `1000` which is one second.
 * **`peppol.report.jdbc.debug.connections`** (optional):  if `true` enables logging of SQL connection handling. Defaults to `false`.
 * **`peppol.report.jdbc.debug.transactions`** (optional): if `true` enables logging of SQL transactions. Defaults to `false`. 
 * **`peppol.report.jdbc.debug.sql`** (optional): if `true` enables logging of SQL statements. Defaults to `false`.
@@ -70,6 +78,10 @@ Allows to store Peppol Reports as well as Peppol Reporting Sending reports on di
 All information are stored in a custom XML format. 
 
 # News and noteworthy
+
+v2.2.1 - 2026-07-20
+* Added IBM DB2 support as a new SQL backend database type. See [#3](https://github.com/phax/peppol-ap-support/pull/3) - thx @dmaus2018
+* Added Oracle support as a new SQL backend database type
 
 v2.2.0 - 2026-07-17
 * Updated to ph-schematron v10.x
