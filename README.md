@@ -79,6 +79,12 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.3.0 - 2026-09-06
+  Note that `peppol-commons` no longer depends on `ph-bc` and therefore no longer pulls in Bouncy Castle transitively.
+  If you need to read the `BCFKS` trust stores, you need to add `ph-bc` (or Bouncy Castle) to your project explicitly.
+* Added a GitHub Actions build workflow that runs the unit tests against PostgreSQL, MySQL, SQL Server, DB2 and Oracle
+* Enabled the DB2 and Oracle unit test databases in `unittest-db-docker-compose.yml` and added the DB2 setup documentation in `docs/db2.md`
+
 v2.2.1 - 2026-07-20
 * Added IBM DB2 support as a new SQL backend database type. See [#3](https://github.com/phax/peppol-ap-support/pull/3) - thx @dmaus2018
 * Added Oracle support as a new SQL backend database type. See [#4](https://github.com/phax/peppol-ap-support/pull/4)
