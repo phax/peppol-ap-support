@@ -37,6 +37,9 @@ jobs:
     services:
       mysql:
         image: mysql:8
+        credentials:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
           MYSQL_ROOT_PASSWORD: peppol
           MYSQL_DATABASE: peppol-report
@@ -45,6 +48,20 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      oracle:
+        image: gvenzl/oracle-free:23-slim-faststart
+        credentials:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          ORACLE_RANDOM_PASSWORD: "true"
+          ORACLE_DATABASE: ORCLPDB1
+          APP_USER: peprep
+          APP_USER_PASSWORD: peprep
+        ports:
+          - 1521:1521
+        options: --health-cmd="healthcheck.sh" --health-interval=10s --health-timeout=5s --health-retries=30 --health-start-period=30s
 
       sqlserver:
         image: mcr.microsoft.com/mssql/server:2022-latest
@@ -61,6 +78,11 @@ jobs:
       with:
         username: ${{ vars.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # DB2 needs a privileged container, so it cannot be a service container.
+    # Started as early as possible, because the initial setup takes several minutes.
+    - name: Start DB2
+      run: docker run -itd --name db2 --privileged=true --memory=4g -p 50000:50000 -e LICENSE=accept -e DB2INST1_PASSWORD=peppol -e DBNAME=pepprep icr.io/db2_community/db2
 
     - uses: actions/checkout@v6
 
@@ -97,6 +119,24 @@ jobs:
 
     - name: Create SQL Server database
       run: docker exec $(docker ps -q --filter "ancestor=mcr.microsoft.com/mssql/server:2022-latest") /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Peppol_Strong!Pass1' -C -Q "IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'peppol-report') CREATE DATABASE [peppol-report];"
+
+    - name: Wait for DB2 and create test user
+      run: |
+        echo "Waiting for DB2 to become available"
+        for i in $(seq 1 90); do
+          if docker exec db2 bash -c "su - db2inst1 -c 'db2 connect to pepprep'" > /dev/null 2>&1; then
+            echo "DB2 is available after $i attempt(s)"
+            break
+          fi
+          if [ "$i" = "90" ]; then
+            echo "DB2 did not become available in time"
+            docker logs db2
+            exit 1
+          fi
+          sleep 10
+        done
+        docker exec db2 bash -c "useradd peppol && echo 'peppol:peppol' | chpasswd"
+        docker exec db2 bash -c "su - db2inst1 -c \"db2 connect to pepprep; db2 GRANT DBADM ON DATABASE TO USER peppol; db2 connect reset\""
 
     - name: Publish to the Maven Central Repository
       run: mvn --batch-mode --update-snapshots -P release-snapshot deploy
