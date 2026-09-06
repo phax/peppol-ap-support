@@ -80,7 +80,7 @@ All information are stored in a custom XML format.
 # News and noteworthy
 
 v2.3.0 - 2026-09-06
-  Note that `peppol-commons` no longer depends on `ph-bc` and therefore no longer pulls in Bouncy Castle transitively.
+* Note that `peppol-commons` no longer depends on `ph-bc` and therefore no longer pulls in Bouncy Castle transitively.
   If you need to read the `BCFKS` trust stores, you need to add `ph-bc` (or Bouncy Castle) to your project explicitly.
 * Added a GitHub Actions build workflow that runs the unit tests against PostgreSQL, MySQL, SQL Server, DB2 and Oracle
 * Enabled the DB2 and Oracle unit test databases in `unittest-db-docker-compose.yml` and added the DB2 setup documentation in `docs/db2.md`
