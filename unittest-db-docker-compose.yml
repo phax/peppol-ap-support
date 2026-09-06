@@ -88,7 +88,9 @@ services:
     ports:
       - "50000:50000"
     healthcheck:
-      test: su - db2inst1 -c "db2 connect to pepprep" || exit 1
+      # The setup_complete marker is required: the database is already connectable while
+      # the entrypoint still restarts the instance for log archiving and autoconfiguration
+      test: test -f /database/config/.shared-data/setup_complete && su - db2inst1 -c "db2 connect to pepprep" || exit 1
       interval: 15s
       timeout: 10s
       retries: 60

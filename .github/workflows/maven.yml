@@ -122,21 +122,29 @@ jobs:
 
     - name: Wait for DB2 and create test user
       run: |
-        echo "Waiting for DB2 to become available"
+        # A successful "db2 connect" alone is not sufficient. The database is already
+        # connectable while the entrypoint still runs enable_log_archiving, restart_db2
+        # and run_autoconfig - statements issued in that window fail with SQL1224N.
+        # The setup_complete marker file is written after all of that is done.
+        echo "Waiting for DB2 setup to complete"
         for i in $(seq 1 90); do
-          if docker exec db2 bash -c "su - db2inst1 -c 'db2 connect to pepprep'" > /dev/null 2>&1; then
-            echo "DB2 is available after $i attempt(s)"
+          if docker exec db2 test -f /database/config/.shared-data/setup_complete && \
+             docker exec db2 su - db2inst1 -c "db2 connect to pepprep" > /dev/null 2>&1; then
+            echo "DB2 setup completed after $i attempt(s)"
             break
           fi
           if [ "$i" = "90" ]; then
-            echo "DB2 did not become available in time"
+            echo "DB2 setup did not complete in time"
             docker logs db2
             exit 1
           fi
           sleep 10
         done
-        docker exec db2 bash -c "useradd peppol && echo 'peppol:peppol' | chpasswd"
-        docker exec db2 bash -c "su - db2inst1 -c \"db2 connect to pepprep; db2 GRANT DBADM ON DATABASE TO USER peppol; db2 connect reset\""
+        # DB2 authenticates against operating system users - the group db2iadm1 is required
+        docker exec db2 bash -c "useradd -m -s /bin/bash -g db2iadm1 peppol && echo 'peppol:peppol' | chpasswd"
+        # The GRANT must be quoted, otherwise the CLP does not receive it as a single statement
+        docker exec db2 su - db2inst1 -c "db2 connect to pepprep && db2 'GRANT DBADM ON DATABASE TO USER PEPPOL' && db2 connect reset"
+        docker exec db2 su - db2inst1 -c "db2 connect to pepprep user peppol using peppol && db2 connect reset"
 
     - name: Publish to the Maven Central Repository
       run: mvn --batch-mode --update-snapshots -P release-snapshot deploy

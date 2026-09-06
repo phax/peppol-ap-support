@@ -6,6 +6,10 @@ Wait until the container is healthy - the initial DB2 setup takes several minute
 ```
 docker compose -f unittest-db-docker-compose.yml ps db2
 ```
+A successful `db2 connect` is not a sufficient readiness check on its own: the database is
+already connectable while the entrypoint still enables log archiving, restarts the instance and
+runs the autoconfiguration. Statements issued in that window fail with `SQL1224N`. The
+healthcheck therefore also waits for `/database/config/.shared-data/setup_complete`.
 
 One time initialization:
 ```
@@ -26,6 +30,8 @@ Notes:
   must then be repeated. Stopping and starting the container preserves it.
 * Without the OS user the test fails with `ERRORCODE=-4214, SQLSTATE=28000 - User ID or
   Password invalid`.
+* The GitHub Actions workflow performs the same steps in the "Wait for DB2 and create test
+  user" step.
 
   
 ## Old
