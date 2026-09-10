@@ -42,12 +42,12 @@ public final class BusinessCardCacheTest
     final BusinessCardCache aCache = new BusinessCardCache (ESML.PEPPOL_TEST, new SMPHttpClientSettings ());
     final PeppolParticipantIdentifier aPI = PeppolIdentifierFactory.INSTANCE.createParticipantIdentifierWithDefaultScheme ("9915:helger");
     // Fetch initially
-    final Duration aDuration1 = StopWatch.runMeasured ( () -> aCache.getBusinessCard (aPI));
+    final Duration aDuration1 = StopWatch.runMeasured (() -> aCache.getBusinessCard (aPI));
     assertNotNull (aDuration1);
     for (int i = 0; i < 100; ++i)
     {
       // Should be from cache
-      final Duration aDuration2 = StopWatch.runMeasured ( () -> aCache.getBusinessCard (aPI));
+      final Duration aDuration2 = StopWatch.runMeasured (() -> aCache.getBusinessCard (aPI));
       assertNotNull (aDuration2);
 
       // Must always be shorter than the initial run

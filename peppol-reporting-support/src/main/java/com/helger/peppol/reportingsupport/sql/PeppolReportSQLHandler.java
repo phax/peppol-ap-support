@@ -105,14 +105,14 @@ public class PeppolReportSQLHandler implements Supplier <PeppolReportDBExecutor>
    */
   public boolean isInitialized ()
   {
-    return m_aRWLock.readLockedBoolean ( () -> m_aDSP != null && m_sTableNamePrefix != null);
+    return m_aRWLock.readLockedBoolean (() -> m_aDSP != null && m_sTableNamePrefix != null);
   }
 
   public void close ()
   {
     if (isInitialized ())
     {
-      m_aRWLock.writeLocked ( () -> {
+      m_aRWLock.writeLocked (() -> {
         LOGGER.info ("Shutting down Peppol Report SQL DB client");
         if (m_aDSP != null)
           try

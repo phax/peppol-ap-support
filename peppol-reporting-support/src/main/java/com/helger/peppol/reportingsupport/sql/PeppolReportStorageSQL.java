@@ -70,7 +70,7 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
       LOGGER.debug ("Trying to store Peppol Report in SQL DB");
 
     final DBExecutor aExecutor = m_aDBExecutorSupplier.get ();
-    final ESuccess eSuccess = aExecutor.performInTransaction ( () -> {
+    final ESuccess eSuccess = aExecutor.performInTransaction (() -> {
       // Create new
       final long nCreated = aExecutor.insertOrUpdateOrDelete ("INSERT INTO " +
                                                               m_sTableNamePrefix +
@@ -107,7 +107,7 @@ public class PeppolReportStorageSQL implements IPeppolReportStorage
       LOGGER.debug ("Trying to store Peppol Report Sending Report in SQL DB");
 
     final DBExecutor aExecutor = m_aDBExecutorSupplier.get ();
-    final ESuccess eSuccess = aExecutor.performInTransaction ( () -> {
+    final ESuccess eSuccess = aExecutor.performInTransaction (() -> {
       // Create new
       final long nCreated = aExecutor.insertOrUpdateOrDelete ("INSERT INTO " +
                                                               m_sTableNamePrefix +
