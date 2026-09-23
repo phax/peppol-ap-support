@@ -35,8 +35,8 @@ import com.helger.peppol.businesscard.generic.PDBusinessCard;
 import com.helger.peppol.businesscard.helper.PDBusinessCardHelper;
 import com.helger.peppol.sml.ISMLInfo;
 import com.helger.peppolid.IParticipantIdentifier;
-import com.helger.smpclient.url.PeppolNaptrURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
+import com.helger.smpclient.url.dns.PeppolNaptrURLProvider;
 
 /**
  * Cache for BusinessCards of participants queried from an SMP.

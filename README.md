@@ -79,6 +79,9 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.4.0 - 2026-09-23
+* Updated to peppol-commons 13.0.0
+
 v2.3.0 - 2026-09-06
 * Note that `peppol-commons` no longer depends on `ph-bc` and therefore no longer pulls in Bouncy Castle transitively.
   If you need to read the `BCFKS` trust stores, you need to add `ph-bc` (or Bouncy Castle) to your project explicitly.

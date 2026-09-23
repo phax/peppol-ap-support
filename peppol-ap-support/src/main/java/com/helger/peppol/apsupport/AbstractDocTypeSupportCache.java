@@ -36,8 +36,8 @@ import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.IProcessIdentifier;
 import com.helger.smpclient.exception.SMPClientException;
 import com.helger.smpclient.peppol.SMPClientReadOnly;
-import com.helger.smpclient.url.PeppolNaptrURLProvider;
 import com.helger.smpclient.url.SMPDNSResolutionException;
+import com.helger.smpclient.url.dns.PeppolNaptrURLProvider;
 import com.helger.xsds.peppol.smp1.EndpointType;
 
 /**
@@ -136,15 +136,14 @@ public abstract class AbstractDocTypeSupportCache <IMPLTYPE extends AbstractDocT
     final ExpiringObject <EndpointType> aItem = m_aMap.get (sKey);
     if (aItem != null)
     {
-      if (aItem.isExpiredNow ())
-        m_aMap.remove (sKey);
-      else
+      if (!aItem.isExpiredNow ())
       {
         final EndpointType ret = aItem.getObject ();
         if (LOGGER.isDebugEnabled ())
           LOGGER.debug (m_sDocTypeName + " support for '" + sKey + "' is taken from cache: " + (ret != null));
         return ret;
       }
+      m_aMap.remove (sKey);
     }
 
     // Query from SMP
