@@ -23,11 +23,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.helger.annotation.Nonempty;
+import com.helger.annotation.misc.ChangeNextMajorRelease;
 import com.helger.base.enforce.ValueEnforcer;
+import com.helger.base.log.ILogHandler;
 import com.helger.base.state.ESuccess;
 import com.helger.base.string.StringHelper;
 import com.helger.collection.commons.ICommonsList;
@@ -61,10 +64,69 @@ public final class PeppolReportingSupport
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolReportingSupport.class);
 
+  /**
+   * A log handler that redirects the warning or the error level to a legacy handler and delegates
+   * everything else to another log handler. Needed for the deprecated separate setters only.
+   */
+  @ChangeNextMajorRelease ("Remove again")
+  private static final class LegacyLevelLogHandler implements ILogHandler
+  {
+    private final ILogHandler m_aDelegate;
+    private final Consumer <? super String> m_aWarnHdl;
+    private final BiConsumer <? super String, ? super Exception> m_aErrorHdl;
+
+    LegacyLevelLogHandler (@NonNull final ILogHandler aDelegate,
+                           @Nullable final Consumer <? super String> aWarnHdl,
+                           @Nullable final BiConsumer <? super String, ? super Exception> aErrorHdl)
+    {
+      m_aDelegate = aDelegate;
+      m_aWarnHdl = aWarnHdl;
+      m_aErrorHdl = aErrorHdl;
+    }
+
+    @Override
+    public void trace (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      m_aDelegate.trace (sMsg, aThrowable);
+    }
+
+    @Override
+    public void debug (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      m_aDelegate.debug (sMsg, aThrowable);
+    }
+
+    @Override
+    public void info (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      m_aDelegate.info (sMsg, aThrowable);
+    }
+
+    @Override
+    public void warn (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      if (m_aWarnHdl != null)
+        m_aWarnHdl.accept (sMsg);
+      else
+        m_aDelegate.warn (sMsg, aThrowable);
+    }
+
+    @Override
+    public void error (@NonNull final String sMsg, @Nullable final Throwable aThrowable)
+    {
+      if (m_aErrorHdl != null)
+        m_aErrorHdl.accept (sMsg,
+                            aThrowable == null ? null
+                                               : aThrowable instanceof final Exception aEx ? aEx
+                                                                                           : new Exception (aThrowable));
+      else
+        m_aDelegate.error (sMsg, aThrowable);
+    }
+  }
+
   private final IPeppolReportStorage m_aStorage;
   private Locale m_aDisplayLocale = Locale.ROOT;
-  private Consumer <? super String> m_aWarnHdl = LOGGER::warn;
-  private BiConsumer <? super String, ? super Exception> m_aErrorHdl = LOGGER::error;
+  private ILogHandler m_aLogHandler = ILogHandler.createForLogger (LOGGER);
 
   /**
    * Constructor
@@ -110,12 +172,14 @@ public final class PeppolReportingSupport
    * @param aWarnHdl
    *        The warning handler to be used. May not be <code>null</code>.
    * @return this for chaining
+   * @deprecated Since 2.4.1; use {@link #setLogHandler(ILogHandler)} instead.
    */
+  @Deprecated (forRemoval = false, since = "2.4.1")
   @NonNull
   public PeppolReportingSupport setWarningHandler (@NonNull final Consumer <? super String> aWarnHdl)
   {
     ValueEnforcer.notNull (aWarnHdl, "WarnHdl");
-    m_aWarnHdl = aWarnHdl;
+    m_aLogHandler = new LegacyLevelLogHandler (m_aLogHandler, aWarnHdl, null);
     return this;
   }
 
@@ -125,12 +189,32 @@ public final class PeppolReportingSupport
    * @param aErrorHdl
    *        The error handler to be used. May not be <code>null</code>.
    * @return this for chaining
+   * @deprecated Since 2.4.1; use {@link #setLogHandler(ILogHandler)} instead.
    */
+  @Deprecated (forRemoval = false, since = "2.4.1")
   @NonNull
   public PeppolReportingSupport setErrorHandler (@NonNull final BiConsumer <? super String, ? super Exception> aErrorHdl)
   {
     ValueEnforcer.notNull (aErrorHdl, "ErrorHdl");
-    m_aErrorHdl = aErrorHdl;
+    m_aLogHandler = new LegacyLevelLogHandler (m_aLogHandler, null, aErrorHdl);
+    return this;
+  }
+
+  /**
+   * Set the log handler that receives all warnings and errors. This replaces any handler set by the
+   * deprecated {@link #setWarningHandler(Consumer)} and {@link #setErrorHandler(BiConsumer)}. By
+   * default the messages are logged to the logger of this class.
+   *
+   * @param aLogHandler
+   *        The log handler to be used for warnings and errors. May not be <code>null</code>.
+   * @return this for chaining
+   * @since 2.4.1
+   */
+  @NonNull
+  public PeppolReportingSupport setLogHandler (@NonNull final ILogHandler aLogHandler)
+  {
+    ValueEnforcer.notNull (aLogHandler, "LogHandler");
+    m_aLogHandler = aLogHandler;
     return this;
   }
 
@@ -163,9 +247,9 @@ public final class PeppolReportingSupport
                                                                        .getAsString (aTSR);
     for (final IError aError : aErrorList)
       if (aError.isError ())
-        m_aErrorHdl.accept ("TSR XSD error: " + aError.getAsString (m_aDisplayLocale), null);
+        m_aLogHandler.error ("TSR XSD error: " + aError.getAsString (m_aDisplayLocale));
       else
-        m_aWarnHdl.accept ("TSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
+        m_aLogHandler.warn ("TSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
 
     if (StringHelper.isEmpty (sTSR))
       return ESuccess.FAILURE;
@@ -187,11 +271,11 @@ public final class PeppolReportingSupport
         if (aFailedAssert.getFlag ().isError ())
         {
           nErrors++;
-          m_aErrorHdl.accept ("TSR Schematron error: " + sErrText, null);
+          m_aLogHandler.error ("TSR Schematron error: " + sErrText);
         }
         else
         {
-          m_aWarnHdl.accept ("TSR Schematron warning: " + sErrText);
+          m_aLogHandler.warn ("TSR Schematron warning: " + sErrText);
         }
       }
 
@@ -204,7 +288,7 @@ public final class PeppolReportingSupport
     catch (final Exception ex)
     {
       LOGGER.error ("Error in TSR " + aYearMonth + " Schematron validation", ex);
-      m_aErrorHdl.accept ("Error in TSR Schematron validation", ex);
+      m_aLogHandler.error ("Error in TSR Schematron validation", ex);
 
       // Overwrite Status
       eReportSuccessState = ESuccess.FAILURE;
@@ -219,7 +303,7 @@ public final class PeppolReportingSupport
                                                                eReportSuccessState.isSuccess ());
     if (m_aStorage.storePeppolReport (aReportData).isFailure ())
     {
-      m_aErrorHdl.accept ("Error storing TSR " + aYearMonth, null);
+      m_aLogHandler.error ("Error storing TSR " + aYearMonth);
       return ESuccess.FAILURE;
     }
 
@@ -256,9 +340,9 @@ public final class PeppolReportingSupport
                                                                     .getAsString (aEUSR);
     for (final IError aError : aErrorList)
       if (aError.isError ())
-        m_aErrorHdl.accept ("EUSR XSD error: " + aError.getAsString (m_aDisplayLocale), null);
+        m_aLogHandler.error ("EUSR XSD error: " + aError.getAsString (m_aDisplayLocale));
       else
-        m_aWarnHdl.accept ("EUSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
+        m_aLogHandler.warn ("EUSR XSD warning: " + aError.getAsString (m_aDisplayLocale));
 
     if (StringHelper.isEmpty (sEUSR))
       return ESuccess.FAILURE;
@@ -280,11 +364,11 @@ public final class PeppolReportingSupport
         if (aFailedAssert.getFlag ().isError ())
         {
           nErrors++;
-          m_aErrorHdl.accept ("EUSR Schematron error: " + sErrText, null);
+          m_aLogHandler.error ("EUSR Schematron error: " + sErrText);
         }
         else
         {
-          m_aWarnHdl.accept ("EUSR Schematron warning: " + sErrText);
+          m_aLogHandler.warn ("EUSR Schematron warning: " + sErrText);
         }
       }
 
@@ -297,7 +381,7 @@ public final class PeppolReportingSupport
     catch (final Exception ex)
     {
       LOGGER.error ("Error in EUSR " + aYearMonth + " Schematron validation", ex);
-      m_aErrorHdl.accept ("Error in EUSR Schematron validation", ex);
+      m_aLogHandler.error ("Error in EUSR Schematron validation", ex);
 
       // Overwrite Status
       eReportSuccessState = ESuccess.FAILURE;
@@ -312,7 +396,7 @@ public final class PeppolReportingSupport
                                                                eReportSuccessState.isSuccess ());
     if (m_aStorage.storePeppolReport (aReportData).isFailure ())
     {
-      m_aErrorHdl.accept ("Error storing EUSR " + aYearMonth, null);
+      m_aLogHandler.error ("Error storing EUSR " + aYearMonth);
       return ESuccess.FAILURE;
     }
 
@@ -350,21 +434,20 @@ public final class PeppolReportingSupport
 
     // Determine parameters
     final IDocumentTypeIdentifier aDocTypeID;
-    final IProcessIdentifier aProcessID;
-    switch (eReportType)
+    final IProcessIdentifier aProcessID = switch (eReportType)
     {
-      case TSR_V10:
+      case TSR_V10 ->
+      {
         aDocTypeID = EPredefinedDocumentTypeIdentifier.TRANSACTIONSTATISTICSREPORT_FDC_PEPPOL_EU_EDEC_TRNS_TRANSACTION_STATISTICS_REPORTING_1_0;
-        aProcessID = EPredefinedProcessIdentifier.urn_fdc_peppol_eu_edec_bis_reporting_1_0;
-        break;
-      case EUSR_V11:
+        yield EPredefinedProcessIdentifier.urn_fdc_peppol_eu_edec_bis_reporting_1_0;
+      }
+      case EUSR_V11 ->
+      {
         aDocTypeID = EPredefinedDocumentTypeIdentifier.ENDUSERSTATISTICSREPORT_FDC_PEPPOL_EU_EDEC_TRNS_END_USER_STATISTICS_REPORT_1_1;
-        aProcessID = EPredefinedProcessIdentifier.urn_fdc_peppol_eu_edec_bis_reporting_1_0;
-        break;
-      default:
-        throw new IllegalStateException ("Unsupported Peppol report type " + eReportType);
-    }
-
+        yield EPredefinedProcessIdentifier.urn_fdc_peppol_eu_edec_bis_reporting_1_0;
+      }
+      default -> throw new IllegalStateException ("Unsupported Peppol report type " + eReportType);
+    };
     final LocalDateTime aSendingDT = PDTFactory.getCurrentLocalDateTimeMillisOnly ();
     final String sSendingReport;
     try
@@ -380,7 +463,7 @@ public final class PeppolReportingSupport
                           " for " +
                           aYearMonth +
                           " via the Peppol Network";
-      m_aErrorHdl.accept (sMsg, ex);
+      m_aLogHandler.error (sMsg, ex);
       return ESuccess.FAILURE;
     }
 
@@ -392,7 +475,7 @@ public final class PeppolReportingSupport
                                                                                                 sSendingReport);
     if (m_aStorage.storePeppolReportingSendingReport (aSendingReportData).isFailure ())
     {
-      m_aErrorHdl.accept ("Error storing sending report of " + eReportType + " for " + aYearMonth, null);
+      m_aLogHandler.error ("Error storing sending report of " + eReportType + " for " + aYearMonth);
       return ESuccess.FAILURE;
     }
 

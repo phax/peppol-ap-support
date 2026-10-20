@@ -79,6 +79,10 @@ All information are stored in a custom XML format.
 
 # News and noteworthy
 
+v2.4.1 - work in progress
+* Updated to ph-commons 12.5.2
+* Added `PeppolReportingSupport.setLogHandler (ILogHandler)` to redirect the warnings and errors in one go. It replaces the two separate handler members; `setWarningHandler (Consumer)` and `setErrorHandler (BiConsumer)` are deprecated
+
 v2.4.0 - 2026-09-23
 * Updated to peppol-commons 13.0.0
 
