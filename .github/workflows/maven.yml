@@ -114,7 +114,7 @@ jobs:
         mongodb-version: '6.0'
 
     - name: Start PostgreSQL
-      uses: ikalnytskyi/action-setup-postgres@v8
+      uses: ikalnytskyi/action-setup-postgres@v9
       with:
         username: peppol
         password: peppol
