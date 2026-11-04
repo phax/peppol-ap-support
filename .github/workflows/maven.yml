@@ -50,11 +50,15 @@ jobs:
         printf '%s' "$DH_TOKEN" | tr -d '[:space:]' | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin; echo "exit code: $?"
         echo "--- docker login with empty registry argument (as the runner does)"
         printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg2 login "" -u "$DH_USER" --password-stdin; echo "exit code: $?"
+        echo "--- docker login with runner-style non-existing config dir"
+        printf '%s' "$DH_TOKEN" | docker --config "$RUNNER_TEMP/.docker_debug" login -u "$DH_USER" --password-stdin; echo "exit code: $?"
+        echo "--- docker login with empty password (for comparison)"
+        printf '' | docker --config /tmp/dcfg3 login -u "$DH_USER" --password-stdin; echo "exit code: $?"
         echo "--- docker login with explicit registry"
         printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin docker.io; echo "exit code: $?"
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         java: [ 17, 21, 25 ]
