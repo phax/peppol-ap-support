@@ -27,6 +27,30 @@ permissions:
   contents: read
 
 jobs:
+  # Temporary: diagnose the failing Docker Hub login of the service containers
+  docker-login-debug:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Debug Docker login
+      env:
+        DH_USER: ${{ vars.DOCKERHUB_USERNAME }}
+        DH_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      run: |
+        docker version
+        echo "Username: '$DH_USER' (length ${#DH_USER})"
+        echo "Token length: ${#DH_TOKEN}"
+        case "$DH_TOKEN" in dckr_pat_*) echo "Token prefix: dckr_pat_";; dckr_oat_*) echo "Token prefix: dckr_oat_";; *) echo "Token prefix: unknown";; esac
+        if printf '%s' "$DH_TOKEN" | grep -q $'\r'; then echo "Token contains CR"; else echo "Token contains no CR"; fi
+        if printf '%s' "$DH_TOKEN" | grep -q '[[:space:]]'; then echo "Token contains whitespace"; else echo "Token contains no whitespace"; fi
+        if printf '%s' "$DH_TOKEN" | LC_ALL=C grep -q '[^ -~]'; then echo "Token contains non-printable/non-ASCII"; else echo "Token is printable ASCII"; fi
+        echo "--- docker login (same as runner, isolated config)"
+        mkdir -p /tmp/dcfg
+        printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin; echo "exit code: $?"
+        echo "--- docker login with trimmed token"
+        printf '%s' "$DH_TOKEN" | tr -d '[:space:]' | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin; echo "exit code: $?"
+        echo "--- docker login with explicit registry"
+        printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin docker.io; echo "exit code: $?"
+
   build:
     runs-on: ubuntu-latest
     strategy:
