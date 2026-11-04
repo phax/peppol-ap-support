@@ -28,6 +28,7 @@ permissions:
 
 jobs:
   build:
+    # Required to be 24.04 - the 26.04 version has issues with Docker login
     runs-on: ubuntu-24.04
     strategy:
       matrix:
