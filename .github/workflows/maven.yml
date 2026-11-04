@@ -48,6 +48,8 @@ jobs:
         printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin; echo "exit code: $?"
         echo "--- docker login with trimmed token"
         printf '%s' "$DH_TOKEN" | tr -d '[:space:]' | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin; echo "exit code: $?"
+        echo "--- docker login with empty registry argument (as the runner does)"
+        printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg2 login "" -u "$DH_USER" --password-stdin; echo "exit code: $?"
         echo "--- docker login with explicit registry"
         printf '%s' "$DH_TOKEN" | docker --config /tmp/dcfg login -u "$DH_USER" --password-stdin docker.io; echo "exit code: $?"
 
@@ -60,7 +62,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8
+        image: docker.io/library/mysql:8
         credentials:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -74,7 +76,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       oracle:
-        image: gvenzl/oracle-free:23-slim-faststart
+        image: docker.io/gvenzl/oracle-free:23-slim-faststart
         credentials:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
