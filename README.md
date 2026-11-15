@@ -17,6 +17,7 @@ This library uses Java 17 as the baseline.
 It is licensed under the Apache 2.0 license.
 
 It consists of the following submodules:
+* peppol-ap-support-bom - the Bill of Materials (BOM) with the managed versions of all artifacts of this project (since v2.4.2)
 * peppol-ap-support
 * peppol-reporting-support
 
@@ -77,7 +78,42 @@ It can be configured as followed:
 Allows to store Peppol Reports as well as Peppol Reporting Sending reports on disk, in a customizable folder structure.
 All information are stored in a custom XML format. 
 
+# Maven usage
+
+Add the following to your `pom.xml` to use the artifacts, replacing `x.y.z` with the effective version:
+
+```xml
+<dependency>
+  <groupId>com.helger.peppol</groupId>
+  <artifactId>peppol-ap-support</artifactId>
+  <version>x.y.z</version>
+</dependency>
+<dependency>
+  <groupId>com.helger.peppol</groupId>
+  <artifactId>peppol-reporting-support</artifactId>
+  <version>x.y.z</version>
+</dependency>
+```
+
+Alternatively use the following code in your `dependencyManagement` section to use it as a BOM:
+
+```xml
+<dependency>
+  <groupId>com.helger.peppol</groupId>
+  <artifactId>peppol-ap-support-bom</artifactId>
+  <version>x.y.z</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+```
+
+Note: prior to v2.4.2 there was no dedicated BOM and `peppol-ap-support-parent-pom` had to be imported instead, which also carries the build configuration of this project.
+
 # News and noteworthy
+
+v2.4.2 - 2026-11-15
+* Added the new submodule `peppol-ap-support-bom` as a Maven BOM (Bill of Materials) for all peppol-ap-support artifacts.
+  Use it instead of `peppol-ap-support-parent-pom` when importing the managed versions
 
 v2.4.1 - 2026-10-22
 * Requires ph-commons 12.5.2

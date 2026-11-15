@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Peppol AP Support is a Java utility library for Peppol Access Point implementations, part of the broader [Peppol solution stack](https://github.com/phax/peppol). Licensed under Apache 2.0, Java 17 baseline.
 
-Two Maven modules:
+Maven modules:
+- **peppol-ap-support-bom** — Bill of Materials with the managed versions of all artifacts of this project; keep it in sync when adding a module
 - **peppol-ap-support** — Business Card cache (`BusinessCardCache`), document type support caches (`MLRSupportCache`, `MLSSupportCache`)
 - **peppol-reporting-support** — Validation, storage, and sending of Peppol TSR/EUSR reports with pluggable backends via `IPeppolReportStorage`: file-based XML (`file/`), MongoDB (`mongodb/`), SQL with Flyway migrations (`sql/`)
 
