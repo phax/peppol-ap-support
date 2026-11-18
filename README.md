@@ -155,12 +155,12 @@ v2.0.2 - 2025-10-27
 * Enforcing the usage of DNS NAPTR lookup - no more configuration possible
 
 v2.0.1 - 2025-09-19
-* [SQL] Updated to ph-db 8.0.1
+* (SQL) Updated to ph-db 8.0.1
 
 v2.0.0 - 2025-08-27
 * Requires Java 17 as the minimum version
 * Updated to ph-commons 12.0.0
-* [SQL] Updated to Flyway 11.x
+* (SQL) Updated to Flyway 11.x
 
 v1.0.2 - 2025-05-11
 * Updated to peppol-commons 10.3.2
