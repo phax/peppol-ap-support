@@ -63,7 +63,7 @@
   </developers>
   
   <properties>
-    <flyway.version>13.12.2</flyway.version>
+    <flyway.version>13.13.0</flyway.version>
   </properties>
 
   <dependencyManagement>
