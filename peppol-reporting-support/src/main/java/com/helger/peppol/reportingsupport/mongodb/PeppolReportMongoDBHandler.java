@@ -24,6 +24,7 @@ import org.jspecify.annotations.Nullable;
 import com.helger.annotation.Nonempty;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.config.IConfig;
+import com.helger.peppol.reporting.api.backend.PeppolReportingBackendException;
 import com.helger.peppol.reporting.backend.mongodb.MongoClientWrapper;
 import com.helger.peppol.reporting.backend.mongodb.PeppolReportingBackendMongoDBSPI;
 
@@ -68,9 +69,11 @@ public class PeppolReportMongoDBHandler implements Supplier <MongoClientWrapper>
    * @param aConfig
    *        The configuration object to use
    * @return Never <code>null</code>.
+   * @throws PeppolReportingBackendException
+   *         If the required configuration properties are not present
    */
   @NonNull
-  public static PeppolReportMongoDBHandler createPeppolReportingConfigured (@NonNull final IConfig aConfig)
+  public static PeppolReportMongoDBHandler createPeppolReportingConfigured (@NonNull final IConfig aConfig) throws PeppolReportingBackendException
   {
     ValueEnforcer.notNull (aConfig, "Config");
 

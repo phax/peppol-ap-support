@@ -23,6 +23,7 @@ import com.helger.config.Config;
 import com.helger.config.IConfig;
 import com.helger.config.source.resource.properties.ConfigurationSourceProperties;
 import com.helger.io.resource.ClassPathResource;
+import com.helger.peppol.reporting.api.backend.PeppolReportingBackendException;
 import com.helger.peppol.reportingsupport.TestHelper;
 
 /**
@@ -33,7 +34,7 @@ import com.helger.peppol.reportingsupport.TestHelper;
 public final class PeppolReportStorageMongoDBTest
 {
   @Test
-  public void testBasic ()
+  public void testBasic () throws PeppolReportingBackendException
   {
     // Use Test specific configuration
     final IConfig aConfig = new Config (new ConfigurationSourceProperties (new ClassPathResource ("application-mongodb.properties")));
