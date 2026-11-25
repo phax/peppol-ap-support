@@ -29,7 +29,7 @@ services:
       - "27017:27017"
     volumes:
       - mongodata:/data/db
-      
+
   postgres:
     image: postgres:latest
     restart: always
@@ -62,7 +62,7 @@ services:
       retries: 10
     volumes:
       - mysqldata:/var/lib/mysql
-      
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
