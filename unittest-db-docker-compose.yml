@@ -27,7 +27,9 @@ services:
       MONGO_INITDB_DATABASE: peppol-report-test
     ports:
       - "27017:27017"
-
+    volumes:
+      - mongodata:/data/db
+      
   postgres:
     image: postgres:latest
     restart: always
@@ -39,12 +41,6 @@ services:
       POSTGRES_PASSWORD: peppol
     volumes:
       - pg18data:/var/lib/postgresql
- 
-#  pg-adminer:
-#    image: adminer
-#    restart: always
-#    ports:
-#      - 8080:8080
 
   mysql:
     image: mysql:8.4
@@ -58,7 +54,15 @@ services:
       MYSQL_PASSWORD: peppol
     ports:
       - "3306:3306"
-
+    healthcheck:
+      # Docker Compose unescapes first $
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysqldata:/var/lib/mysql
+      
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -72,7 +76,9 @@ services:
       timeout: 3s
       retries: 10
       start_period: 10s
-
+    volumes:
+      - mssqldata:/var/opt/mssql
+      
   sqlserver-init:
     image: mcr.microsoft.com/mssql/server:2022-latest
     depends_on:
@@ -99,7 +105,9 @@ services:
       timeout: 10s
       retries: 60
       start_period: 60s
-
+    volumes:
+      - db2data:/database
+      
   oracle:
     image: gvenzl/oracle-free:23-slim-faststart
     environment:
@@ -115,6 +123,13 @@ services:
       timeout: 5s
       retries: 30
       start_period: 30s
-
+    volumes:
+      - oracledata:/opt/oracle/oradata
+      
 volumes:
+  db2data:
+  mongodata:
+  mssqldata:
+  mysqldata:
+  oracledata:
   pg18data:

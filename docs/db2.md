@@ -60,5 +60,5 @@ docker exec -ti db2-peppol-ap-support bash -c "su - db2inst1 -c \"
 
 After some troubles, DB2 refused to start up - this helped:
 ```shell
-docker exec -ti db2-peppol-ap-support bash -c "chown root:db2iadm1 /database/config/db2inst1/sqllib/adm/fencedid"
+docker exec -ti peppol-ap-support-db2-1 bash -c "chown root:db2iadm1 /database/config/db2inst1/sqllib/adm/fencedid"
 ```

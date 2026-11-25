@@ -1,3 +1,9 @@
+# Oracle 23
+
+Connect with: `sqlplus / as sysdba`
+
+# Oracle 19
+
 Running (PW is provided as env var):
 ```
 docker run -d --name orcl19c -p 1521:1521 -p 5500:5500 -e ORACLE_PWD=password -v OracleDBData:/opt/oracle/oradata container-registry.oracle.com/database/enterprise:19.19.0.0
